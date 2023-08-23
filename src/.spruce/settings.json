@@ -1,0 +1,30 @@
+{
+  "scriptUpdater": {
+    "skipped": []
+  },
+  "installed": [
+    "skill",
+    "test",
+    "schema",
+    "permission",
+    "event",
+    "view"
+  ],
+  "dependencies": [
+    {
+      "id": "**",
+      "namespace": "heartwood"
+    }
+  ],
+  "events": {
+    "lastSync": {
+      "contractDestinationDir": "#spruce/events",
+      "schemaTypesLookupDir": "#spruce/schemas",
+      "skillEventContractTypesFile": "@sprucelabs/mercury-types/build/types/mercury.types",
+      "eventBuilderFile": "@sprucelabs/mercury-types"
+    },
+    "listenerCacheKeys": {
+      "http1270018081": ""
+    }
+  }
+}
