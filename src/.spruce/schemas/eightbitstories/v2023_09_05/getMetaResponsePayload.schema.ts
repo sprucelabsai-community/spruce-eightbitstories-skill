@@ -1,7 +1,7 @@
 import { SchemaRegistry } from '@sprucelabs/schema'
 import { SpruceSchemas } from '../../schemas.types'
 
-import metaSchema_v2023_09_05 from '#spruce/schemas/eightbitstories/v2023_09_05/meta.schema'
+import getMetaSchema_v2023_09_05 from '#spruce/schemas/eightbitstories/v2023_09_05/getMeta.schema'
 
 const getMetaResponsePayloadSchema: SpruceSchemas.Eightbitstories.v2023_09_05.GetMetaResponsePayloadSchema  = {
 	id: 'getMetaResponsePayload',
@@ -12,8 +12,7 @@ const getMetaResponsePayloadSchema: SpruceSchemas.Eightbitstories.v2023_09_05.Ge
 	            /** . */
 	            'meta': {
 	                type: 'schema',
-	                isRequired: true,
-	                options: {schema: metaSchema_v2023_09_05,}
+	                options: {schema: getMetaSchema_v2023_09_05,}
 	            },
 	    }
 }

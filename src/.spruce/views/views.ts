@@ -1,4 +1,4 @@
-import MetaSkillViewController from '../../skillViewControllers/Meta.svc'
+import MetaSkillViewController from '../../meta/Meta.svc'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
 
 const vcs = {

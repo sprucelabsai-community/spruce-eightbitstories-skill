@@ -4,6 +4,10 @@ export default buildSchema({
 	id: 'meta',
 	name: 'Meta',
 	fields: {
+		id: {
+			type: 'id',
+			isRequired: true,
+		},
 		name: {
 			type: 'text',
 			isRequired: true,

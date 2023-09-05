@@ -56,6 +56,7 @@ export default class MetaSkillViewController extends AbstractSkillViewController
 				title: `Your Family`,
 			},
 			body: {
+				isBusy: true,
 				sections: [
 					{
 						form: this.formVc.render(),
@@ -72,6 +73,8 @@ export default class MetaSkillViewController extends AbstractSkillViewController
 		this.router = router
 
 		await this.loadMeta()
+
+		this.cardVc.setIsBusy(false)
 	}
 
 	private async loadMeta() {
@@ -80,12 +83,22 @@ export default class MetaSkillViewController extends AbstractSkillViewController
 			'eightbitstories.get-meta::v2023_09_05'
 		)
 
-		await this.formVc.setValues(meta)
+		if (meta) {
+			await this.formVc.setValues(meta)
+		}
 	}
 
 	private async handleSubmitForm() {
-		await this.emitSave()
-		await this.redirectToRoot()
+		this.formVc.setIsBusy(true)
+		try {
+			await this.emitSave()
+			await this.redirectToRoot()
+		} catch (err: any) {
+			this.alert({
+				message: err.message ?? 'Failed to save your family details!',
+			})
+		}
+		this.formVc.setIsBusy(false)
 	}
 
 	private async emitSave() {

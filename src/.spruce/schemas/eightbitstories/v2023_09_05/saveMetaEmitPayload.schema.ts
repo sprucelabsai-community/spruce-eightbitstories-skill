@@ -1,7 +1,7 @@
 import { SchemaRegistry } from '@sprucelabs/schema'
 import { SpruceSchemas } from '../../schemas.types'
 
-import metaSchema_v2023_09_05 from '#spruce/schemas/eightbitstories/v2023_09_05/meta.schema'
+import saveMetaSchema_v2023_09_05 from '#spruce/schemas/eightbitstories/v2023_09_05/saveMeta.schema'
 
 const saveMetaEmitPayloadSchema: SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitPayloadSchema  = {
 	id: 'saveMetaEmitPayload',
@@ -13,7 +13,7 @@ const saveMetaEmitPayloadSchema: SpruceSchemas.Eightbitstories.v2023_09_05.SaveM
 	            'meta': {
 	                type: 'schema',
 	                isRequired: true,
-	                options: {schema: metaSchema_v2023_09_05,}
+	                options: {schema: saveMetaSchema_v2023_09_05,}
 	            },
 	    }
 }

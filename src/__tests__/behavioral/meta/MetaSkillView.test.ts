@@ -5,25 +5,22 @@ import {
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
-import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import { assert, generateId, test } from '@sprucelabs/test-utils'
-import { Meta } from '../../eightbitstories.types'
-import MetaSkillViewController from '../../skillViewControllers/Meta.svc'
-import EventFaker from '../support/EventFaker'
+import { GetMeta } from '../../../eightbitstories.types'
+import MetaSkillViewController from '../../../meta/Meta.svc'
+import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
-export default class MetaSkillViewTest extends AbstractSpruceFixtureTest {
+export default class MetaSkillViewTest extends AbstractEightBitTest {
 	private static vc: SpyMetaSkillView
-	private static passedMeta?: SpruceSchemas.Eightbitstories.v2023_09_05.Meta
-	private static eventFaker: EventFaker
-	private static meta: Meta
+	private static passedMeta?: SpruceSchemas.Eightbitstories.v2023_09_05.GetMeta
+	private static meta: GetMeta
 
 	public static async beforeEach() {
 		await super.beforeEach()
 		this.views.setController('eightbitstories.meta', SpyMetaSkillView)
 
 		this.vc = this.MetaVc()
-		this.eventFaker = new EventFaker()
 		this.meta = this.eventFaker.generateRandomMeta()
 
 		await this.eventFaker.fakeGetMeta(() => this.meta)
@@ -55,7 +52,13 @@ export default class MetaSkillViewTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async clickingSaveEmitsSaveMetaEvent() {
+	protected static async rendersAlertIfSaveFails() {
+		await eventFaker.makeEventThrow('eightbitstories.save-meta::v2023_09_05')
+		await vcAssert.assertRendersAlert(this.vc, () => this.submitForm())
+	}
+
+	@test()
+	protected static async submittingEmitsSaveMetaEvent() {
 		const { name, values } = await this.randomizeMetaAndSetFormValues()
 
 		await this.submitFormAndAssertRedirect()
@@ -106,7 +109,7 @@ export default class MetaSkillViewTest extends AbstractSpruceFixtureTest {
 		return this.meta
 	}
 
-	private static async fillOutForm(meta: Meta) {
+	private static async fillOutForm(meta: GetMeta) {
 		await this.formVc.setValues({
 			...meta,
 		})

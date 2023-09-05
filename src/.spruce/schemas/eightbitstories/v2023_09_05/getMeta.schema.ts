@@ -3,18 +3,12 @@ import { SpruceSchemas } from '../../schemas.types'
 
 
 
-const metaSchema: SpruceSchemas.Eightbitstories.v2023_09_05.MetaSchema  = {
-	id: 'meta',
+const getMetaSchema: SpruceSchemas.Eightbitstories.v2023_09_05.GetMetaSchema  = {
+	id: 'getMeta',
 	version: 'v2023_09_05',
 	namespace: 'Eightbitstories',
-	name: 'Meta',
+	name: '',
 	    fields: {
-	            /** . */
-	            'id': {
-	                type: 'id',
-	                isRequired: true,
-	                options: undefined
-	            },
 	            /** Family Name. */
 	            'name': {
 	                label: 'Family Name',
@@ -32,6 +26,6 @@ const metaSchema: SpruceSchemas.Eightbitstories.v2023_09_05.MetaSchema  = {
 	    }
 }
 
-SchemaRegistry.getInstance().trackSchema(metaSchema)
+SchemaRegistry.getInstance().trackSchema(getMetaSchema)
 
-export default metaSchema
+export default getMetaSchema

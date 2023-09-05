@@ -1,5 +1,4 @@
 import { buildSchema } from '@sprucelabs/schema'
-import metaBuilder from '../../../schemas/v2023_09_05/meta.builder'
 
 const saveMetaResponsePayloadBuilder = buildSchema({
 	id: 'saveMetaResponsePayload',
@@ -8,7 +7,10 @@ const saveMetaResponsePayloadBuilder = buildSchema({
 			type: 'schema',
 			isRequired: true,
 			options: {
-				schema: metaBuilder,
+				schema: {
+					id: 'saveMeta',
+					version: 'v2023_09_05',
+				},
 			},
 		},
 	},

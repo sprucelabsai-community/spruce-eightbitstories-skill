@@ -1,9 +1,9 @@
 import { SpruceSchemas, eventFaker } from '@sprucelabs/spruce-test-fixtures'
 import { generateId } from '@sprucelabs/test-utils'
-import { Meta } from '../../eightbitstories.types'
+import { GetMeta, Meta } from '../../eightbitstories.types'
 
 export default class EventFaker {
-	public async fakeGetMeta(cb?: () => void | Meta) {
+	public async fakeGetMeta(cb?: () => void | GetMeta) {
 		await eventFaker.on('eightbitstories.get-meta::v2023_09_05', () => {
 			return {
 				meta: cb?.() ?? this.generateRandomMeta(),
@@ -11,7 +11,7 @@ export default class EventFaker {
 		})
 	}
 
-	public generateRandomMeta(): Meta {
+	public generateRandomMeta(): GetMeta {
 		return {
 			name: generateId(),
 			values: generateId(),
