@@ -40,6 +40,11 @@ export default class MetaSkillViewTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
+	protected static async requiresBeingLoggedIn() {
+		vcAssert.assertLoginIsRequired(this.vc)
+	}
+
+	@test()
 	protected static async rendersACard() {
 		vcAssert.assertSkillViewRendersCard(this.vc)
 	}

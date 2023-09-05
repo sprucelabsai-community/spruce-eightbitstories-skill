@@ -24,6 +24,10 @@ export default class MetaSkillViewController extends AbstractSkillViewController
 		this.cardVc = this.CardVc()
 	}
 
+	public async getIsLoginRequired() {
+		return true
+	}
+
 	private FormVc(): FormViewController<MetaSchema> {
 		return this.Controller(
 			'form',

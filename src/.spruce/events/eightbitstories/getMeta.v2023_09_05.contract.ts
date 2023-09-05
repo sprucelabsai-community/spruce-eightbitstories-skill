@@ -6,6 +6,10 @@ const getMetaEventContract = buildEventContract({
 	eventSignatures: {
 		'eightbitstories.get-meta::v2023_09_05': {
 			isGlobal: true,
+			emitPermissions: {
+				contractId: 'eightbitstories.eight-bit-stories',
+				permissionIdsAny: ['can-load-family-meta'],
+			},
 
 			responsePayloadSchema: getMetaResponsePayloadSchema,
 		},
