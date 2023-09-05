@@ -9,8 +9,8 @@ import { default as SchemaEntity } from '@sprucelabs/schema'
 
 import * as SpruceSchema from '@sprucelabs/schema'
 
-import { SkillViewControllerId } from '@sprucelabs/heartwood-view-controllers'
 import '@sprucelabs/spruce-event-utils'
+import { SkillViewControllerId } from '@sprucelabs/heartwood-view-controllers'
 
 declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schemas.types' {
 
@@ -70,6 +70,51 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		}
 
 		interface DidRegisterSkillViewsEmitPayloadEntity extends SchemaEntity<SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitPayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Heartwood.v2021_02_11 {
+
+		
+		interface DidRegisterSkillViewsEmitTargetAndPayload {
+			
+				/** Source. */
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				
+				'target': SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitTarget
+				
+				'payload': SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitPayload
+		}
+
+		interface DidRegisterSkillViewsEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
+			id: 'didRegisterSkillViewsEmitTargetAndPayload',
+			version: 'v2021_02_11',
+			namespace: 'Heartwood',
+			name: '',
+			    fields: {
+			            /** Source. */
+			            'source': {
+			                label: 'Source',
+			                type: 'schema',
+			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
+			            },
+			            /** . */
+			            'target': {
+			                type: 'schema',
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitTargetSchema,}
+			            },
+			            /** . */
+			            'payload': {
+			                type: 'schema',
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitPayloadSchema,}
+			            },
+			    }
+		}
+
+		interface DidRegisterSkillViewsEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitTargetAndPayloadSchema> {}
 
 	}
 
@@ -398,6 +443,65 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 	namespace SpruceSchemas.Heartwood.v2021_02_11 {
 
 		
+		interface GetSkillViewsResponsePayload {
+			
+				
+				'id': string
+				
+				'ids': string[]
+				
+				'source'?: string| undefined | null
+				
+				'sourceUrl'?: string| undefined | null
+				
+				'theme'?: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.Theme| undefined | null
+		}
+
+		interface GetSkillViewsResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'getSkillViewsResponsePayload',
+			version: 'v2021_02_11',
+			namespace: 'Heartwood',
+			name: '',
+			    fields: {
+			            /** . */
+			            'id': {
+			                type: 'id',
+			                isRequired: true,
+			                options: undefined
+			            },
+			            /** . */
+			            'ids': {
+			                type: 'text',
+			                isRequired: true,
+			                isArray: true,
+			                options: undefined
+			            },
+			            /** . */
+			            'source': {
+			                type: 'text',
+			                options: undefined
+			            },
+			            /** . */
+			            'sourceUrl': {
+			                type: 'text',
+			                options: undefined
+			            },
+			            /** . */
+			            'theme': {
+			                type: 'schema',
+			                options: {schema: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.ThemeSchema,}
+			            },
+			    }
+		}
+
+		interface GetSkillViewsResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Heartwood.v2021_02_11.GetSkillViewsResponsePayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Heartwood.v2021_02_11 {
+
+		
 		interface ListViewsResult {
 			
 				
@@ -513,58 +617,36 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 	namespace SpruceSchemas.Heartwood.v2021_02_11 {
 
 		
-		interface GetSkillViewsResponsePayload {
+		interface RegisterSkillViewsEmitTargetAndPayload {
 			
+				/** Source. */
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
 				
-				'id': string
-				
-				'ids': string[]
-				
-				'source'?: string| undefined | null
-				
-				'sourceUrl'?: string| undefined | null
-				
-				'theme'?: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.Theme| undefined | null
+				'payload': SpruceSchemas.Heartwood.v2021_02_11.RegisterSkillViewsEmitPayload
 		}
 
-		interface GetSkillViewsResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'getSkillViewsResponsePayload',
+		interface RegisterSkillViewsEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
+			id: 'registerSkillViewsEmitTargetAndPayload',
 			version: 'v2021_02_11',
 			namespace: 'Heartwood',
 			name: '',
 			    fields: {
-			            /** . */
-			            'id': {
-			                type: 'id',
-			                isRequired: true,
-			                options: undefined
-			            },
-			            /** . */
-			            'ids': {
-			                type: 'text',
-			                isRequired: true,
-			                isArray: true,
-			                options: undefined
-			            },
-			            /** . */
+			            /** Source. */
 			            'source': {
-			                type: 'text',
-			                options: undefined
-			            },
-			            /** . */
-			            'sourceUrl': {
-			                type: 'text',
-			                options: undefined
-			            },
-			            /** . */
-			            'theme': {
+			                label: 'Source',
 			                type: 'schema',
-			                options: {schema: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.ThemeSchema,}
+			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
+			            },
+			            /** . */
+			            'payload': {
+			                type: 'schema',
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Heartwood.v2021_02_11.RegisterSkillViewsEmitPayloadSchema,}
 			            },
 			    }
 		}
 
-		interface GetSkillViewsResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Heartwood.v2021_02_11.GetSkillViewsResponsePayloadSchema> {}
+		interface RegisterSkillViewsEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Heartwood.v2021_02_11.RegisterSkillViewsEmitTargetAndPayloadSchema> {}
 
 	}
 
@@ -753,84 +835,69 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 	}
 
 
-	namespace SpruceSchemas.Heartwood.v2021_02_11 {
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
 
 		
-		interface DidRegisterSkillViewsEmitTargetAndPayload {
+		interface GetMeta {
 			
-				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
-				
-				'target': SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitTarget
-				
-				'payload': SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitPayload
+				/** Family Name. */
+				'name': string
+				/** Values. */
+				'values': string
 		}
 
-		interface DidRegisterSkillViewsEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
-			id: 'didRegisterSkillViewsEmitTargetAndPayload',
-			version: 'v2021_02_11',
-			namespace: 'Heartwood',
+		interface GetMetaSchema extends SpruceSchema.Schema {
+			id: 'getMeta',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
 			name: '',
 			    fields: {
-			            /** Source. */
-			            'source': {
-			                label: 'Source',
-			                type: 'schema',
-			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
-			            },
-			            /** . */
-			            'target': {
-			                type: 'schema',
+			            /** Family Name. */
+			            'name': {
+			                label: 'Family Name',
+			                type: 'text',
 			                isRequired: true,
-			                options: {schema: SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitTargetSchema,}
+			                options: undefined
 			            },
-			            /** . */
-			            'payload': {
-			                type: 'schema',
+			            /** Values. */
+			            'values': {
+			                label: 'Values',
+			                type: 'text',
 			                isRequired: true,
-			                options: {schema: SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitPayloadSchema,}
+			                options: undefined
 			            },
 			    }
 		}
 
-		interface DidRegisterSkillViewsEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitTargetAndPayloadSchema> {}
+		interface GetMetaEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GetMetaSchema> {}
 
 	}
 
 
-	namespace SpruceSchemas.Heartwood.v2021_02_11 {
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
 
 		
-		interface RegisterSkillViewsEmitTargetAndPayload {
+		interface GetMetaResponsePayload {
 			
-				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
 				
-				'payload': SpruceSchemas.Heartwood.v2021_02_11.RegisterSkillViewsEmitPayload
+				'meta'?: SpruceSchemas.Eightbitstories.v2023_09_05.GetMeta| undefined | null
 		}
 
-		interface RegisterSkillViewsEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
-			id: 'registerSkillViewsEmitTargetAndPayload',
-			version: 'v2021_02_11',
-			namespace: 'Heartwood',
+		interface GetMetaResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'getMetaResponsePayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
 			name: '',
 			    fields: {
-			            /** Source. */
-			            'source': {
-			                label: 'Source',
-			                type: 'schema',
-			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
-			            },
 			            /** . */
-			            'payload': {
+			            'meta': {
 			                type: 'schema',
-			                isRequired: true,
-			                options: {schema: SpruceSchemas.Heartwood.v2021_02_11.RegisterSkillViewsEmitPayloadSchema,}
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.GetMetaSchema,}
 			            },
 			    }
 		}
 
-		interface RegisterSkillViewsEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Heartwood.v2021_02_11.RegisterSkillViewsEmitTargetAndPayloadSchema> {}
+		interface GetMetaResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GetMetaResponsePayloadSchema> {}
 
 	}
 
@@ -1017,66 +1084,28 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
 
 		
-		interface GetMeta {
-			
-				/** Family Name. */
-				'name': string
-				/** Values. */
-				'values': string
-		}
-
-		interface GetMetaSchema extends SpruceSchema.Schema {
-			id: 'getMeta',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** Family Name. */
-			            'name': {
-			                label: 'Family Name',
-			                type: 'text',
-			                isRequired: true,
-			                options: undefined
-			            },
-			            /** Values. */
-			            'values': {
-			                label: 'Values',
-			                type: 'text',
-			                isRequired: true,
-			                options: undefined
-			            },
-			    }
-		}
-
-		interface GetMetaEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GetMetaSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface GetMetaResponsePayload {
+		interface MetaTarget {
 			
 				
-				'meta'?: SpruceSchemas.Eightbitstories.v2023_09_05.GetMeta| undefined | null
+				'personId': string
 		}
 
-		interface GetMetaResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'getMetaResponsePayload',
+		interface MetaTargetSchema extends SpruceSchema.Schema {
+			id: 'metaTarget',
 			version: 'v2023_09_05',
 			namespace: 'Eightbitstories',
 			name: '',
 			    fields: {
 			            /** . */
-			            'meta': {
-			                type: 'schema',
-			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.GetMetaSchema,}
+			            'personId': {
+			                type: 'id',
+			                isRequired: true,
+			                options: undefined
 			            },
 			    }
 		}
 
-		interface GetMetaResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GetMetaResponsePayloadSchema> {}
+		interface MetaTargetEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.MetaTargetSchema> {}
 
 	}
 
@@ -1092,6 +1121,8 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 				'name': string
 				/** Values. */
 				'values': string
+				
+				'target': SpruceSchemas.Eightbitstories.v2023_09_05.MetaTarget
 		}
 
 		interface MetaSchema extends SpruceSchema.Schema {
@@ -1103,6 +1134,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 			            /** . */
 			            'id': {
 			                type: 'id',
+			                isPrivate: true,
 			                isRequired: true,
 			                options: undefined
 			            },
@@ -1119,6 +1151,13 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 			                type: 'text',
 			                isRequired: true,
 			                options: undefined
+			            },
+			            /** . */
+			            'target': {
+			                type: 'schema',
+			                isPrivate: true,
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.MetaTargetSchema,}
 			            },
 			    }
 		}

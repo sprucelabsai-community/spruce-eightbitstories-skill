@@ -7,12 +7,12 @@ import { SpruceSchemas } from '#spruce/schemas/schemas.types'
 export default async (
 	event: SpruceEvent
 ): SpruceEventResponse<ResponsePayload> => {
-	const { stores } = event
-	const metas = await stores.getStore('meta')
-	const match = await metas.findOne({})
-	delete match?.id
+	const { source, metas } = event
+
+	const meta = await metas.getForPerson(source.personId!)
+
 	return {
-		meta: match,
+		meta,
 	}
 }
 

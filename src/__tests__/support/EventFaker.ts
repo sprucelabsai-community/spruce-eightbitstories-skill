@@ -1,6 +1,6 @@
 import { SpruceSchemas, eventFaker } from '@sprucelabs/spruce-test-fixtures'
 import { generateId } from '@sprucelabs/test-utils'
-import { GetMeta, Meta } from '../../eightbitstories.types'
+import { GetMeta } from '../../eightbitstories.types'
 
 export default class EventFaker {
 	public async fakeGetMeta(cb?: () => void | GetMeta) {
@@ -15,6 +15,15 @@ export default class EventFaker {
 		return {
 			name: generateId(),
 			values: generateId(),
+		}
+	}
+
+	public generateRandomMetaWithTarget(personId: string) {
+		return {
+			...this.generateRandomMeta(),
+			target: {
+				personId,
+			},
 		}
 	}
 

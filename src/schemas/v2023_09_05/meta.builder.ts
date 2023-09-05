@@ -7,6 +7,7 @@ export default buildSchema({
 		id: {
 			type: 'id',
 			isRequired: true,
+			isPrivate: true,
 		},
 		name: {
 			type: 'text',
@@ -17,6 +18,22 @@ export default buildSchema({
 			type: 'text',
 			isRequired: true,
 			label: 'Values',
+		},
+		target: {
+			type: 'schema',
+			isRequired: true,
+			isPrivate: true,
+			options: {
+				schema: buildSchema({
+					id: 'metaTarget',
+					fields: {
+						personId: {
+							type: 'id',
+							isRequired: true,
+						},
+					},
+				}),
+			},
 		},
 	},
 })

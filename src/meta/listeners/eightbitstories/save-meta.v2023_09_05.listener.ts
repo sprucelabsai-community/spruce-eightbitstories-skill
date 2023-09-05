@@ -8,15 +8,11 @@ import { SpruceSchemas } from '#spruce/schemas/schemas.types'
 export default async (
 	event: SpruceEvent<SkillEventContract, EmitPayload>
 ): SpruceEventResponse<ResponsePayload> => {
-	const { stores, payload } = event
+	const { payload, source, metas } = event
 	const { meta } = payload
+	const { personId } = source
 
-	const metas = await stores.getStore('meta')
-	const count = await metas.count()
-
-	if (count === 0) {
-		await metas.createOne(meta)
-	}
+	await metas.saveForPerson(personId!, meta)
 
 	return {
 		meta,
