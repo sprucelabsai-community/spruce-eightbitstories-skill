@@ -1,6 +1,8 @@
+import MetaSkillViewController from '../../skillViewControllers/Meta.svc'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
 
 const vcs = {
+    MetaSkillViewController,
     RootSkillViewController,
 }
 
@@ -8,15 +10,18 @@ type LoadOptions<Args extends Record<string,any>[]> = Args[0]['args'] extends Re
 
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface SkillViewControllerMap {
-		'8-bit-stories.root': RootSkillViewController
+		'eightbitstories.meta': MetaSkillViewController
+		'eightbitstories.root': RootSkillViewController
 	}
 
 	interface SkillViewControllerArgsMap {
-		'8-bit-stories.root': LoadOptions<Parameters<RootSkillViewController['load']>>
+		'eightbitstories.meta': LoadOptions<Parameters<MetaSkillViewController['load']>>
+		'eightbitstories.root': LoadOptions<Parameters<RootSkillViewController['load']>>
 	}
 
 	interface ViewControllerMap {
-		'8-bit-stories.root': RootSkillViewController
+		'eightbitstories.meta': MetaSkillViewController
+		'eightbitstories.root': RootSkillViewController
 	}
 
     interface ViewControllerOptionsMap {

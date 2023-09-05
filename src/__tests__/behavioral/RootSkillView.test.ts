@@ -1,28 +1,59 @@
-import { buttonAssert, vcAssert } from '@sprucelabs/heartwood-view-controllers'
-import { fake } from '@sprucelabs/spruce-test-fixtures'
+import {
+	buttonAssert,
+	interactor,
+	vcAssert,
+} from '@sprucelabs/heartwood-view-controllers'
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert } from '@sprucelabs/test-utils'
+import { test } from '@sprucelabs/test-utils'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
 
-@fake.login()
 export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
-	private static vc: RootSkillViewController
+	private static vc: SpyRootSkillView
+
 	protected static async beforeEach() {
 		await super.beforeEach()
-		this.vc = this.views.Controller('8-bit-stories.root', {})
+
+		this.views.setController('eightbitstories.root', SpyRootSkillView)
+		this.vc = this.views.Controller(
+			'eightbitstories.root',
+			{}
+		) as SpyRootSkillView
 	}
 
 	@test()
-	protected static async rendersCard() {
+	protected static rendersCard() {
 		vcAssert.assertSkillViewRendersCard(this.vc, 'controls')
 	}
 
 	@test()
-	protected static async cardRendersExpectedButtons() {
-		buttonAssert.cardRendersButtons(this.vc.cardVc, [
+	protected static rendersExpectedButtons() {
+		buttonAssert.cardRendersButtons(this.cardVc, [
+			'meta',
 			'members',
-			'values',
 			'generate',
 		])
+	}
+
+	@test()
+	protected static async clickingMetaRedirectsToMetaSkillView() {
+		await this.views.load(this.vc)
+
+		await vcAssert.assertActionRedirects({
+			action: () => interactor.clickButton(this.cardVc, 'meta'),
+			router: this.views.getRouter(),
+			destination: {
+				id: 'eightbitstories.meta',
+			},
+		})
+	}
+
+	private static get cardVc() {
+		return this.vc.getCardVc()
+	}
+}
+
+class SpyRootSkillView extends RootSkillViewController {
+	public getCardVc() {
+		return this.cardVc
 	}
 }

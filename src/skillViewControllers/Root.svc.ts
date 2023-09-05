@@ -1,33 +1,41 @@
 import {
 	AbstractSkillViewController,
 	CardViewController,
+	Router,
 	SkillView,
+	SkillViewControllerLoadOptions,
 	ViewControllerOptions,
 } from '@sprucelabs/heartwood-view-controllers'
 
 export default class RootSkillViewController extends AbstractSkillViewController {
 	public static id = 'root'
-	private cardVc: CardViewController
+	protected cardVc: CardViewController
+	private router!: Router
 
 	public constructor(options: ViewControllerOptions) {
 		super(options)
-		this.cardVc = this.Controller('card', {
+		this.cardVc = this.CardVc()
+	}
+
+	private CardVc(): CardViewController {
+		return this.Controller('card', {
 			id: 'controls',
 			header: {
-				title: '8-bit Stories',
-				image: 'https://sprucebot.ngrok.io/images/8bitstories.jpg',
+				title: '8 Bit Stories',
+				image: 'https://storybook.spruce.bot/images/8bitstories.jpg',
 			},
 			body: {
 				sections: [
 					{
 						buttons: [
 							{
-								id: 'members',
-								label: 'Family Members',
+								id: 'meta',
+								label: 'Family Values',
+								onClick: this.handleClickMeta.bind(this),
 							},
 							{
-								id: 'values',
-								label: 'Family Values',
+								id: 'members',
+								label: 'Family Members',
 							},
 							{
 								id: 'generate',
@@ -39,6 +47,17 @@ export default class RootSkillViewController extends AbstractSkillViewController
 				],
 			},
 		})
+	}
+
+	public async load(
+		options: SkillViewControllerLoadOptions<Record<string, any>>
+	): Promise<void> {
+		const { router } = options
+		this.router = router
+	}
+
+	private async handleClickMeta() {
+		await this.router.redirect('eightbitstories.meta')
 	}
 
 	public render(): SkillView {
