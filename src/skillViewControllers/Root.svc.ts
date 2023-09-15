@@ -22,7 +22,7 @@ export default class RootSkillViewController extends AbstractSkillViewController
 			id: 'controls',
 			header: {
 				title: '8 Bit Stories',
-				image: 'https://storybook.spruce.bot/images/8bitstories.jpg',
+				image: 'https://storybook.spruce.bot/images/8bit/8bitstories.jpg',
 			},
 			body: {
 				sections: [
@@ -36,6 +36,7 @@ export default class RootSkillViewController extends AbstractSkillViewController
 							{
 								id: 'members',
 								label: 'Family Members',
+								onClick: this.handleClickMembers.bind(this),
 							},
 							{
 								id: 'generate',
@@ -58,6 +59,10 @@ export default class RootSkillViewController extends AbstractSkillViewController
 
 	private async handleClickMeta() {
 		await this.router.redirect('eightbitstories.meta')
+	}
+
+	private async handleClickMembers() {
+		await this.router.redirect('eightbitstories.members')
 	}
 
 	public render(): SkillView {

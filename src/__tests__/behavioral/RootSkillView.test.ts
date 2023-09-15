@@ -36,15 +36,34 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async clickingMetaRedirectsToMetaSkillView() {
-		await this.views.load(this.vc)
+		await this.load()
+		await this.assertClickingButtonRedirects('meta', 'eightbitstories.meta')
+	}
 
+	@test()
+	protected static async clickingMembersRedirectsToMembersSkillView() {
+		await this.load()
+		await this.assertClickingButtonRedirects(
+			'members',
+			'eightbitstories.members'
+		)
+	}
+
+	private static async assertClickingButtonRedirects(
+		button: string,
+		destination: string
+	) {
 		await vcAssert.assertActionRedirects({
-			action: () => interactor.clickButton(this.cardVc, 'meta'),
+			action: () => interactor.clickButton(this.cardVc, button),
 			router: this.views.getRouter(),
 			destination: {
-				id: 'eightbitstories.meta',
+				id: destination,
 			},
 		})
+	}
+
+	private static async load() {
+		await this.views.load(this.vc)
 	}
 
 	private static get cardVc() {

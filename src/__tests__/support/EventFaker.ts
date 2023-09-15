@@ -1,8 +1,26 @@
 import { SpruceSchemas, eventFaker } from '@sprucelabs/spruce-test-fixtures'
 import { generateId } from '@sprucelabs/test-utils'
-import { GetMeta } from '../../eightbitstories.types'
+import { GetMeta, PublicFamilyMember } from '../../eightbitstories.types'
 
 export default class EventFaker {
+	public async fakeAddFamilyMember(
+		cb?: (
+			targetAndPayload: AddMemberTargetAndPayload
+		) => PublicFamilyMember | void
+	) {
+		await eventFaker.on(
+			'eightbitstories.add-family-member::v2023_09_05',
+			(targetAndPayload) => {
+				return {
+					familyMember: cb?.(targetAndPayload) ?? {
+						id: generateId(),
+						name: generateId(),
+						bio: generateId(),
+					},
+				}
+			}
+		)
+	}
 	public async fakeGetMeta(cb?: () => void | GetMeta) {
 		await eventFaker.on('eightbitstories.get-meta::v2023_09_05', () => {
 			return {
@@ -43,3 +61,6 @@ export default class EventFaker {
 		)
 	}
 }
+
+export type AddMemberTargetAndPayload =
+	SpruceSchemas.Eightbitstories.v2023_09_05.AddFamilyMemberEmitTargetAndPayload

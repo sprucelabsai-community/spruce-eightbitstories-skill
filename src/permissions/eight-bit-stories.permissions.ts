@@ -26,6 +26,16 @@ const eightBitStoriesPermissions = buildPermissionContract({
 			},
 			requireAllStatuses: false,
 		},
+		{
+			id: 'can-manage-family-members',
+			name: 'Can manage family members',
+			defaults: {
+				loggedIn: {
+					default: true,
+				},
+			},
+			requireAllStatuses: false,
+		},
 	],
 })
 

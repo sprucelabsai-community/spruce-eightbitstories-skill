@@ -1,5 +1,5 @@
 import { buildSchema, dropPrivateFields } from '@sprucelabs/schema'
-import metaBuilder from '../../../../schemas/v2023_09_05/meta.builder'
+import metaBuilder from '../../../meta.builder'
 
 const saveMetaEmitPayloadBuilder = buildSchema({
 	id: 'saveMetaEmitPayload',
