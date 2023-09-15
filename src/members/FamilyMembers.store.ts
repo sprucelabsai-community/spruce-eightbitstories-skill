@@ -11,6 +11,8 @@ import {
 	SchemaValues,
 	SchemaFieldNames,
 } from '@sprucelabs/schema'
+import { StoreSeedOptions } from '@sprucelabs/spruce-test-fixtures'
+import { generateId } from '@sprucelabs/test-utils'
 import familyMemberSchema from '#spruce/schemas/eightbitstories/v2023_09_05/familyMember.schema'
 
 export default class FamilyMembersStore extends AbstractStore<
@@ -41,6 +43,22 @@ export default class FamilyMembersStore extends AbstractStore<
 
 	protected async willUpdate(values: UpdateFamilyMember) {
 		return values as Partial<DatabaseFamilyMember>
+	}
+
+	public async seed(options: StoreSeedOptions) {
+		const { TestClass, totalToSeed } = options
+
+		const all = new Array(totalToSeed).fill(0).map(() =>
+			this.createOne({
+				bio: generateId(),
+				name: generateId(),
+				target: {
+					personId: TestClass.fakedPerson.id,
+				},
+			})
+		)
+
+		await Promise.all(all)
 	}
 
 	protected async prepareRecord<

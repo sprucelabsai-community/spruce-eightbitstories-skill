@@ -7,10 +7,12 @@ import { SpruceSchemas } from '#spruce/schemas/schemas.types'
 export default async (
 	event: SpruceEvent
 ): SpruceEventResponse<ResponsePayload> => {
-	console.log(event)
+	const { source, family } = event
+
+	const all = await family.listMembers(source.personId!)
 
 	return {
-		familyMembers: [],
+		familyMembers: all,
 	}
 }
 
