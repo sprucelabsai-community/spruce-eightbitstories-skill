@@ -54,6 +54,7 @@ export default class MetaSkillViewController extends AbstractSkillViewController
 		return this.Controller('card', {
 			header: {
 				title: `Your Family`,
+				image: 'https://storybook.spruce.bot/images/8bit/values.jpeg',
 			},
 			body: {
 				isBusy: true,

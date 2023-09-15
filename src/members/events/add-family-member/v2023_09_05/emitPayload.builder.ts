@@ -1,5 +1,5 @@
 import { buildSchema, dropFields } from '@sprucelabs/schema'
-import familyMemberBuilder from '../../../familyMember.builder'
+import familyMemberBuilder from '../../../../schemas/v2023_09_05/familyMember.builder'
 
 const addFamilyMemberEmitPayloadBuilder = buildSchema({
 	id: 'addFamilyMemberEmitPayload',

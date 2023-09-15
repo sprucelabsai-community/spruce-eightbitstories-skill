@@ -1,4 +1,5 @@
 import { generateId } from '@sprucelabs/test-utils'
+import { PublicFamilyMember } from '../../../eightbitstories.types'
 import FamilyMemberFormCardViewController from '../../../members/FamilyMemberFormCard.vc'
 
 export default class SpyFamilyMemberCard extends FamilyMemberFormCardViewController {
@@ -13,5 +14,9 @@ export default class SpyFamilyMemberCard extends FamilyMemberFormCardViewControl
 		})
 
 		return this.formVc.getValues()
+	}
+
+	public async simulateAddMember(member: PublicFamilyMember) {
+		return this.onAddHandler(member)
 	}
 }

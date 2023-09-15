@@ -18,7 +18,7 @@ export default class FamilyMemberFormCardViewController extends AbstractViewCont
 	private cardVc: CardViewController
 	protected formVc: FormViewController<FamilyMemberSchema>
 	private onCancelHandler: () => void | Promise<void>
-	private onAddHandler: OnAddHandler
+	protected onAddHandler: OnAddHandler
 
 	public constructor(
 		options: ViewControllerOptions & FamilyMemberFormCardOptions

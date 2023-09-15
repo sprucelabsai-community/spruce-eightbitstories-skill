@@ -1,5 +1,5 @@
 import { buildSchema } from '@sprucelabs/schema'
-import publicFamilyMemberBuilder from '../../../publicFamilyMember.builder'
+import publicFamilyMemberBuilder from '../../../../schemas/v2023_09_05/publicFamilyMember.builder'
 
 const addFamilyMemberResponsePayloadBuilder = buildSchema({
 	id: 'addFamilyMemberResponsePayload',

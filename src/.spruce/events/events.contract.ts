@@ -2,6 +2,9 @@ import { coreEventContracts } from '@sprucelabs/mercury-core-events'
 import eightbitstoriesAddFamilyMemberEventContract_v2023_09_05, {
 	AddFamilyMemberEventContract as EightbitstoriesAddFamilyMemberEventContract_v2023_09_05,
 } from '#spruce/events/eightbitstories/addFamilyMember.v2023_09_05.contract'
+import eightbitstoriesDeleteFamilyMemberEventContract_v2023_09_05, {
+	DeleteFamilyMemberEventContract as EightbitstoriesDeleteFamilyMemberEventContract_v2023_09_05,
+} from '#spruce/events/eightbitstories/deleteFamilyMember.v2023_09_05.contract'
 import eightbitstoriesGetMetaEventContract_v2023_09_05, {
 	GetMetaEventContract as EightbitstoriesGetMetaEventContract_v2023_09_05,
 } from '#spruce/events/eightbitstories/getMeta.v2023_09_05.contract'
@@ -38,6 +41,7 @@ import heartwoodUpsertThemeEventContract_v2021_02_11, {
 
 export default [
 	eightbitstoriesAddFamilyMemberEventContract_v2023_09_05,
+	eightbitstoriesDeleteFamilyMemberEventContract_v2023_09_05,
 	heartwoodDidRegisterSkillViewsEventContract_v2021_02_11,
 	heartwoodGenerateUrlEventContract_v2021_02_11,
 	heartwoodGetActiveThemeEventContract_v2021_02_11,
@@ -55,6 +59,8 @@ export default [
 declare module '@sprucelabs/mercury-types/build/types/mercury.types' {
 	interface SkillEventSignatures {
 		'eightbitstories.add-family-member::v2023_09_05': EightbitstoriesAddFamilyMemberEventContract_v2023_09_05['eventSignatures']['eightbitstories.add-family-member::v2023_09_05']
+
+		'eightbitstories.delete-family-member::v2023_09_05': EightbitstoriesDeleteFamilyMemberEventContract_v2023_09_05['eventSignatures']['eightbitstories.delete-family-member::v2023_09_05']
 
 		'heartwood.did-register-skill-views::v2021_02_11': HeartwoodDidRegisterSkillViewsEventContract_v2021_02_11['eventSignatures']['heartwood.did-register-skill-views::v2021_02_11']
 

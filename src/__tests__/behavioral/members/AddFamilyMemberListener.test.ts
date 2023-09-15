@@ -1,17 +1,15 @@
 import { fake } from '@sprucelabs/spruce-test-fixtures'
 import { test, generateId, assert } from '@sprucelabs/test-utils'
 import { AddFamilyMember } from '../../../eightbitstories.types'
-import FamilyMembersStore from '../../../members/FamilyMembers.store'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
 export default class AddFamilyMemberListenerTest extends AbstractEightBitTest {
 	private static member: AddFamilyMember
-	private static members: FamilyMembersStore
 
 	protected static async beforeEach(): Promise<void> {
 		await super.beforeEach()
-		this.members = await this.stores.getStore('familyMembers')
+
 		this.member = {
 			name: generateId(),
 			bio: generateId(),
@@ -35,9 +33,12 @@ export default class AddFamilyMemberListenerTest extends AbstractEightBitTest {
 	@test()
 	protected static async savesExpectedValues() {
 		await this.emitAddFamilyMember()
-		const match = await this.getFirstFamilyMember()
+		const match = await this.getFirstFamilyMember({
+			shouldIncludePrivateFields: true,
+		})
 
 		assert.doesInclude(match, this.member)
+		//@ts-ignore
 		assert.isEqualDeep(match?.target, {
 			personId: this.fakedPerson.id,
 		})
@@ -48,10 +49,6 @@ export default class AddFamilyMemberListenerTest extends AbstractEightBitTest {
 		const familyMember = await this.emitAddFamilyMember()
 		const match = await this.getFirstFamilyMember()
 		assert.doesInclude(match, familyMember)
-	}
-
-	private static async getFirstFamilyMember() {
-		return await this.members.findOne({}, { shouldIncludePrivateFields: true })
 	}
 
 	private static async emitAddFamilyMember() {
