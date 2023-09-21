@@ -66,7 +66,11 @@ export default class GenerateSkillViewController extends AbstractSkillViewContro
 
 	public render(): SkillView {
 		return {
-			cards: this.cardVcs.map((card) => card.render()),
+			layouts: [
+				{
+					cards: this.cardVcs.map((card) => card.render()),
+				},
+			],
 		}
 	}
 }
