@@ -43,12 +43,17 @@ export default class RootSkillViewController extends AbstractSkillViewController
 								id: 'generate',
 								label: 'Generate Story',
 								type: 'primary',
+								onClick: this.handleClickGenerate.bind(this),
 							},
 						],
 					},
 				],
 			},
 		})
+	}
+
+	private async handleClickGenerate() {
+		await this.router.redirect('eightbitstories.generate')
 	}
 
 	public async load(

@@ -18,6 +18,8 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 			'eightbitstories.root',
 			{}
 		) as SpyRootSkillView
+
+		await this.load()
 	}
 
 	@test()
@@ -36,16 +38,22 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async clickingMetaRedirectsToMetaSkillView() {
-		await this.load()
 		await this.assertClickingButtonRedirects('meta', 'eightbitstories.meta')
 	}
 
 	@test()
 	protected static async clickingMembersRedirectsToMembersSkillView() {
-		await this.load()
 		await this.assertClickingButtonRedirects(
 			'members',
 			'eightbitstories.members'
+		)
+	}
+
+	@test()
+	protected static async clickingGenerateRedirectsToGenerateSkillView() {
+		await this.assertClickingButtonRedirects(
+			'generate',
+			'eightbitstories.generate'
 		)
 	}
 
