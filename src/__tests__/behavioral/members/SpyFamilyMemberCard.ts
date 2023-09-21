@@ -3,6 +3,9 @@ import { PublicFamilyMember } from '../../../eightbitstories.types'
 import FamilyMemberFormCardViewController from '../../../members/FamilyMemberFormCard.vc'
 
 export default class SpyFamilyMemberCard extends FamilyMemberFormCardViewController {
+	public getFamilyMemberId(): any {
+		return this.member?.id
+	}
 	public getFormVc() {
 		return this.formVc
 	}
@@ -17,6 +20,6 @@ export default class SpyFamilyMemberCard extends FamilyMemberFormCardViewControl
 	}
 
 	public async simulateAddMember(member: PublicFamilyMember) {
-		return this.onAddHandler(member)
+		return this.onAddHandler?.(member)
 	}
 }

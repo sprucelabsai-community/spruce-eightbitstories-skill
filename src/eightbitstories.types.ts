@@ -11,6 +11,8 @@ export type FamilyMember =
 	SpruceSchemas.Eightbitstories.v2023_09_05.FamilyMember
 export type AddFamilyMember =
 	SpruceSchemas.Eightbitstories.v2023_09_05.AddFamilyMember
+export type UpdateFamilyMember =
+	SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMember
 export type PublicFamilyMember =
 	SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
 

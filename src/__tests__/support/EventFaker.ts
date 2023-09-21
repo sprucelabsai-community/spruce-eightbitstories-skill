@@ -3,6 +3,19 @@ import { generateId } from '@sprucelabs/test-utils'
 import { GetMeta, PublicFamilyMember } from '../../eightbitstories.types'
 
 export default class EventFaker {
+	public async fakeUpdateFamilyMember(
+		cb?: (targetAndPayload: UpdateFamilyMemberTargetAndPayload) => void
+	) {
+		await eventFaker.on(
+			'eightbitstories.update-family-member::v2023_09_05',
+			(targetAndPayload) => {
+				cb?.(targetAndPayload)
+				return {
+					familyMember: this.generatePublicFamilyMemberValues(),
+				}
+			}
+		)
+	}
 	public async fakeDeleteFamilyMember(
 		cb?: (targetAndPayload: DeleteMemberTargetAndPayload) => void
 	) {
@@ -40,15 +53,20 @@ export default class EventFaker {
 			'eightbitstories.add-family-member::v2023_09_05',
 			(targetAndPayload) => {
 				return {
-					familyMember: cb?.(targetAndPayload) ?? {
-						id: generateId(),
-						name: generateId(),
-						bio: generateId(),
-					},
+					familyMember:
+						cb?.(targetAndPayload) ?? this.generatePublicFamilyMemberValues(),
 				}
 			}
 		)
 	}
+	public generatePublicFamilyMemberValues() {
+		return {
+			id: generateId(),
+			name: generateId(),
+			bio: generateId(),
+		}
+	}
+
 	public async fakeGetMeta(cb?: () => void | GetMeta) {
 		await eventFaker.on('eightbitstories.get-meta::v2023_09_05', () => {
 			return {
@@ -95,3 +113,6 @@ export type AddMemberTargetAndPayload =
 
 export type DeleteMemberTargetAndPayload =
 	SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberEmitTargetAndPayload
+
+export type UpdateFamilyMemberTargetAndPayload =
+	SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMemberEmitTargetAndPayload

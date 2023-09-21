@@ -4,7 +4,7 @@ import {
 	listAssert,
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
-import { fake, seed } from '@sprucelabs/spruce-test-fixtures'
+import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert, generateId } from '@sprucelabs/test-utils'
 import FamilyMemberFormCardViewController from '../../../members/FamilyMemberFormCard.vc'
 import MembersSkillViewController from '../../../members/Members.svc'
@@ -29,6 +29,8 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 		) as SpyMembersSkillView
 
 		await this.eventFaker.fakeListFamilyMembers(() => this.members.find({}))
+		await this.eventFaker.fakeDeleteFamilyMember()
+		await this.eventFaker.fakeUpdateFamilyMember()
 	}
 
 	@test()
@@ -135,8 +137,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 			passedTarget = target
 		})
 
-		const confirmVc = await this.loadClickDeleteAndAssertConfirm()
-		await confirmVc.accept()
+		await this.loadClickDeleteAndConfirm()
 
 		const match = await this.getFirstFamilyMember()
 
@@ -160,10 +161,127 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 		assert.isFalse(wasHit)
 	}
 
+	@test()
+	@seed('familyMembers', 1)
+	protected static async failingToDeleteRendersAlert() {
+		await eventFaker.makeEventThrow(
+			'eightbitstories.delete-family-member::v2023_09_05'
+		)
+
+		await vcAssert.assertRendersAlert(this.vc, () =>
+			this.loadClickDeleteAndConfirm()
+		)
+	}
+
+	@test()
+	@seed('familyMembers', 3)
+	protected static async deletingMemberRemovesRow() {
+		const members = await this.members.find({})
+
+		await this.load()
+
+		await this.clickDeleteConfirmAndAssertRemovedRow(members[0].id)
+		listAssert.listRendersRow(this.listVc, members[1].id)
+
+		await this.clickDeleteConfirmAndAssertRemovedRow(members[2].id)
+	}
+
+	@test()
+	@seed('familyMembers', 1)
+	protected static async clickingFamilyMemberRendersDialog() {
+		const { cardVc, formVc, match } =
+			await this.loadClickFirstMemberAssertDialog()
+
+		assert.isEqual(cardVc.getFamilyMemberId(), match.id)
+
+		const values = formVc.getValues()
+
+		assert.isEqual(values.name, match.name)
+		assert.isEqual(values.bio, match.bio)
+	}
+
+	@test()
+	@seed('familyMembers', 1)
+	protected static async cancellingEditHidesDialog() {
+		const { dlgVc, formVc } = await this.loadClickFirstMemberAssertDialog()
+		await interactor.cancelForm(formVc)
+		assert.isFalse(dlgVc.getIsVisible())
+	}
+
+	@test()
+	@seed('familyMembers', 1)
+	protected static async submittingEditFormHidesDialog() {
+		const { dlgVc, formVc } = await this.loadClickFirstMemberAssertDialog()
+		await interactor.submitForm(formVc)
+		assert.isFalse(dlgVc.getIsVisible())
+	}
+
+	@test()
+	@seed('familyMembers', 1)
+	protected static async updatingMemberUpdatesRow() {
+		const { formVc } = await this.loadClickFirstMemberAssertDialog()
+		const newName = generateId()
+		const newBio = generateId()
+
+		await formVc.setValues({ name: newName, bio: newBio })
+
+		await interactor.submitForm(formVc)
+
+		listAssert.rowRendersContent(this.listVc, 0, newName)
+		listAssert.rowRendersContent(this.listVc, 0, newBio)
+	}
+
+	private static async loadClickFirstMemberAssertDialog() {
+		const match = await this.loadAndGetFirstMember()
+		const { cardVc, formVc, dlgVc } = await this.clickAndRowAssertDialog(
+			match.id
+		)
+		return { cardVc, formVc, dlgVc, match }
+	}
+
+	private static async clickAndRowAssertDialog(id: string) {
+		const dlgVc = await vcAssert.assertRendersDialog(this.vc, () =>
+			interactor.clickRow(this.listVc, id)
+		)
+
+		const cardVc = vcAssert.assertRendersAsInstanceOf(
+			dlgVc,
+			FamilyMemberFormCardViewController
+		) as SpyFamilyMemberCard
+
+		const formVc = cardVc.getFormVc()
+		return { cardVc, formVc, dlgVc }
+	}
+
+	private static async clickDeleteConfirmAndAssertRemovedRow(id: string) {
+		await this.clickDeleteAndConfirm(id)
+		this.assertDoesNotRenderRow(id)
+	}
+
+	private static async clickDeleteAndConfirm(id: string) {
+		const confirmVc = await this.clickDeleteAndAssertConfirm(id)
+		await confirmVc.accept()
+	}
+
+	private static assertDoesNotRenderRow(id: string) {
+		listAssert.listDoesNotRenderRow(this.listVc, id)
+	}
+
+	private static async loadClickDeleteAndConfirm() {
+		const confirmVc = await this.loadClickDeleteAndAssertConfirm()
+		await confirmVc.accept()
+	}
+
 	private static async loadClickDeleteAndAssertConfirm() {
 		await this.load()
+		return await this.clickDeleteAndAssertConfirm()
+	}
+
+	private static async clickDeleteAndAssertConfirm(
+		rowIdOrIdx: number | string = 0
+	) {
 		return await vcAssert.assertRendersConfirm(this.vc, () =>
-			interactor.clickButtonInRow(this.listVc, 0, 'delete')
+			interactor.clickButtonInRow(this.listVc, rowIdOrIdx, 'delete')
 		)
 	}
 

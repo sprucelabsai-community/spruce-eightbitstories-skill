@@ -2,6 +2,17 @@ import { EventFeatureListener } from '@sprucelabs/spruce-event-utils'
 
 const listeners: EventFeatureListener[] = [
 	{
+		eventName: 'update-family-member',
+		eventNamespace: 'eightbitstories',
+		version: 'v2023_09_05',
+		callback:
+			require('../../listeners/eightbitstories/update-family-member.v2023_09_05.listener')
+				.default,
+		isGlobal:
+			require('../../listeners/eightbitstories/update-family-member.v2023_09_05.listener')
+				.isGlobal,
+	},
+	{
 		eventName: 'did-boot',
 		eventNamespace: 'skill',
 		version: 'v2023_09_05',
@@ -19,6 +30,17 @@ const listeners: EventFeatureListener[] = [
 				.default,
 		isGlobal:
 			require('../../members/listeners/eightbitstories/add-family-member.v2023_09_05.listener')
+				.isGlobal,
+	},
+	{
+		eventName: 'delete-family-member',
+		eventNamespace: 'eightbitstories',
+		version: 'v2023_09_05',
+		callback:
+			require('../../members/listeners/eightbitstories/delete-family-member.v2023_09_05.listener')
+				.default,
+		isGlobal:
+			require('../../members/listeners/eightbitstories/delete-family-member.v2023_09_05.listener')
 				.isGlobal,
 	},
 	{

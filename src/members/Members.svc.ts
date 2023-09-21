@@ -18,7 +18,6 @@ export default class MembersSkillViewController extends AbstractSkillViewControl
 
 	public constructor(options: ViewControllerOptions) {
 		super(options)
-
 		this.activeRecordCardVc = this.ActiveRecordCardVc()
 	}
 
@@ -56,6 +55,7 @@ export default class MembersSkillViewController extends AbstractSkillViewControl
 	private renderRow(member: PublicFamilyMember): ListRow {
 		return {
 			id: member.id,
+			onClick: () => this.handleClickRow(member),
 			cells: [
 				{
 					text: {
@@ -77,6 +77,21 @@ export default class MembersSkillViewController extends AbstractSkillViewControl
 		}
 	}
 
+	private async handleClickRow(member: PublicFamilyMember) {
+		const vc = this.Controller('eightbitstories.family-member-form-card', {
+			member,
+			onCancel: async () => dlgVc.hide(),
+			onUpdate: async (member) => {
+				void dlgVc.hide()
+				this.listVc.upsertRow(member.id, this.renderRow(member))
+			},
+		})
+
+		const dlgVc = this.renderInDialog(vc.render())
+
+		await vc.load()
+	}
+
 	private async handleClickDeleteMember(member: PublicFamilyMember) {
 		const confirm = await this.confirm({
 			message: `Are you sure you want to remove ${member.name} from your family?`,
@@ -87,15 +102,22 @@ export default class MembersSkillViewController extends AbstractSkillViewControl
 			return
 		}
 
-		const client = await this.connectToApi()
-		await client.emitAndFlattenResponses(
-			'eightbitstories.delete-family-member::v2023_09_05',
-			{
-				target: {
-					familyMemberId: member.id,
-				},
-			}
-		)
+		try {
+			const client = await this.connectToApi()
+			await client.emitAndFlattenResponses(
+				'eightbitstories.delete-family-member::v2023_09_05',
+				{
+					target: {
+						familyMemberId: member.id,
+					},
+				}
+			)
+			this.listVc.deleteRow(member.id)
+		} catch (err: any) {
+			this.alert({
+				message: err.message ?? `I could not delete your family member!!!`,
+			})
+		}
 	}
 
 	private async handleRenderClickAdd() {

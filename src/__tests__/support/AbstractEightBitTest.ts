@@ -16,6 +16,11 @@ export default abstract class AbstractEightBitTest extends AbstractSpruceFixture
 		this.members = await this.stores.getStore('familyMembers')
 	}
 
+	public static async getSecondFamilyMember() {
+		const all = await this.members.find({})
+		return all[1]
+	}
+
 	protected static async getFirstFamilyMember(
 		options: { shouldIncludePrivateFields?: boolean } = {}
 	) {

@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@sprucelabs/data-stores": "^25.0.38",
-    "@sprucelabs/error": "^5.1.26",
+    "@sprucelabs/error": "^5.1.30",
     "@sprucelabs/globby": "^1.0.3",
     "@sprucelabs/heartwood-view-controllers": "^107.2.22",
     "@sprucelabs/mercury-client": "^41.0.62",

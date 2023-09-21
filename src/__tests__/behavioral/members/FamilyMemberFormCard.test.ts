@@ -3,14 +3,18 @@ import {
 	interactor,
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
-import { eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
+import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert, generateId } from '@sprucelabs/test-utils'
 import {
 	AddFamilyMember,
 	PublicFamilyMember,
 } from '../../../eightbitstories.types'
+import { FamilyMemberFormCardOptions } from '../../../members/FamilyMemberFormCard.vc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
-import { AddMemberTargetAndPayload } from '../../support/EventFaker'
+import {
+	AddMemberTargetAndPayload,
+	UpdateFamilyMemberTargetAndPayload,
+} from '../../support/EventFaker'
 import SpyFamilyMemberCard from './SpyFamilyMemberCard'
 
 @fake.login()
@@ -27,12 +31,7 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
 			'eightbitstories.family-member-form-card',
 			SpyFamilyMemberCard
 		)
-		this.vc = this.views.Controller('eightbitstories.family-member-form-card', {
-			onCancel: () => {},
-			onAdd: (member: PublicFamilyMember) => {
-				this.lastAddedMember = member
-			},
-		}) as SpyFamilyMemberCard
+		this.vc = this.Vc()
 	}
 
 	@test()
@@ -84,9 +83,60 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
 		assert.isEqualDeep(this.lastAddedMember, values)
 	}
 
+	@test()
+	@seed('familyMembers', 1)
+	protected static async submittingWithMemberEmitsUpdateEvent() {
+		const member = await this.resetWithFirstMember()
+
+		let passedTarget: UpdateFamilyMemberTargetAndPayload['target'] | undefined
+		let passedPayload: UpdateFamilyMemberTargetAndPayload['payload'] | undefined
+
+		await this.eventFaker.fakeUpdateFamilyMember(({ target, payload }) => {
+			passedTarget = target
+			passedPayload = payload
+		})
+
+		const values = await this.submitRandomValues()
+
+		assert.isEqualDeep(passedTarget?.familyMemberId, member.id)
+		assert.isEqualDeep(passedPayload?.familyMember, values)
+	}
+
+	@test()
+	@seed('familyMembers', 1)
+	protected static async errorUpdatingRendersAlert() {
+		await this.resetWithFirstMember()
+		await eventFaker.makeEventThrow(
+			'eightbitstories.update-family-member::v2023_09_05'
+		)
+
+		await vcAssert.assertRendersAlert(this.vc, () => this.submitForm())
+	}
+
+	private static async resetWithFirstMember() {
+		const member = await this.getFirstFamilyMember()
+		this.vc = this.Vc({
+			member,
+		})
+		return member
+	}
+
+	private static Vc(
+		options?: Partial<FamilyMemberFormCardOptions>
+	): SpyFamilyMemberCard {
+		return this.views.Controller('eightbitstories.family-member-form-card', {
+			onCancel: () => {},
+			onAdd: (member: PublicFamilyMember) => {
+				this.lastAddedMember = member
+			},
+			...options,
+		}) as SpyFamilyMemberCard
+	}
+
 	private static async submitRandomValues() {
-		await this.fillOutFormWithRandomValues()
+		const values = await this.fillOutFormWithRandomValues()
 		await this.submitForm()
+		return values
 	}
 
 	private static submitForm(): any {
@@ -94,7 +144,7 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
 	}
 
 	private static async fillOutFormWithRandomValues() {
-		await this.vc.fillOutRandomly()
+		return await this.vc.fillOutRandomly()
 	}
 
 	private static get formVc() {
