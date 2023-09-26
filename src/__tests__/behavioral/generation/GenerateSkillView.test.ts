@@ -9,16 +9,20 @@ import { selectAssert } from '@sprucelabs/schema'
 import { SelectChoice } from '@sprucelabs/spruce-core-schemas'
 import { FormCardViewController } from '@sprucelabs/spruce-form-utils'
 import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
-import { assert, test } from '@sprucelabs/test-utils'
+import { assert, generateId, test } from '@sprucelabs/test-utils'
+import { Story } from '../../../eightbitstories.types'
 import GenerateSkillViewController, {
 	GenerateStorySchema,
 	storyElements,
 } from '../../../skillViewControllers/Generate.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
+import { GenerateStoryTargetAndPayload } from '../../support/EventFaker'
 
 @fake.login()
 export default class GenerateSkillViewTest extends AbstractEightBitTest {
 	private static vc: SpyGenerateSkillView
+
+	@seed('familyMembers', 3)
 	protected static async beforeEach(): Promise<void> {
 		await super.beforeEach()
 		this.views.setController('eightbitstories.generate', SpyGenerateSkillView)
@@ -103,13 +107,9 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 	}
 
 	@test()
-	@seed('familyMembers', 3)
 	protected static async membersRendersExpectedChoices() {
-		const members = await this.members.find({})
+		const members = await this.getAllMembers()
 		const expected = members.map((member) => member.id)
-
-		this.vc = this.Vc()
-		await this.loadVc()
 
 		const schema = this.membersFormVc.getSchema()
 		selectAssert.assertSelectChoicesMatch(
@@ -122,7 +122,10 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 	protected static async clickingGenerateSetsControlsToBusy() {
 		await this.eventFaker.fakeGenerateStory()
 
-		const promise = this.clickGenerate()
+		await this.selectFirstMember()
+		await this.selectFirstElement()
+
+		const promise = this.clickGenerateAndAssertRedirect()
 		this.assertFooterIsBusy()
 
 		await promise
@@ -145,6 +148,103 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		await alertVc.hide()
 
 		this.assertFooterIsNotBusy()
+	}
+
+	@test('submits selected members and elements 1', [0], [0])
+	@test('submits selected members and elements 2', [1], [2])
+	@test('submits selected members and elements 3', [0, 1], [2, 3])
+	protected static async generatePassesSelectedMembersAndElements(
+		memberIdxs: number[],
+		elementIdxs: number[]
+	) {
+		let passedPayload: GenerateStoryTargetAndPayload['payload'] | undefined
+
+		await this.eventFaker.fakeGenerateStory(({ payload }) => {
+			passedPayload = payload
+		})
+
+		const selectedMembers = await this.selectMembers(memberIdxs)
+		const selectedElements = await this.selectElements(elementIdxs)
+
+		await this.clickGenerateAndAssertRedirect()
+
+		assert.isEqualDeep(passedPayload, {
+			familyMembers: selectedMembers,
+			storyElements: selectedElements,
+		})
+	}
+
+	@test()
+	protected static async generatingStoryRedirectsToStoryWithArgs() {
+		const story: Story = {
+			id: generateId(),
+			dateGenerated: new Date().getTime(),
+			body: generateId(),
+		}
+
+		await this.eventFaker.fakeGenerateStory(() => {
+			return story
+		})
+
+		await this.selectFirstElement()
+		await this.selectFirstMember()
+
+		const destination = {
+			id: 'eightbitstories.story',
+			args: {
+				story: story.id,
+			},
+		}
+
+		await this.clickGenerateAndAssertRedirect(destination)
+	}
+
+	private static async clickGenerateAndAssertRedirect(destination?: {
+		id: string
+		args: { story: string }
+	}) {
+		await vcAssert.assertActionRedirects({
+			action: () => this.clickGenerate(),
+			router: this.views.getRouter(),
+			destination,
+		})
+	}
+
+	private static async selectFirstElement() {
+		const selectedElement = await this.selectElement(0)
+		return selectedElement
+	}
+
+	private static async selectElement(idx: number) {
+		const selectedElements = await this.selectElements([idx])
+		return selectedElements[0]
+	}
+
+	private static async selectElements(allIdxs: number[]) {
+		const selectedElements = allIdxs.map((idx) => storyElements[idx].id)
+		await this.elementsFormVc.setValue('elements', selectedElements)
+		return selectedElements
+	}
+
+	private static async selectFirstMember() {
+		const selectedMember = await this.selectMember(0)
+		return selectedMember
+	}
+
+	private static async selectMember(idx: number) {
+		const selectedMembers = await this.selectMembers([idx])
+		return selectedMembers[0]
+	}
+
+	private static async selectMembers(allIdxs: number[]) {
+		const members = await this.getAllMembers()
+		const selectedMembers = allIdxs.map((idx) => members[idx].id)
+		await this.membersFormVc.setValue('members', selectedMembers as any)
+		return selectedMembers
+	}
+
+	private static async getAllMembers() {
+		return await this.members.find({})
 	}
 
 	private static assertFooterIsNotBusy() {

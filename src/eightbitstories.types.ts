@@ -15,6 +15,7 @@ export type UpdateFamilyMember =
 	SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMember
 export type PublicFamilyMember =
 	SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
+export type Story = SpruceSchemas.Eightbitstories.v2023_09_05.Story
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	interface SkillContext {

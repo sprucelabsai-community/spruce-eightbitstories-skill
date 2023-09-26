@@ -107,16 +107,23 @@ export default class GenerateSkillViewController extends AbstractSkillViewContro
 		this.controlsVc.setFooterIsBusy(true)
 
 		try {
+			const members = this.membersVc.getValue('members') as string[]
+			const elements = this.elementsVc.getValue('elements') as string[]
+
 			const client = await this.connectToApi()
-			await client.emitAndFlattenResponses(
+			const [{ story }] = await client.emitAndFlattenResponses(
 				'eightbitstories.generate-story::v2023_09_05',
 				{
 					payload: {
-						familyMembers: ['aoeu'],
-						storyElements: ['aoeu'],
+						familyMembers: members,
+						storyElements: elements,
 					},
 				}
 			)
+
+			await this.router.redirect('eightbitstories.story', {
+				story: story.id,
+			})
 		} catch (err: any) {
 			await this.alert({
 				message: err.message ?? 'Could not generate!!',
