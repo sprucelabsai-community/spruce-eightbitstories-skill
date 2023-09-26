@@ -1,5 +1,5 @@
 import { buildSchema } from '@sprucelabs/schema'
-import storyBuilder from '../../../schemas/v2023_09_05/story.builder'
+import storyBuilder from '../../../../schemas/v2023_09_05/story.builder'
 
 const generateStoryResponsePayloadBuilder = buildSchema({
 	id: 'generateStoryResponsePayload',

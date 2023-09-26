@@ -14,7 +14,7 @@ import { Story } from '../../../eightbitstories.types'
 import GenerateSkillViewController, {
 	GenerateStorySchema,
 	storyElements,
-} from '../../../skillViewControllers/Generate.svc'
+} from '../../../generation/Generate.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { GenerateStoryTargetAndPayload } from '../../support/EventFaker'
 
