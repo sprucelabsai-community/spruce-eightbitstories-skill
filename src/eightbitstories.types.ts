@@ -1,4 +1,5 @@
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
+import StoryGenerator from './generation/StoryGenerator'
 import Family from './members/Family'
 import MetaTracker from './meta/MetaTracker'
 
@@ -15,11 +16,12 @@ export type UpdateFamilyMember =
 	SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMember
 export type PublicFamilyMember =
 	SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
-export type Story = SpruceSchemas.Eightbitstories.v2023_09_05.Story
+export type PublicStory = SpruceSchemas.Eightbitstories.v2023_09_05.PublicStory
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
 	interface SkillContext {
 		metas: MetaTracker
 		family: Family
+		generator: StoryGenerator
 	}
 }

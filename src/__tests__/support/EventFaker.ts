@@ -1,10 +1,10 @@
 import { SpruceSchemas, eventFaker } from '@sprucelabs/spruce-test-fixtures'
 import { generateId } from '@sprucelabs/test-utils'
-import { GetMeta, PublicFamilyMember, Story } from '../../eightbitstories.types'
+import { GetMeta, PublicFamilyMember, PublicStory } from '../../eightbitstories.types'
 
 export default class EventFaker {
 	public async fakeGenerateStory(
-		cb?: (targetAndPayload: GenerateStoryTargetAndPayload) => void | Story
+		cb?: (targetAndPayload: GenerateStoryTargetAndPayload) => void | PublicStory
 	) {
 		await eventFaker.on(
 			'eightbitstories.generate-story::v2023_09_05',

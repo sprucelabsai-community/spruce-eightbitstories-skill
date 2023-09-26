@@ -1,4 +1,4 @@
-import { buildSchema } from '@sprucelabs/schema'
+import { buildSchema, dropPrivateFields } from '@sprucelabs/schema'
 import storyBuilder from '../../../../schemas/v2023_09_05/story.builder'
 
 const generateStoryResponsePayloadBuilder = buildSchema({
@@ -8,7 +8,10 @@ const generateStoryResponsePayloadBuilder = buildSchema({
 			type: 'schema',
 			isRequired: true,
 			options: {
-				schema: storyBuilder,
+				schema: buildSchema({
+					id: 'publicStory',
+					fields: dropPrivateFields(storyBuilder.fields),
+				}),
 			},
 		},
 	},

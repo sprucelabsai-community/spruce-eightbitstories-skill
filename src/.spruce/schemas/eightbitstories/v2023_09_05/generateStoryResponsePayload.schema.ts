@@ -1,7 +1,7 @@
 import { SchemaRegistry } from '@sprucelabs/schema'
 import { SpruceSchemas } from '../../schemas.types'
 
-import storySchema_v2023_09_05 from '#spruce/schemas/eightbitstories/v2023_09_05/story.schema'
+import publicStorySchema_v2023_09_05 from '#spruce/schemas/eightbitstories/v2023_09_05/publicStory.schema'
 
 const generateStoryResponsePayloadSchema: SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryResponsePayloadSchema  = {
 	id: 'generateStoryResponsePayload',
@@ -13,7 +13,7 @@ const generateStoryResponsePayloadSchema: SpruceSchemas.Eightbitstories.v2023_09
 	            'story': {
 	                type: 'schema',
 	                isRequired: true,
-	                options: {schema: storySchema_v2023_09_05,}
+	                options: {schema: publicStorySchema_v2023_09_05,}
 	            },
 	    }
 }

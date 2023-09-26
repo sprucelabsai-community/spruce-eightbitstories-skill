@@ -10,7 +10,7 @@ import { SelectChoice } from '@sprucelabs/spruce-core-schemas'
 import { FormCardViewController } from '@sprucelabs/spruce-form-utils'
 import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
 import { assert, generateId, test } from '@sprucelabs/test-utils'
-import { Story } from '../../../eightbitstories.types'
+import { PublicStory } from '../../../eightbitstories.types'
 import GenerateSkillViewController, {
 	GenerateStorySchema,
 	storyElements,
@@ -176,7 +176,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 
 	@test()
 	protected static async generatingStoryRedirectsToStoryWithArgs() {
-		const story: Story = {
+		const story: PublicStory = {
 			id: generateId(),
 			dateGenerated: new Date().getTime(),
 			body: generateId(),

@@ -16,5 +16,21 @@ export default buildSchema({
 			type: 'text',
 			isRequired: true,
 		},
+		source: {
+			type: 'schema',
+			isRequired: true,
+			isPrivate: true,
+			options: {
+				schema: buildSchema({
+					id: 'storySource',
+					fields: {
+						personId: {
+							type: 'id',
+							isRequired: true,
+						},
+					},
+				}),
+			},
+		},
 	},
 })
