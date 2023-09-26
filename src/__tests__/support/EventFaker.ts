@@ -3,6 +3,18 @@ import { generateId } from '@sprucelabs/test-utils'
 import { GetMeta, PublicFamilyMember } from '../../eightbitstories.types'
 
 export default class EventFaker {
+	public async fakeGenerateStory() {
+		await eventFaker.on('eightbitstories.generate-story::v2023_09_05', () => {
+			return {
+				story: {
+					id: generateId(),
+					dateGenerated: new Date().getTime(),
+					body: generateId(),
+				},
+			}
+		})
+	}
+
 	public async fakeUpdateFamilyMember(
 		cb?: (targetAndPayload: UpdateFamilyMemberTargetAndPayload) => void
 	) {

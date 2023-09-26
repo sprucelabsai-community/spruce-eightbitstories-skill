@@ -7,7 +7,7 @@ import {
 	SkillViewControllerLoadOptions,
 	ViewController,
 	ViewControllerOptions,
-	buildSkillViewLayout,
+	splitCardsIntoLayouts,
 } from '@sprucelabs/heartwood-view-controllers'
 import { Schema, buildSchema } from '@sprucelabs/schema'
 import {
@@ -96,10 +96,34 @@ export default class GenerateSkillViewController extends AbstractSkillViewContro
 						id: 'generate',
 						label: 'Write Story',
 						type: 'primary',
+						onClick: this.handleClickGenerate.bind(this),
 					},
 				],
 			},
 		})
+	}
+
+	private async handleClickGenerate() {
+		this.controlsVc.setFooterIsBusy(true)
+
+		try {
+			const client = await this.connectToApi()
+			await client.emitAndFlattenResponses(
+				'eightbitstories.generate-story::v2023_09_05',
+				{
+					payload: {
+						familyMembers: ['aoeu'],
+						storyElements: ['aoeu'],
+					},
+				}
+			)
+		} catch (err: any) {
+			await this.alert({
+				message: err.message ?? 'Could not generate!!',
+			})
+		}
+
+		this.controlsVc.setFooterIsBusy(false)
 	}
 
 	private async handleClickBack() {
@@ -134,9 +158,10 @@ export default class GenerateSkillViewController extends AbstractSkillViewContro
 
 	public render(): SkillView {
 		return {
-			...buildSkillViewLayout('grid', {
-				cards: this.cardVcs.map((card) => card.render()),
-			}),
+			layouts: splitCardsIntoLayouts(
+				this.cardVcs.map((c) => c.render()),
+				3
+			),
 		}
 	}
 }

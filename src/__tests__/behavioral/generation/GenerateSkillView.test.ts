@@ -8,7 +8,7 @@ import {
 import { selectAssert } from '@sprucelabs/schema'
 import { SelectChoice } from '@sprucelabs/spruce-core-schemas'
 import { FormCardViewController } from '@sprucelabs/spruce-form-utils'
-import { fake, seed } from '@sprucelabs/spruce-test-fixtures'
+import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test-utils'
 import GenerateSkillViewController, {
 	GenerateStorySchema,
@@ -24,12 +24,11 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		this.views.setController('eightbitstories.generate', SpyGenerateSkillView)
 		this.views.setController('forms.card', SpyFormCard)
 
-		this.vc = this.views.Controller(
-			'eightbitstories.generate',
-			{}
-		) as SpyGenerateSkillView
+		this.vc = this.Vc()
 
 		await this.eventFaker.fakeListFamilyMembers(() => this.members.find({}))
+
+		await this.loadVc()
 	}
 
 	@test()
@@ -53,8 +52,6 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 
 	@test()
 	protected static async clickingBackGoesBackToRoot() {
-		await this.loadVc()
-
 		await vcAssert.assertActionRedirects({
 			action: () => interactor.clickButton(this.controlsVc, 'back'),
 			destination: {
@@ -110,12 +107,60 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 	protected static async membersRendersExpectedChoices() {
 		const members = await this.members.find({})
 		const expected = members.map((member) => member.id)
+
+		this.vc = this.Vc()
 		await this.loadVc()
+
 		const schema = this.membersFormVc.getSchema()
 		selectAssert.assertSelectChoicesMatch(
 			schema.fields.members.options.choices as SelectChoice[],
 			expected
 		)
+	}
+
+	@test()
+	protected static async clickingGenerateSetsControlsToBusy() {
+		await this.eventFaker.fakeGenerateStory()
+
+		const promise = this.clickGenerate()
+		this.assertFooterIsBusy()
+
+		await promise
+
+		this.assertFooterIsNotBusy()
+	}
+
+	@test()
+	protected static async rendersAlertIfFailsToGenerateStory() {
+		await eventFaker.makeEventThrow(
+			'eightbitstories.generate-story::v2023_09_05'
+		)
+
+		const alertVc = await vcAssert.assertRendersAlert(this.vc, () =>
+			this.clickGenerate()
+		)
+
+		this.assertFooterIsBusy()
+
+		await alertVc.hide()
+
+		this.assertFooterIsNotBusy()
+	}
+
+	private static assertFooterIsNotBusy() {
+		assert.isFalse(this.getIsFooterBusy())
+	}
+
+	private static assertFooterIsBusy() {
+		assert.isTrue(this.getIsFooterBusy())
+	}
+
+	private static getIsFooterBusy(): boolean | null | undefined {
+		return this.controlsVc.getFooter()?.isBusy
+	}
+
+	private static async clickGenerate() {
+		await interactor.clickButton(this.controlsVc, 'generate')
 	}
 
 	private static get membersFormVc() {
@@ -140,6 +185,13 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 
 	private static get controlsVc() {
 		return this.vc.getControlsCardVc()
+	}
+
+	private static Vc(): SpyGenerateSkillView {
+		return this.views.Controller(
+			'eightbitstories.generate',
+			{}
+		) as SpyGenerateSkillView
 	}
 }
 

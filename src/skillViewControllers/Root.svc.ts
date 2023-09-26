@@ -41,7 +41,7 @@ export default class RootSkillViewController extends AbstractSkillViewController
 							},
 							{
 								id: 'generate',
-								label: 'Generate Story',
+								label: 'Write Story',
 								type: 'primary',
 								onClick: this.handleClickGenerate.bind(this),
 							},
