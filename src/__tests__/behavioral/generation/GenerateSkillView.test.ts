@@ -6,6 +6,7 @@ import {
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { selectAssert } from '@sprucelabs/schema'
+import { SelectChoice } from '@sprucelabs/spruce-core-schemas'
 import { FormCardViewController } from '@sprucelabs/spruce-form-utils'
 import { fake, seed } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test-utils'
@@ -112,7 +113,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		await this.loadVc()
 		const schema = this.membersFormVc.getSchema()
 		selectAssert.assertSelectChoicesMatch(
-			schema.fields.members.options.choices,
+			schema.fields.members.options.choices as SelectChoice[],
 			expected
 		)
 	}
