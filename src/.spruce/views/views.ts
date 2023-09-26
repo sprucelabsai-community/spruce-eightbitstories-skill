@@ -1,18 +1,16 @@
 import GenerateSkillViewController from '../../generation/Generate.svc'
-import FormGettingVc from '../../generation/Generate.svc'
 import MembersSkillViewController from '../../members/Members.svc'
 import MetaSkillViewController from '../../meta/Meta.svc'
-import StorySkillViewController from '../../story/Story.svc'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
+import StorySkillViewController from '../../story/Story.svc'
 import FamilyMemberFormCardViewController from '../../members/FamilyMemberFormCard.vc'
 
 const vcs = {
     GenerateSkillViewController,
-    FormGettingVc,
     MembersSkillViewController,
     MetaSkillViewController,
-    StorySkillViewController,
     RootSkillViewController,
+    StorySkillViewController,
     FamilyMemberFormCardViewController,
 }
 
@@ -21,30 +19,27 @@ type LoadOptions<Args extends Record<string,any>[]> = Args[0]['args'] extends Re
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
 	interface SkillViewControllerMap {
 		'eightbitstories.generate': GenerateSkillViewController
-		'eightbitstories.': FormGettingVc
 		'eightbitstories.members': MembersSkillViewController
 		'eightbitstories.meta': MetaSkillViewController
-		'eightbitstories.story': StorySkillViewController
 		'eightbitstories.root': RootSkillViewController
+		'eightbitstories.story': StorySkillViewController
 	}
 
 	interface SkillViewControllerArgsMap {
 		'eightbitstories.generate': LoadOptions<Parameters<GenerateSkillViewController['load']>>
-		'eightbitstories.': LoadOptions<Parameters<FormGettingVc['load']>>
 		'eightbitstories.members': LoadOptions<Parameters<MembersSkillViewController['load']>>
 		'eightbitstories.meta': LoadOptions<Parameters<MetaSkillViewController['load']>>
-		'eightbitstories.story': LoadOptions<Parameters<StorySkillViewController['load']>>
 		'eightbitstories.root': LoadOptions<Parameters<RootSkillViewController['load']>>
+		'eightbitstories.story': LoadOptions<Parameters<StorySkillViewController['load']>>
 	}
 
 	interface ViewControllerMap {
 		'eightbitstories.family-member-form-card': FamilyMemberFormCardViewController
 		'eightbitstories.generate': GenerateSkillViewController
-		'eightbitstories.': FormGettingVc
 		'eightbitstories.members': MembersSkillViewController
 		'eightbitstories.meta': MetaSkillViewController
-		'eightbitstories.story': StorySkillViewController
 		'eightbitstories.root': RootSkillViewController
+		'eightbitstories.story': StorySkillViewController
 	}
 
     interface ViewControllerOptionsMap {

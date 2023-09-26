@@ -12,8 +12,8 @@ export default async (
 	const { familyMembers, storyElements } = payload
 
 	const story = await generator.generate({
-		familyMembers,
-		storyElements,
+		familyMemberIds: familyMembers,
+		storyElementIds: storyElements,
 		personId: source.personId!,
 	})
 

@@ -15,6 +15,10 @@ export default class SpruceError extends AbstractSpruceError<ErrorOptions> {
 				message = `Oh no!! I wanted to help, but you can't ${options.youDontHaveAccessTo}`
 				break
 
+			case 'META_NOT_FOUND':
+				message = `It looks like you haven't saved your family name and values yet! You gotta do that before I can write a story!`
+				break
+
 			default:
 				message = super.friendlyMessage()
 		}

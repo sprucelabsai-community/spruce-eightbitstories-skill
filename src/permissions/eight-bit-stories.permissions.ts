@@ -46,6 +46,16 @@ const eightBitStoriesPermissions = buildPermissionContract({
 			},
 			requireAllStatuses: false,
 		},
+		{
+			id: 'can-read-story',
+			name: 'Can read story',
+			defaults: {
+				loggedIn: {
+					default: true,
+				},
+			},
+			requireAllStatuses: false,
+		},
 	],
 })
 

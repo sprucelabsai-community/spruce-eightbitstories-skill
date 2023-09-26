@@ -2,7 +2,7 @@ import {
 	SpruceEvent,
 	SpruceEventResponse,
 } from '@sprucelabs/spruce-event-utils'
-import StoryGenerator from '../../generation/StoryGenerator'
+import { StoryGeneratorImpl } from '../../generation/StoryGenerator'
 import Family from '../../members/Family'
 import MetaTracker from '../../meta/MetaTracker'
 
@@ -15,6 +15,8 @@ export default async (event: SpruceEvent): SpruceEventResponse => {
 	const family = await Family.Family(stores)
 	skill.updateContext('family', family)
 
-	const generator = new StoryGenerator()
+	const generator = await StoryGeneratorImpl.Generator({
+		stores,
+	})
 	skill.updateContext('generator', generator)
 }

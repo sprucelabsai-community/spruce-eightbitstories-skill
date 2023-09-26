@@ -13,8 +13,8 @@ import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { PublicStory } from '../../../eightbitstories.types'
 import GenerateSkillViewController, {
 	GenerateStorySchema,
-	storyElements,
 } from '../../../generation/Generate.svc'
+import { storyElements } from '../../../generation/storyElements'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { GenerateStoryTargetAndPayload } from '../../support/EventFaker'
 
@@ -25,6 +25,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 	@seed('familyMembers', 3)
 	protected static async beforeEach(): Promise<void> {
 		await super.beforeEach()
+
 		this.views.setController('eightbitstories.generate', SpyGenerateSkillView)
 		this.views.setController('forms.card', SpyFormCard)
 

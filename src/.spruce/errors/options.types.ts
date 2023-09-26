@@ -7,7 +7,10 @@ export interface UnauthorizedAccessErrorOptions extends SpruceErrors.Eightbitsto
 export interface NotFoundErrorOptions extends SpruceErrors.Eightbitstories.NotFound, ISpruceErrorOptions {
 	code: 'NOT_FOUND'
 }
+export interface MetaNotFoundErrorOptions extends SpruceErrors.Eightbitstories.MetaNotFound, ISpruceErrorOptions {
+	code: 'META_NOT_FOUND'
+}
 
-type ErrorOptions =  | UnauthorizedAccessErrorOptions  | NotFoundErrorOptions 
+type ErrorOptions =  | UnauthorizedAccessErrorOptions  | NotFoundErrorOptions  | MetaNotFoundErrorOptions 
 
 export default ErrorOptions

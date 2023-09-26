@@ -4,6 +4,7 @@ import { test, assert, generateId } from '@sprucelabs/test-utils'
 import { PublicStory } from '../../../eightbitstories.types'
 import StoryGenerator, {
 	GenerateOptions,
+	StoryGeneratorImpl,
 } from '../../../generation/StoryGenerator'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
@@ -13,6 +14,7 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 
 	private static familyMembers: string[]
 	private static storyElements: string[]
+	private static originalGenerator: StoryGenerator
 
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -30,8 +32,8 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 
 	@test()
 	protected static async setsStoryGeneratorToContext() {
-		const { generator } = this.skill.getContext()
-		assert.isInstanceOf(generator, StoryGenerator)
+		//@ts-ignore
+		assert.isInstanceOf(this.originalGenerator, StoryGeneratorImpl)
 	}
 
 	@test()
@@ -63,13 +65,14 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 
 	private static assertLastGenerateOptionsEqualExpected() {
 		assert.isEqualDeep(StubGenerator.lastGenerateOptions, {
-			familyMembers: this.familyMembers,
-			storyElements: this.storyElements,
+			familyMemberIds: this.familyMembers,
+			storyElementIds: this.storyElements,
 			personId: this.fakedPerson.id,
 		})
 	}
 
 	private static dropInStubGenerator() {
+		this.originalGenerator = this.skill.getContext().generator
 		this.skill.updateContext('generator', new StubGenerator())
 	}
 
@@ -88,7 +91,7 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 	}
 }
 
-class StubGenerator extends StoryGenerator {
+class StubGenerator implements StoryGenerator {
 	public static wasGenerateCalled: boolean = false
 	public static lastGenerateOptions?: GenerateOptions
 	public static story: PublicStory = {

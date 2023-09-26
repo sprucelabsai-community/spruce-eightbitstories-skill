@@ -11,68 +11,53 @@ import {
 	SchemaValues,
 	SchemaFieldNames,
 } from '@sprucelabs/schema'
-import { StoreSeedOptions } from '@sprucelabs/spruce-test-fixtures'
-import { generateId } from '@sprucelabs/test-utils'
-import metaSchema from '#spruce/schemas/eightbitstories/v2023_09_05/meta.schema'
+import storySchema from '#spruce/schemas/eightbitstories/v2023_09_05/story.schema'
 
-export default class MetaStore extends AbstractStore<
+export default class StoriesStore extends AbstractStore<
 	FullSchema,
 	CreateSchema,
 	UpdateSchema,
 	DatabaseSchema
 > {
-	public name = 'Meta'
-	protected collectionName = 'meta'
+	public name = 'Stories'
+	protected collectionName = 'stories'
 
 	protected createSchema = createSchema
 	protected updateSchema = updateSchema
 	protected fullSchema = fullSchema
 	protected databaseSchema = databaseSchema
 
-	public static Store(options: MetaStoreOptions & UniversalStoreOptions) {
+	public static Store(options: StoryStoreOptions & UniversalStoreOptions) {
 		return new this(options.db)
 	}
 
 	protected async willCreate(
-		values: CreateMeta
-	): Promise<Omit<DatabaseMeta, 'id'>> {
+		values: CreateStory
+	): Promise<Omit<DatabaseStory, 'id'>> {
 		return values
 	}
 
-	protected async willUpdate(values: UpdateMeta) {
-		return values as Partial<DatabaseMeta>
+	protected async willUpdate(values: UpdateStory) {
+		return values as Partial<DatabaseStory>
 	}
 
 	protected async prepareRecord<
 		IncludePrivateFields extends boolean,
 		F extends SchemaFieldNames<FullSchema> = SchemaFieldNames<FullSchema>,
 	>(
-		record: DatabaseMeta,
+		record: DatabaseStory,
 		_options?: PrepareOptions<IncludePrivateFields, FullSchema, F>
 	) {
 		return record as PrepareResults<FullSchema, IncludePrivateFields>
 	}
-
-	public async seed(options: StoreSeedOptions) {
-		const { TestClass } = options
-		const person = TestClass.fakedPerson
-		const meta = await TestClass.stores.getStore('meta')
-		await meta.createOne({
-			name: generateId(),
-			values: generateId(),
-			target: {
-				personId: person.id,
-			},
-		})
-	}
 }
 
 // The structure of the data you'll be returning from finds
-const fullSchema = metaSchema
+const fullSchema = storySchema
 
 // The values you will accept when creating a record
 const createSchema = buildSchema({
-	id: 'createMeta',
+	id: 'createStory',
 	fields: {
 		...dropFields(fullSchema.fields, ['id']),
 	},
@@ -80,7 +65,7 @@ const createSchema = buildSchema({
 
 // The values you will accept when updating a record
 const updateSchema = buildSchema({
-	id: 'updateMeta',
+	id: 'updateStory',
 	fields: {
 		...makeFieldsOptional(dropFields(fullSchema.fields, ['id'])),
 	},
@@ -88,7 +73,7 @@ const updateSchema = buildSchema({
 
 // The values you will actually save to the databases (in this case, makes id required)
 const databaseSchema = buildSchema({
-	id: 'databaseMeta',
+	id: 'databaseStory',
 	fields: {
 		...fullSchema.fields,
 		id: {
@@ -103,10 +88,10 @@ type CreateSchema = typeof createSchema
 type UpdateSchema = typeof updateSchema
 type DatabaseSchema = typeof databaseSchema
 
-// type Meta = SchemaValues<FullSchema>
-type CreateMeta = SchemaValues<CreateSchema>
-type UpdateMeta = SchemaValues<UpdateSchema>
-type DatabaseMeta = SchemaValues<DatabaseSchema>
-// type QueryMeta = Partial<Meta>
+// type Story = SchemaValues<FullSchema>
+type CreateStory = SchemaValues<CreateSchema>
+type UpdateStory = SchemaValues<UpdateSchema>
+type DatabaseStory = SchemaValues<DatabaseSchema>
+// type QueryStory = Partial<Story>
 
-type MetaStoreOptions = UniversalStoreOptions
+type StoryStoreOptions = UniversalStoreOptions

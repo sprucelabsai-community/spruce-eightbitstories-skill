@@ -11,6 +11,9 @@ import eightbitstoriesGenerateStoryEventContract_v2023_09_05, {
 import eightbitstoriesGetMetaEventContract_v2023_09_05, {
 	GetMetaEventContract as EightbitstoriesGetMetaEventContract_v2023_09_05,
 } from '#spruce/events/eightbitstories/getMeta.v2023_09_05.contract'
+import eightbitstoriesGetStoryEventContract_v2023_09_05, {
+	GetStoryEventContract as EightbitstoriesGetStoryEventContract_v2023_09_05,
+} from '#spruce/events/eightbitstories/getStory.v2023_09_05.contract'
 import eightbitstoriesListFamilyMembersEventContract_v2023_09_05, {
 	ListFamilyMembersEventContract as EightbitstoriesListFamilyMembersEventContract_v2023_09_05,
 } from '#spruce/events/eightbitstories/listFamilyMembers.v2023_09_05.contract'
@@ -54,6 +57,7 @@ export default [
 	heartwoodGetActiveThemeEventContract_v2021_02_11,
 	eightbitstoriesGetMetaEventContract_v2023_09_05,
 	heartwoodGetSkillViewsEventContract_v2021_02_11,
+	eightbitstoriesGetStoryEventContract_v2023_09_05,
 	eightbitstoriesListFamilyMembersEventContract_v2023_09_05,
 	heartwoodListViewsEventContract_v2021_02_11,
 	heartwoodRegisterDashboardCardsEventContract_v2021_02_11,
@@ -81,6 +85,8 @@ declare module '@sprucelabs/mercury-types/build/types/mercury.types' {
 		'eightbitstories.get-meta::v2023_09_05': EightbitstoriesGetMetaEventContract_v2023_09_05['eventSignatures']['eightbitstories.get-meta::v2023_09_05']
 
 		'heartwood.get-skill-views::v2021_02_11': HeartwoodGetSkillViewsEventContract_v2021_02_11['eventSignatures']['heartwood.get-skill-views::v2021_02_11']
+
+		'eightbitstories.get-story::v2023_09_05': EightbitstoriesGetStoryEventContract_v2023_09_05['eventSignatures']['eightbitstories.get-story::v2023_09_05']
 
 		'eightbitstories.list-family-members::v2023_09_05': EightbitstoriesListFamilyMembersEventContract_v2023_09_05['eventSignatures']['eightbitstories.list-family-members::v2023_09_05']
 

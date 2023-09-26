@@ -58,4 +58,25 @@ export declare namespace SpruceErrors.Eightbitstories {
 
 
 
+export declare namespace SpruceErrors.Eightbitstories {
+
+	
+	export interface MetaNotFound {
+		
+	}
+
+	export interface MetaNotFoundSchema extends SpruceSchema.Schema {
+		id: 'metaNotFound',
+		namespace: 'Eightbitstories',
+		name: 'Meta not found',
+		    fields: {
+		    }
+	}
+
+	export type MetaNotFoundEntity = SchemaEntity<SpruceErrors.Eightbitstories.MetaNotFoundSchema>
+
+}
+
+
+
 
