@@ -1,7 +1,6 @@
 import '#spruce/permissions/permissions.types'
 import { buildEventContract } from '@sprucelabs/mercury-types'
 import generateStoryEmitTargetAndPayloadSchema from '#spruce/schemas/eightbitstories/v2023_09_05/generateStoryEmitTargetAndPayload.schema'
-import generateStoryResponsePayloadSchema from '#spruce/schemas/eightbitstories/v2023_09_05/generateStoryResponsePayload.schema'
 
 const generateStoryEventContract = buildEventContract({
 	eventSignatures: {
@@ -13,7 +12,6 @@ const generateStoryEventContract = buildEventContract({
 			},
 
 			emitPayloadSchema: generateStoryEmitTargetAndPayloadSchema,
-			responsePayloadSchema: generateStoryResponsePayloadSchema,
 		},
 	},
 })

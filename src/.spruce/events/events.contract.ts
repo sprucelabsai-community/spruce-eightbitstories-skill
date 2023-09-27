@@ -5,6 +5,9 @@ import eightbitstoriesAddFamilyMemberEventContract_v2023_09_05, {
 import eightbitstoriesDeleteFamilyMemberEventContract_v2023_09_05, {
 	DeleteFamilyMemberEventContract as EightbitstoriesDeleteFamilyMemberEventContract_v2023_09_05,
 } from '#spruce/events/eightbitstories/deleteFamilyMember.v2023_09_05.contract'
+import eightbitstoriesDidGenerateStoryEventContract_v2023_09_05, {
+	DidGenerateStoryEventContract as EightbitstoriesDidGenerateStoryEventContract_v2023_09_05,
+} from '#spruce/events/eightbitstories/didGenerateStory.v2023_09_05.contract'
 import eightbitstoriesGenerateStoryEventContract_v2023_09_05, {
 	GenerateStoryEventContract as EightbitstoriesGenerateStoryEventContract_v2023_09_05,
 } from '#spruce/events/eightbitstories/generateStory.v2023_09_05.contract'
@@ -51,6 +54,7 @@ import heartwoodUpsertThemeEventContract_v2021_02_11, {
 export default [
 	eightbitstoriesAddFamilyMemberEventContract_v2023_09_05,
 	eightbitstoriesDeleteFamilyMemberEventContract_v2023_09_05,
+	eightbitstoriesDidGenerateStoryEventContract_v2023_09_05,
 	heartwoodDidRegisterSkillViewsEventContract_v2021_02_11,
 	eightbitstoriesGenerateStoryEventContract_v2023_09_05,
 	heartwoodGenerateUrlEventContract_v2021_02_11,
@@ -73,6 +77,8 @@ declare module '@sprucelabs/mercury-types/build/types/mercury.types' {
 		'eightbitstories.add-family-member::v2023_09_05': EightbitstoriesAddFamilyMemberEventContract_v2023_09_05['eventSignatures']['eightbitstories.add-family-member::v2023_09_05']
 
 		'eightbitstories.delete-family-member::v2023_09_05': EightbitstoriesDeleteFamilyMemberEventContract_v2023_09_05['eventSignatures']['eightbitstories.delete-family-member::v2023_09_05']
+
+		'eightbitstories.did-generate-story::v2023_09_05': EightbitstoriesDidGenerateStoryEventContract_v2023_09_05['eventSignatures']['eightbitstories.did-generate-story::v2023_09_05']
 
 		'heartwood.did-register-skill-views::v2021_02_11': HeartwoodDidRegisterSkillViewsEventContract_v2021_02_11['eventSignatures']['heartwood.did-register-skill-views::v2021_02_11']
 

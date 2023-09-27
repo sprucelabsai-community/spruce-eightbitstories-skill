@@ -1,11 +1,8 @@
 import { SimpleStoreFactory } from '@sprucelabs/data-stores'
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { assertOptions } from '@sprucelabs/schema'
 import OpenAI from 'openai'
-import {
-	PublicFamilyMember,
-	PublicMeta,
-	PublicStory,
-} from '../eightbitstories.types'
+import { PublicFamilyMember, PublicMeta } from '../eightbitstories.types'
 import SpruceError from '../errors/SpruceError'
 import FamilyMembersStore from '../members/FamilyMembers.store'
 import MetaStore from '../meta/Meta.store'
@@ -19,17 +16,20 @@ export class StoryGeneratorImpl {
 	private meta: MetaStore
 	private familyMembers: FamilyMembersStore
 	private stories: StoriesStore
+	private client: MercuryClient
 
 	protected constructor(options: {
 		meta: MetaStore
 		familyMembers: FamilyMembersStore
 		stories: StoriesStore
+		client: MercuryClient
 	}) {
-		const { meta, familyMembers, stories } = options
+		const { meta, familyMembers, stories, client } = options
 
 		this.meta = meta
 		this.familyMembers = familyMembers
 		this.stories = stories
+		this.client = client
 		this.openai = new OpenAI()
 		this.prompt = PromptGenerator.Generator()
 	}
@@ -37,8 +37,12 @@ export class StoryGeneratorImpl {
 	public static async Generator(options: {
 		stores: SimpleStoreFactory
 		Class?: typeof StoryGeneratorImpl
+		client: MercuryClient
 	}) {
-		const { Class, stores } = assertOptions(options, ['stores'])
+		const { Class, stores, client } = assertOptions(options, [
+			'stores',
+			'client',
+		])
 
 		const meta = await stores.getStore('meta')
 		const familyMembers = await stores.getStore('familyMembers')
@@ -48,10 +52,11 @@ export class StoryGeneratorImpl {
 			meta,
 			familyMembers,
 			stories,
+			client,
 		})
 	}
 
-	public async generate(options: GenerateOptions): Promise<PublicStory> {
+	public async generate(options: GenerateOptions): Promise<void> {
 		const {
 			personId,
 			familyMemberIds: familyMemberIds,
@@ -73,7 +78,17 @@ export class StoryGeneratorImpl {
 			},
 		})
 
-		return created
+		await this.client.emitAndFlattenResponses(
+			'eightbitstories.did-generate-story::v2023_09_05',
+			{
+				target: {
+					personId,
+				},
+				payload: {
+					storyId: created.id,
+				},
+			}
+		)
 	}
 
 	private generatePrompt(options: {
@@ -135,7 +150,7 @@ export class StoryGeneratorImpl {
 }
 
 export default interface StoryGenerator {
-	generate(options: GenerateOptions): Promise<PublicStory>
+	generate(options: GenerateOptions): Promise<void>
 }
 
 export interface GenerateOptions {

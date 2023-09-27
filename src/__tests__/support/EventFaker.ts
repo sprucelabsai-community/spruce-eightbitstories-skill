@@ -1,12 +1,18 @@
 import { SpruceSchemas, eventFaker } from '@sprucelabs/spruce-test-fixtures'
 import { generateId } from '@sprucelabs/test-utils'
-import {
-	GetMeta,
-	PublicFamilyMember,
-	PublicStory,
-} from '../../eightbitstories.types'
+import { GetMeta, PublicFamilyMember } from '../../eightbitstories.types'
 
 export default class EventFaker {
+	public async fakeDidGenerateStory(
+		cb?: (targetAndPayload: DidGenerateTargetAndPayload) => void
+	) {
+		await eventFaker.on(
+			'eightbitstories.did-generate-story::v2023_09_05',
+			(targetAndPayload) => {
+				cb?.(targetAndPayload)
+			}
+		)
+	}
 	public async fakeGetStory(
 		cb?: (targetAndPayload: GetStoryTargetAndPayload) => void | string
 	) {
@@ -20,24 +26,14 @@ export default class EventFaker {
 		)
 	}
 	public async fakeGenerateStory(
-		cb?: (targetAndPayload: GenerateStoryTargetAndPayload) => void | PublicStory
+		cb?: (targetAndPayload: GenerateStoryTargetAndPayload) => void
 	) {
 		await eventFaker.on(
 			'eightbitstories.generate-story::v2023_09_05',
 			(targetAndPayload) => {
-				return {
-					story: cb?.(targetAndPayload) ?? this.generateStoryValues(),
-				}
+				cb?.(targetAndPayload)
 			}
 		)
-	}
-
-	private generateStoryValues() {
-		return {
-			id: generateId(),
-			dateGenerated: new Date().getTime(),
-			body: generateId(),
-		}
 	}
 
 	public async fakeUpdateFamilyMember(
@@ -159,3 +155,5 @@ export type GenerateStoryTargetAndPayload =
 
 export type GetStoryTargetAndPayload =
 	SpruceSchemas.Eightbitstories.v2023_09_05.GetStoryEmitTargetAndPayload
+export type DidGenerateTargetAndPayload =
+	SpruceSchemas.Eightbitstories.v2023_09_05.DidGenerateStoryEmitTargetAndPayload

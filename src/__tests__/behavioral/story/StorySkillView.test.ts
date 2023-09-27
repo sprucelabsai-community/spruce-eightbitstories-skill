@@ -1,5 +1,10 @@
-import { vcAssert } from '@sprucelabs/heartwood-view-controllers'
-import { eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
+import {
+	buttonAssert,
+	interactor,
+	vcAssert,
+} from '@sprucelabs/heartwood-view-controllers'
+import { buildRouteToCreateInvite } from '@sprucelabs/spruce-invite-utils'
+import { TestRouter, eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert, generateId } from '@sprucelabs/test-utils'
 import StorySkillViewController from '../../../story/Story.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
@@ -54,9 +59,77 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
 		assert.isEqual(content, expected)
 	}
 
+	@test()
+	protected static async cardRendersExpectedButtons() {
+		buttonAssert.cardRendersButtons(this.cardVc, ['done', 'again', 'share'])
+	}
+
+	@test('done redirects to root', 'done', 'eightbitstories.root')
+	@test('again redirects to generate', 'again', 'eightbitstories.generate')
+	protected static async clickingButtonRedirectsAsExpected(
+		button: string,
+		destination: string
+	) {
+		await this.fakeStoryLoadClickButtonAssertRedirect(button, destination)
+	}
+
+	@test()
+	protected static async clickingShareRedirectsToExpectedShare() {
+		TestRouter.setShouldThrowWhenRedirectingToBadSvc(false)
+		const [id, args] = buildRouteToCreateInvite({
+			destinationAfterAccept: {
+				id: 'eightbitstories.story',
+				args: {
+					story: this.storyId,
+				},
+			},
+			destinationAfterCreate: {
+				id: 'eightbitstories.story',
+				args: {
+					story: this.storyId,
+				},
+			},
+			message: `Check out this amazing story about the fam!`,
+		})
+
+		await this.fakeStoryLoadClickButtonAssertRedirect('share', id, args)
+	}
+
+	private static async fakeStoryLoadClickButtonAssertRedirect(
+		button: string,
+		destination: string,
+		args?: Record<string, any>
+	) {
+		await this.eventFaker.fakeGetStory()
+		await this.load()
+		await this.assertClickingButtonRedirectsToDestination(
+			button,
+			destination,
+			args
+		)
+	}
+
+	private static async assertClickingButtonRedirectsToDestination(
+		button: string,
+		destination: string,
+		args?: Record<string, any>
+	) {
+		await vcAssert.assertActionRedirects({
+			action: () => interactor.clickButton(this.cardVc, button),
+			destination: {
+				id: destination,
+				args,
+			},
+			router: this.views.getRouter(),
+		})
+	}
+
+	private static get cardVc() {
+		return this.vc.getCardVc()
+	}
+
 	private static getCardBody() {
-		const cardVc = this.vc.getCardVc()
-		const model = this.views.render(cardVc)
+		const model = this.views.render(this.cardVc)
 		const { body } = model!
 		const { sections } = body!
 		const firstSection = sections![0]

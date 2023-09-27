@@ -10,7 +10,6 @@ import { SelectChoice } from '@sprucelabs/spruce-core-schemas'
 import { FormCardViewController } from '@sprucelabs/spruce-form-utils'
 import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
 import { assert, generateId, test } from '@sprucelabs/test-utils'
-import { PublicStory } from '../../../eightbitstories.types'
 import GenerateSkillViewController, {
 	GenerateStorySchema,
 } from '../../../generation/Generate.svc'
@@ -32,7 +31,6 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		this.vc = this.Vc()
 
 		await this.eventFaker.fakeListFamilyMembers(() => this.members.find({}))
-
 		await this.loadVc()
 	}
 
@@ -121,7 +119,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 
 	@test()
 	protected static async clickingGenerateSetsControlsToBusy() {
-		await this.eventFaker.fakeGenerateStory()
+		await this.eventFaker.fakeGenerateStory(() => {})
 
 		await this.selectFirstMember()
 		await this.selectFirstElement()
@@ -130,8 +128,6 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		this.assertFooterIsBusy()
 
 		await promise
-
-		this.assertFooterIsNotBusy()
 	}
 
 	@test()
@@ -177,15 +173,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 
 	@test()
 	protected static async generatingStoryRedirectsToStoryWithArgs() {
-		const story: PublicStory = {
-			id: generateId(),
-			dateGenerated: new Date().getTime(),
-			body: generateId(),
-		}
-
-		await this.eventFaker.fakeGenerateStory(() => {
-			return story
-		})
+		await this.eventFaker.fakeGenerateStory()
 
 		await this.selectFirstElement()
 		await this.selectFirstMember()
@@ -193,11 +181,22 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		const destination = {
 			id: 'eightbitstories.story',
 			args: {
-				story: story.id,
+				story: generateId(),
 			},
 		}
 
 		await this.clickGenerateAndAssertRedirect(destination)
+	}
+
+	@test()
+	protected static async callingDestroyRemovesDidGenerateListener() {
+		await this.vc.destroy()
+
+		await eventFaker.handleReactiveEvent(
+			'eightbitstories.did-generate-story::v2023_09_05'
+		)
+
+		await this.emitDidGenerate()
 	}
 
 	private static async clickGenerateAndAssertRedirect(destination?: {
@@ -205,10 +204,27 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		args: { story: string }
 	}) {
 		await vcAssert.assertActionRedirects({
-			action: () => this.clickGenerate(),
+			action: async () => {
+				await this.clickGenerate()
+				await this.emitDidGenerate(destination?.args?.story)
+			},
 			router: this.views.getRouter(),
 			destination,
 		})
+	}
+
+	private static async emitDidGenerate(storyId?: string) {
+		await this.fakedClient.emitAndFlattenResponses(
+			'eightbitstories.did-generate-story::v2023_09_05',
+			{
+				target: {
+					personId: generateId(),
+				},
+				payload: {
+					storyId: storyId ?? generateId(),
+				},
+			}
+		)
 	}
 
 	private static async selectFirstElement() {

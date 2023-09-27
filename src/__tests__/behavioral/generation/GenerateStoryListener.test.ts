@@ -1,7 +1,6 @@
 import { Skill } from '@sprucelabs/spruce-skill-utils'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert, generateId } from '@sprucelabs/test-utils'
-import { PublicStory } from '../../../eightbitstories.types'
 import StoryGenerator, {
 	GenerateOptions,
 	StoryGeneratorImpl,
@@ -52,12 +51,6 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 		await this.emitAndAssertExpectedGenerateOptions()
 	}
 
-	@test()
-	protected static async listenerReturnsStoryReturnedFromGenerator() {
-		const story = await this.emitGenerate()
-		assert.isEqualDeep(story, StubGenerator.story)
-	}
-
 	private static async emitAndAssertExpectedGenerateOptions() {
 		await this.emitGenerate()
 		this.assertLastGenerateOptionsEqualExpected()
@@ -77,7 +70,7 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 	}
 
 	private static async emitGenerate() {
-		const [{ story }] = await this.fakedClient.emitAndFlattenResponses(
+		await this.fakedClient.emitAndFlattenResponses(
 			'eightbitstories.generate-story::v2023_09_05',
 			{
 				payload: {
@@ -86,22 +79,14 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 				},
 			}
 		)
-
-		return story
 	}
 }
 
 class StubGenerator implements StoryGenerator {
 	public static wasGenerateCalled: boolean = false
 	public static lastGenerateOptions?: GenerateOptions
-	public static story: PublicStory = {
-		id: generateId(),
-		dateGenerated: new Date().getTime(),
-		body: generateId(),
-	}
 	public async generate(options: GenerateOptions) {
 		StubGenerator.wasGenerateCalled = true
 		StubGenerator.lastGenerateOptions = options
-		return StubGenerator.story
 	}
 }

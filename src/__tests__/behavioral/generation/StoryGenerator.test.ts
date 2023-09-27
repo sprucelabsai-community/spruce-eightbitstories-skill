@@ -1,4 +1,4 @@
-import { fake, seed } from '@sprucelabs/spruce-test-fixtures'
+import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert, errorAssert, generateId } from '@sprucelabs/test-utils'
 import OpenAI from 'openai'
 import {
@@ -9,15 +9,14 @@ import { PublicMeta, StoryElement } from '../../../eightbitstories.types'
 import PromptGenerator from '../../../generation/PromptGenerator'
 import { storyElements } from '../../../generation/storyElements'
 import { StoryGeneratorImpl } from '../../../generation/StoryGenerator'
-import StoriesStore from '../../../story/Stories.store'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
+import { DidGenerateTargetAndPayload } from '../../support/EventFaker'
 
 @fake.login()
 export default class StoryGeneratorTest extends AbstractEightBitTest {
 	private static generator: SpyGenerator
 	private static passedOptions: ChatCompletionCreateParamsBase | undefined
 	private static prompt: PromptGenerator
-	private static stories: StoriesStore
 	private static responseBody = generateId()
 
 	protected static async beforeEach() {
@@ -25,11 +24,15 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 		this.generator = (await StoryGeneratorImpl.Generator({
 			stores: this.stores,
 			Class: SpyGenerator,
+			client: this.fakedClient,
 		})) as SpyGenerator
+
+		await eventFaker.handleReactiveEvent(
+			'eightbitstories.did-generate-story::v2023_09_05'
+		)
 
 		this.passedOptions = undefined
 		this.prompt = PromptGenerator.Generator()
-		this.stories = await this.stores.getStore('stories')
 
 		const choice: ChatCompletion.Choice = {
 			finish_reason: 'stop',
@@ -60,7 +63,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 			StoryGeneratorImpl.Generator()
 		)
 		errorAssert.assertError(err, 'MISSING_PARAMETERS', {
-			parameters: ['stores'],
+			parameters: ['stores', 'client'],
 		})
 	}
 
@@ -176,10 +179,29 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 	@test()
 	@seed('familyMembers', 5)
 	@seed('meta')
-	protected static async generateReturnsStoredRecord() {
-		const generated = await this.generate()
-		const story = await this.getGeneratedStory()
-		assert.doesInclude(story, generated)
+	protected static async emitsDidGenerateAfterGenerating() {
+		let wasHit = false
+		let passedTarget: DidGenerateTargetAndPayload['target'] | undefined
+		let passedPayload: DidGenerateTargetAndPayload['payload'] | undefined
+
+		await this.eventFaker.fakeDidGenerateStory(({ target, payload }) => {
+			wasHit = true
+			passedTarget = target
+			passedPayload = payload
+		})
+
+		await this.generate()
+
+		assert.isTrue(wasHit)
+		assert.isEqualDeep(passedTarget, {
+			personId: this.fakedPerson.id,
+		})
+
+		const story = await this.getFirstGeneratedStory()
+
+		assert.isEqualDeep(passedPayload, {
+			storyId: story.id,
+		})
 	}
 
 	private static async getGeneratedStory() {

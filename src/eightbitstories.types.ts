@@ -17,7 +17,6 @@ export type UpdateFamilyMember =
 	SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMember
 export type PublicFamilyMember =
 	SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
-export type PublicStory = SpruceSchemas.Eightbitstories.v2023_09_05.PublicStory
 
 export interface StoryElement {
 	id: string

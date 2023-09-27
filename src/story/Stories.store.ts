@@ -11,6 +11,8 @@ import {
 	SchemaValues,
 	SchemaFieldNames,
 } from '@sprucelabs/schema'
+import { StoreSeedOptions } from '@sprucelabs/spruce-test-fixtures'
+import { generateId } from '@sprucelabs/test-utils'
 import storySchema from '#spruce/schemas/eightbitstories/v2023_09_05/story.schema'
 
 export default class StoriesStore extends AbstractStore<
@@ -39,6 +41,22 @@ export default class StoriesStore extends AbstractStore<
 
 	protected async willUpdate(values: UpdateStory) {
 		return values as Partial<DatabaseStory>
+	}
+
+	public async seed(options: StoreSeedOptions) {
+		const { TestClass, totalToSeed } = options
+
+		const all = new Array(totalToSeed).fill(0).map(() =>
+			this.createOne({
+				body: generateId(),
+				dateGenerated: new Date().getTime(),
+				source: {
+					personId: TestClass.fakedPerson.id,
+				},
+			})
+		)
+
+		await Promise.all(all)
 	}
 
 	protected async prepareRecord<

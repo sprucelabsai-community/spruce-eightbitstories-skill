@@ -9,6 +9,7 @@ import {
 	ViewControllerOptions,
 	splitCardsIntoLayouts,
 } from '@sprucelabs/heartwood-view-controllers'
+import { MercuryClient } from '@sprucelabs/mercury-client'
 import { buildSchema } from '@sprucelabs/schema'
 import { buildFormCard } from '@sprucelabs/spruce-form-utils'
 import { FormGettingVc } from './FormGettingVc'
@@ -21,6 +22,7 @@ export default class GenerateSkillViewController extends AbstractSkillViewContro
 	private router!: Router
 	protected elementsVc: FormGettingVc<GenerateStorySchema>
 	protected membersVc: FormGettingVc<GenerateStorySchema>
+	private client!: MercuryClient
 
 	public constructor(options: ViewControllerOptions) {
 		super(options)
@@ -110,7 +112,7 @@ export default class GenerateSkillViewController extends AbstractSkillViewContro
 			const elements = this.elementsVc.getValue('elements') as string[]
 
 			const client = await this.connectToApi()
-			const [{ story }] = await client.emitAndFlattenResponses(
+			await client.emitAndFlattenResponses(
 				'eightbitstories.generate-story::v2023_09_05',
 				{
 					payload: {
@@ -119,17 +121,12 @@ export default class GenerateSkillViewController extends AbstractSkillViewContro
 					},
 				}
 			)
-
-			await this.router.redirect('eightbitstories.story', {
-				story: story.id,
-			})
 		} catch (err: any) {
 			await this.alert({
 				message: err.message ?? 'Could not generate!!',
 			})
+			this.controlsVc.setFooterIsBusy(false)
 		}
-
-		this.controlsVc.setFooterIsBusy(false)
 	}
 
 	private async handleClickBack() {
@@ -139,7 +136,31 @@ export default class GenerateSkillViewController extends AbstractSkillViewContro
 	public async load(options: SkillViewControllerLoadOptions) {
 		const { router } = options
 		this.router = router
+		this.client = await this.connectToApi()
 
+		await this.setupDidGenerateListener()
+		await this.loadFamilyMembers()
+	}
+
+	public async destroy(): Promise<void> {
+		await this.client.off('eightbitstories.did-generate-story::v2023_09_05')
+	}
+
+	private async setupDidGenerateListener() {
+		const client = await this.connectToApi()
+
+		await client.on(
+			'eightbitstories.did-generate-story::v2023_09_05',
+			({ payload }) => {
+				const { storyId } = payload
+				this.router.redirect('eightbitstories.story', {
+					story: storyId,
+				})
+			}
+		)
+	}
+
+	private async loadFamilyMembers() {
 		const client = await this.connectToApi()
 		const [{ familyMembers }] = await client.emitAndFlattenResponses(
 			'eightbitstories.list-family-members::v2023_09_05'
