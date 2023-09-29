@@ -21,6 +21,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 
 	protected static async beforeEach() {
 		await super.beforeEach()
+
 		this.generator = (await StoryGeneratorImpl.Generator({
 			stores: this.stores,
 			Class: SpyGenerator,

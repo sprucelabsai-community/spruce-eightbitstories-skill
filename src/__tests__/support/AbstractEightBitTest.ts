@@ -1,9 +1,11 @@
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
-import { assert } from '@sprucelabs/test-utils'
+import { assert, generateId } from '@sprucelabs/test-utils'
 import FamilyMembersStore from '../../members/FamilyMembers.store'
 import MetaStore from '../../meta/Meta.store'
 import StoriesStore from '../../story/Stories.store'
 import EventFaker from './EventFaker'
+
+process.env.OPENAI_API_KEY = generateId()
 
 export default abstract class AbstractEightBitTest extends AbstractSpruceFixtureTest {
 	protected static eventFaker: EventFaker
