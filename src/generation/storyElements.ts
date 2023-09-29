@@ -20,21 +20,9 @@ export const storyElements: StoryElement[] = [
 			"Let's go on a Sherlock Holmes style adventure. Get into a few clues, layout some suspects, and then ask us to guess who did it before the big reveal.",
 	},
 	{
-		id: 'wontAlwaysWin',
-		name: `You can't win every battle`,
-		description: `We have to get used to the idea that we won't always win. Make the loss at the end unexpected and leave it there. We will discuss it as a family afterwards.`,
-	},
-	{
-		id: 'practice',
-		name: 'Practice & Discipline',
-		description:
-			'The saying is practice makes perfect, but it\'s better said, "You play how you practice.". Tell us a story about being disciplined and practicing while everyone around us is giving us excuses to slack off. Show how, when it comes time to perform, the people who slacked off don\'t get what they want, but find ways to excuse their shortfall.',
-	},
-	{
 		id: 'fairiesAndElves',
 		name: 'Fairy & Elf Lands',
-		description:
-			"Fairy dances, mischievous elves, magical gifts, oh my! Even though it's fantasy, lets keep somethings real. It is not often different species get along. Even in the same species, our ingroup/outgroup bias is strong. This story is more about the complexities of 2 species and cultures mashing than it is about the magic. It's not fair to ask fairies to change for humans or humans to change for fairies, after all.",
+		description: 'Fairy dances, mischievous elves, magical gifts, oh my!',
 	},
 	{
 		id: 'discovery',
@@ -61,11 +49,6 @@ export const storyElements: StoryElement[] = [
 			"Let's take a page out of Patrick Lencioni's 5 Dysfunctions of a Team and tell a story about a team that is struggling. The leader is struggling to get the team to work together. The team is struggling to hold each other accountable. The team is struggling to focus on results. The team is struggling to be committed to the team's goals. The team is struggling to have healthy conflict. The team is struggling to be open to new ideas. The team is struggling to be humble. The team is struggling to be patient.",
 	},
 	{
-		id: 'perserverance',
-		name: 'Perseverance',
-		description: '',
-	},
-	{
 		id: 'herosJourney',
 		name: `Hero's Journey`,
 		description: '',
@@ -78,61 +61,62 @@ export const storyElements: StoryElement[] = [
 	{
 		id: 'friendship',
 		name: 'Friendship',
-		description: '',
+		description:
+			'This is a story about great times with great friends! Explore the complexities of friendship and lets work through a little friction together!',
 	},
 	{
 		id: 'family',
 		name: 'Family',
-		description: '',
+		description: 'This story is all about the importance of family!',
 	},
 	{
 		id: 'sports',
 		name: 'Sports',
-		description: '',
+		description:
+			"Sports build endurance, character, and teamwork! Let's pick a random sport and tell a story about it!",
 	},
 	{
 		id: 'robots',
 		name: 'Robots',
-		description: '',
+		description:
+			"How fun would it be to build a robot? Lets do that in tonight's story!",
 	},
 	{
 		id: 'animals',
 		name: 'Animals',
-		description: '',
+		description: `Let's make some friends in the wild kingdom! Interaction with animals is a great way to learn about ourselves and the world around us.`,
 	},
 	{
 		id: 'deathAndGrief',
 		name: 'Death & Grief',
-		description: '',
+		description: 'Sometimes we lose people we love. Lets explore that.',
 	},
 	{
 		id: 'Historical',
 		name: 'Historical',
-		description: '',
-	},
-	{
-		id: 'heratige',
-		name: 'Heratige',
-		description: '',
+		description:
+			'Lets go back in time and explore a historical event from an uncommon perspective.',
 	},
 	{
 		id: 'slidingDoors',
 		name: 'Sliding Doors',
-		description: '',
+		description:
+			"Tell 2 stories. One where we make a good choice. One bad. But don't make it obvious which is which. Let us decide.",
 	},
 	{
 		id: 'perspectiveShift',
 		name: 'Perspective Shift',
-		description: '',
+		description: 'Tell the same story from 2 different perspectives!',
 	},
 	{
 		id: 'witchesAndWizards',
 		name: 'Witches & Wizards',
-		description: '',
+		description: 'Lets go on an adventure where magic is real!',
 	},
 	{
 		id: 'seasons',
 		name: 'Seasons',
-		description: '',
+		description:
+			"Let's explore the seasons of life! Tell a story over time tha covers the same thing happening in different seasons.",
 	},
 ]
