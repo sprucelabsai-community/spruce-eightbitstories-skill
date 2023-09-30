@@ -1,0 +1,148 @@
+version: 2.1
+orbs:
+  spruce: sprucelabsai/orb@1
+jobs:
+  test:
+    docker:
+      - image: cimg/node:lts-browsers
+    working_directory: /mnt/ramdisk
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "ec:9f:2e:aa:1f:c9:ab:49:57:8f:c0:cd:2e:5b:f3:b0"
+      - checkout
+      - spruce/check_and_skip_if_npm_publish
+      - spruce/create_env_from_base64_env
+      - spruce/install_rsync
+      - spruce/install_deps_build_ci_test
+      - run:
+          name: "Clear Orgs for Polish user"
+          command: |
+            curl https://upgrades.continuoustesting.ai/polish_skill_setup.php?slug=organization
+      - run:
+          name: "Booting Organization and Polish Checking"
+          command: |
+            echo SKILL_ID=$POLISH_SKILL_ID SKILL_API_KEY=$POLISH_SKILL_API_KEY HOST=https://polish.mercury.spruce.ai yarn boot
+            coproc bootfd { SKILL_ID=$POLISH_SKILL_ID SKILL_API_KEY=$POLISH_SKILL_API_KEY HOST=https://polish.mercury.spruce.ai yarn boot; }
+
+            while true
+            do
+              if [[ -n ${bootfd[@]} ]]; then
+                IFS= read boot_output <&"${bootfd[0]}"
+                echo "$boot_output"
+                if [[ $boot_output == *"Skill booted"* ]]; then
+                  yarn polish
+                  if [[ $? -eq 1 ]]; then
+                    echo "Polish check failed"
+                    exit 1
+                  fi
+                  break
+                fi
+              else
+                echo "Oh no! The Skill exited"
+                exit 1
+                break
+              fi
+            done
+      - spruce/install_cli
+      - spruce/setup_testing:
+          demoNumber: $DEMO_NUMBER
+          skillSlug: organization
+      - spruce/check_skill_boot_with_prod_dependencies
+      - run:
+          name: "Publish to Sandbox"
+          command: |
+            if [[ ${CIRCLE_BRANCH} = "master" ]]; then
+              echo "\n\n" | tee -a .env
+              echo HOST="https://sandbox.mercury.spruce.ai" | tee -a .env
+              ~/.yarn/bin/spruce boot || true
+            fi
+      - run:
+          name: "Publish to Demo"
+          command: |
+            if [[ ${CIRCLE_BRANCH} != "upgrade-"* ]]; then
+              mv .env .env.temp
+              echo HOST="https://demo.mercury.spruce.ai" > .env
+              echo SKILL_ID=$DEMO_SKILL_ID >> .env
+              echo SKILL_API_KEY=$DEMO_SKILL_API_KEY >> .env
+              ~/.yarn/bin/spruce boot || true
+              mv .env .env.demo
+              mv .env.temp .env
+            fi
+      - run:
+          name: "Publish to Prod (disabled)"
+          command: |
+            if [[ ${CIRCLE_BRANCH} = "master" ]]; then
+              mv .env .env.temp
+              echo HOST="https://mercury.spruce.ai" > .env
+              echo SKILL_ID=$PROD_SKILL_ID >> .env
+              echo SKILL_API_KEY=$PROD_SKILL_API_KEY >> .env
+              # ~/.yarn/bin/spruce boot || true
+              mv .env .env.prod
+              mv .env.temp .env
+            fi
+      - spruce/exit_if_not_auto_upgrade
+      - spruce/merge_auto_upgrade
+  release:
+    docker:
+      - image: cimg/node:lts
+    working_directory: /mnt/ramdisk
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "ec:9f:2e:aa:1f:c9:ab:49:57:8f:c0:cd:2e:5b:f3:b0"
+      - checkout
+      - spruce/check_and_skip_if_npm_publish
+      - spruce/install_rsync
+      - spruce/install_deps_build_dist_release
+      - spruce/check_dist_has_expected_files
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          name: "Modify package.json for npm"
+          command: |
+            mv package.json package.json.orig && cp package-utils.json package.json
+            sed -i s/{{version}}/`grep \"version\": package.json.orig|cut -d\" -f4`/ package.json
+            npm publish
+  upgrade:
+    docker:
+      - image: cimg/node:lts
+    resource_class: large
+    working_directory: /mnt/ramdisk
+    steps:
+      - spruce/check_for_autoupgrade_dns
+      - add_ssh_keys:
+          fingerprints:
+            - "ec:9f:2e:aa:1f:c9:ab:49:57:8f:c0:cd:2e:5b:f3:b0"
+      - spruce/check_for_ssh_keys_env
+      - spruce/setup_ct_npm_cache
+      - checkout
+      - spruce/set_target_branch_env
+      - spruce/install_rsync
+      - spruce/install_cli
+      - spruce/upgrade
+      - spruce/check_for_newline_only_diff
+      - spruce/create_pr
+workflows:
+  version: 2.1
+  test_and_release:
+    jobs:
+      - test:
+          context: public_package_publish
+      - release:
+          requires:
+            - test
+          context: public_package_publish
+          filters:
+            branches:
+              only:
+                - master
+  upgrade:
+    jobs:
+      - upgrade:
+          context: public_package_publish
+          filters:
+            branches:
+              only:
+                - never_run_only_for_cron
