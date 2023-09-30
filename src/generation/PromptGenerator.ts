@@ -18,7 +18,7 @@ export default class PromptGenerator {
 
 		let message = INTRO
 
-		message += `\n\n\nFamily Name:\nThe ${familyName}s`
+		message += `\n\n\nFamily Name:\n${familyName}`
 		message += `\n\nFamily Values:\n${familyValues}\n`
 		message += `\n\nFamily Members:\n${familyMembers
 			.map((member) => 'Name: ' + member.name + '\n' + 'Bio: ' + member.bio)

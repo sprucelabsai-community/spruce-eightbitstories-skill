@@ -98,7 +98,7 @@ export default class PromptGeneratorTest extends AbstractEightBitTest {
 
 Family Name:
 
-The ${this.promptOptions.familyName}s
+${this.promptOptions.familyName}
 
 
 Family Values:
