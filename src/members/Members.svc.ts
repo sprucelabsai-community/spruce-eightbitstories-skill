@@ -30,6 +30,7 @@ export default class MembersSkillViewController extends AbstractSkillViewControl
 				responseKey: 'familyMembers',
 				columnWidths: ['fill'],
 				noResultsRow: {
+					height: 'content',
 					cells: [
 						{
 							text: {
