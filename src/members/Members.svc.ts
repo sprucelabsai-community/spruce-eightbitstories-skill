@@ -29,6 +29,18 @@ export default class MembersSkillViewController extends AbstractSkillViewControl
 				rowTransformer: this.renderRow.bind(this),
 				responseKey: 'familyMembers',
 				columnWidths: ['fill'],
+				noResultsRow: {
+					cells: [
+						{
+							text: {
+								content: `You have not added any family members yet!`,
+							},
+							subText: {
+								content: `You get to define family, so don't limit yourself. Add friends, pets, or even your favorite stuffed animal!`,
+							},
+						},
+					],
+				},
 				header: {
 					title: 'Family Members',
 					image: 'https://storybook.spruce.bot/images/8bit/members.jpg',
