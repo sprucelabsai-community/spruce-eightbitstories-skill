@@ -10,6 +10,7 @@ import FamilyMemberFormCardViewController from '../../../members/FamilyMemberFor
 import MembersSkillViewController from '../../../members/Members.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { DeleteMemberTargetAndPayload } from '../../support/EventFaker'
+import { assertDoesNotRenderNavigation } from '../assertDoesNotRenderNavigation'
 import SpyFamilyMemberCard from './SpyFamilyMemberCard'
 
 @fake.login()
@@ -229,6 +230,11 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
 		listAssert.rowRendersContent(this.listVc, 0, newName)
 		listAssert.rowRendersContent(this.listVc, 0, newBio)
+	}
+
+	@test()
+	protected static async doesNotRenderNavigation() {
+		assertDoesNotRenderNavigation(this.vc)
 	}
 
 	private static async loadClickFirstMemberAssertDialog() {

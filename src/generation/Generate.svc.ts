@@ -1,5 +1,4 @@
 import {
-	AbstractSkillViewController,
 	Card,
 	CardViewController,
 	Router,
@@ -12,10 +11,11 @@ import {
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { buildSchema } from '@sprucelabs/schema'
 import { buildFormCard } from '@sprucelabs/spruce-form-utils'
+import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitSkillView'
 import { FormGettingVc } from './FormGettingVc'
 import { storyElements } from './storyElements'
 
-export default class GenerateSkillViewController extends AbstractSkillViewController {
+export default class GenerateSkillViewController extends AbstractEightBitSkillView {
 	public static id = 'generate'
 	protected cardVcs: ViewController<Card>[] = []
 	protected controlsVc: CardViewController
@@ -37,10 +37,6 @@ export default class GenerateSkillViewController extends AbstractSkillViewContro
 		this.membersVc = this.MembersVc()
 
 		this.cardVcs = [this.elementsVc, this.membersVc, this.controlsVc]
-	}
-
-	public async getIsLoginRequired() {
-		return true
 	}
 
 	private MembersVc() {

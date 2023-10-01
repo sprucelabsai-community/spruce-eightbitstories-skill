@@ -1,5 +1,4 @@
 import {
-	AbstractSkillViewController,
 	CardViewController,
 	FormViewController,
 	Router,
@@ -10,8 +9,9 @@ import {
 	buildForm,
 } from '@sprucelabs/heartwood-view-controllers'
 import metaSchema from '#spruce/schemas/eightbitstories/v2023_09_05/meta.schema'
+import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitSkillView'
 
-export default class MetaSkillViewController extends AbstractSkillViewController {
+export default class MetaSkillViewController extends AbstractEightBitSkillView {
 	public static id = 'meta'
 	protected cardVc: CardViewController
 	protected formVc: FormViewController<MetaSchema>
@@ -22,10 +22,6 @@ export default class MetaSkillViewController extends AbstractSkillViewController
 
 		this.formVc = this.FormVc()
 		this.cardVc = this.CardVc()
-	}
-
-	public async getIsLoginRequired() {
-		return true
 	}
 
 	private FormVc(): FormViewController<MetaSchema> {

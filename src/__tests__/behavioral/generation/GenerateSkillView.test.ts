@@ -16,6 +16,7 @@ import GenerateSkillViewController, {
 import { storyElements } from '../../../generation/storyElements'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { GenerateStoryTargetAndPayload } from '../../support/EventFaker'
+import { assertDoesNotRenderNavigation } from '../assertDoesNotRenderNavigation'
 
 @fake.login()
 export default class GenerateSkillViewTest extends AbstractEightBitTest {
@@ -197,6 +198,11 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		)
 
 		await this.emitDidGenerate()
+	}
+
+	@test()
+	protected static async rendersNullNavigation() {
+		assertDoesNotRenderNavigation(this.vc)
 	}
 
 	private static async clickGenerateAndAssertRedirect(destination?: {

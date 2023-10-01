@@ -6,6 +6,7 @@ import {
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import { test } from '@sprucelabs/test-utils'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
+import { assertDoesNotRenderNavigation } from './assertDoesNotRenderNavigation'
 
 export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 	private static vc: SpyRootSkillView
@@ -55,6 +56,11 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 			'generate',
 			'eightbitstories.generate'
 		)
+	}
+
+	@test()
+	protected static async rendersNullNav() {
+		assertDoesNotRenderNavigation(this.vc)
 	}
 
 	private static async assertClickingButtonRedirects(

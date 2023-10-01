@@ -17,6 +17,10 @@ export default class RootSkillViewController extends AbstractSkillViewController
 		this.cardVc = this.CardVc()
 	}
 
+	public renderNavigation() {
+		return null
+	}
+
 	private CardVc(): CardViewController {
 		return this.Controller('card', {
 			id: 'controls',

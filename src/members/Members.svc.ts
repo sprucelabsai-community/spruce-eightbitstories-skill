@@ -1,5 +1,4 @@
 import {
-	AbstractSkillViewController,
 	ActiveRecordCardViewController,
 	ListRow,
 	Router,
@@ -9,8 +8,9 @@ import {
 	buildActiveRecordCard,
 } from '@sprucelabs/heartwood-view-controllers'
 import { PublicFamilyMember } from '../eightbitstories.types'
+import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitSkillView'
 
-export default class MembersSkillViewController extends AbstractSkillViewController {
+export default class MembersSkillViewController extends AbstractEightBitSkillView {
 	public static id = 'members'
 
 	private router!: Router

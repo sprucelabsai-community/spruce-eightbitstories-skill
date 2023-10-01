@@ -9,6 +9,7 @@ import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { GetMeta } from '../../../eightbitstories.types'
 import MetaSkillViewController from '../../../meta/Meta.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
+import { assertDoesNotRenderNavigation } from '../assertDoesNotRenderNavigation'
 
 @fake.login()
 export default class MetaSkillViewTest extends AbstractEightBitTest {
@@ -89,6 +90,11 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
 	protected static async loadingViewLoadsMeta() {
 		const values = this.formVc.getValues()
 		assert.isEqualDeep(values, this.meta)
+	}
+
+	@test()
+	protected static async doesNotRenderNavigation() {
+		assertDoesNotRenderNavigation(this.vc)
 	}
 
 	private static MetaVc(): SpyMetaSkillView {

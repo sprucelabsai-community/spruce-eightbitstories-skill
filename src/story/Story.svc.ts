@@ -1,5 +1,4 @@
 import {
-	AbstractSkillViewController,
 	CardViewController,
 	Router,
 	SkillView,
@@ -7,8 +6,9 @@ import {
 	ViewControllerOptions,
 } from '@sprucelabs/heartwood-view-controllers'
 import { buildRouteToCreateInvite } from '@sprucelabs/spruce-invite-utils'
+import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitSkillView'
 
-export default class StorySkillViewController extends AbstractSkillViewController {
+export default class StorySkillViewController extends AbstractEightBitSkillView {
 	public static id = 'story'
 	protected cardVc: CardViewController
 	private router!: Router
