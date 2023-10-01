@@ -25,7 +25,7 @@ export default class RootSkillViewController extends AbstractSkillViewController
 		return this.Controller('card', {
 			id: 'controls',
 			header: {
-				title: '8 Bit Stories',
+				title: '8-bit Stories',
 				image:
 					'https://s3.amazonaws.com/storybook.sprucelabs.ai/8bitstories.jpg',
 				subtitle: 'Bedtime stories for families who know their values!',
