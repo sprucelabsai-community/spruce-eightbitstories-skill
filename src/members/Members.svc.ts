@@ -44,7 +44,7 @@ export default class MembersSkillViewController extends AbstractEightBitSkillVie
 				},
 				header: {
 					title: 'Family Members',
-					image: 'https://storybook.spruce.bot/images/8bit/members.jpg',
+					image: 'https://s3.amazonaws.com/storybook.sprucelabs.ai/members.jpg',
 				},
 				footer: {
 					buttons: [

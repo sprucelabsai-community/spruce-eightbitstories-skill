@@ -26,7 +26,8 @@ export default class RootSkillViewController extends AbstractSkillViewController
 			id: 'controls',
 			header: {
 				title: '8 Bit Stories',
-				image: 'https://storybook.spruce.bot/images/8bit/8bitstories.jpg',
+				image:
+					'https://s3.amazonaws.com/storybook.sprucelabs.ai/8bitstories.jpg',
 				subtitle: 'Bedtime stories for families who know their values!',
 			},
 			body: {

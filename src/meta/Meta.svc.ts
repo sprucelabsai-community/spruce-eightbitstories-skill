@@ -50,7 +50,7 @@ export default class MetaSkillViewController extends AbstractEightBitSkillView {
 		return this.Controller('card', {
 			header: {
 				title: `Your Family`,
-				image: 'https://storybook.spruce.bot/images/8bit/values.jpeg',
+				image: 'https://s3.amazonaws.com/storybook.sprucelabs.ai/values.jpeg',
 			},
 			body: {
 				isBusy: true,

@@ -9,7 +9,7 @@ const theme: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.ThemeProps = {
 	color1Inverse: '#954b63',
 	color1InverseGradient: gradient,
 	color2: '#fff',
-	color2Transparent: 'rgba(255, 255, 255, 0.82)',
+	color2Transparent: 'rgba(127, 127, 127, 0.8)',
 	color2Inverse: '#2a2829',
 	color2InverseTransparent: 'rgba(91, 91, 91, 0.9)',
 	color3: '#fff',
