@@ -43,12 +43,6 @@ export const storyElements: StoryElement[] = [
 			"There are things that are worth believing, even if they're not true. Let's go on an adventure deep in the forest where we encounter some hardship. In our moment of desparation something unexplainable ",
 	},
 	{
-		id: 'leadership',
-		name: 'Leadership',
-		description:
-			"Let's take a page out of Patrick Lencioni's 5 Dysfunctions of a Team and tell a story about a team that is struggling. The leader is struggling to get the team to work together. The team is struggling to hold each other accountable. The team is struggling to focus on results. The team is struggling to be committed to the team's goals. The team is struggling to have healthy conflict. The team is struggling to be open to new ideas. The team is struggling to be humble. The team is struggling to be patient.",
-	},
-	{
 		id: 'herosJourney',
 		name: `Hero's Journey`,
 		description: '',
