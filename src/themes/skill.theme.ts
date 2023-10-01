@@ -1,7 +1,7 @@
 import { SpruceSchemas } from '@sprucelabs/spruce-core-schemas'
 import '#spruce/schemas/schemas.types'
 
-const gradient = 'linear-gradient(to top, #954b63, #364268)'
+const gradient = 'linear-gradient(to top left, #954b63, #364268)'
 // The Theme Skill (https://theme.spruce.bot/) is available to help you build your theme!
 
 const theme: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.ThemeProps = {
