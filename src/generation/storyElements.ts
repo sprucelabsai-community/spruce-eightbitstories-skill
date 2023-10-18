@@ -28,7 +28,7 @@ export const storyElements: StoryElement[] = [
 		id: 'discovery',
 		name: 'Train to the unknown',
 		description:
-			"This is gonna be so much fun! But, getting on a train (or car for that matter) without knowing where it is going is wreckless and inviting a bad outcome. In this story, we have a blast, and for only a moment things get scary, but we realize we need to know what we want and wher're we're going before we get on the train.",
+			"This is gonna be so much fun! Lets take a train to a place we do not know and discover something new! It's up to you what we discover, but make it something that makes us think.",
 	},
 	{
 		id: 'dinosaurs',
