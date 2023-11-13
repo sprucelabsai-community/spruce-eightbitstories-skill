@@ -70,10 +70,14 @@ export default class FamilyMemberFormCardViewController extends AbstractViewCont
 				sections: [
 					{
 						fields: [
-							'name',
+							{
+								name: 'name',
+								hint: "Enter their first name, full name, nick name, or anything else and I'll use it when identifying them in your stories!",
+							},
 							{
 								name: 'bio',
 								renderAs: 'textarea',
+								hint: 'Tell me a little about your family member. What do they do? What do they like? You can even put in things like their favorite color or food. This will help me write better stories about them!',
 							},
 						],
 					},

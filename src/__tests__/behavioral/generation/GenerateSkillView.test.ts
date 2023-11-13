@@ -55,6 +55,20 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 	}
 
 	@test()
+	protected static async rendersAlertAndRedirectsIfNoMembers() {
+		await this.eventFaker.fakeListFamilyMembers(() => [])
+		this.vc = this.Vc()
+		await vcAssert.assertRendersAlertThenRedirects({
+			vc: this.vc,
+			router: this.views.getRouter(),
+			destination: {
+				id: 'eightbitstories.root',
+			},
+			action: () => this.loadVc(),
+		})
+	}
+
+	@test()
 	protected static async clickingBackGoesBackToRoot() {
 		await vcAssert.assertActionRedirects({
 			action: () => interactor.clickButton(this.controlsVc, 'back'),

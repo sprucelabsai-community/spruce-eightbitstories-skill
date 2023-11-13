@@ -17,7 +17,7 @@ export default buildSchema({
 		values: {
 			type: 'text',
 			isRequired: true,
-			label: 'Values',
+			label: 'Your Values',
 		},
 		target: {
 			type: 'schema',

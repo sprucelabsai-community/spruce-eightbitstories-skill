@@ -117,6 +117,11 @@ export default class GenerateSkillViewController extends AbstractEightBitSkillVi
 					},
 				}
 			)
+			await this.alert({
+				style: 'info',
+				message:
+					"I'm writing yoru story now! It can take up to a minute, so hang tight!",
+			})
 		} catch (err: any) {
 			await this.alert({
 				message: err.message ?? 'Could not generate!!',
@@ -161,6 +166,16 @@ export default class GenerateSkillViewController extends AbstractEightBitSkillVi
 		const [{ familyMembers }] = await client.emitAndFlattenResponses(
 			'eightbitstories.list-family-members::v2023_09_05'
 		)
+
+		if (!familyMembers.length) {
+			await this.alert({
+				message: 'You gotta add your family before you can generate a story!!',
+			})
+
+			await this.router.redirect('eightbitstories.root')
+
+			return
+		}
 
 		const membersFormVc = this.membersVc.getFormVc()
 		membersFormVc.updateField('members', {

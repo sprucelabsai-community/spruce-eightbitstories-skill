@@ -1,10 +1,11 @@
 import {
 	SpruceSchemas,
+	buttonAssert,
 	formAssert,
 	interactor,
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
-import { eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
+import { TestRouter, eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
 import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { GetMeta } from '../../../eightbitstories.types'
 import MetaSkillViewController from '../../../meta/Meta.svc'
@@ -95,6 +96,23 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
 	@test()
 	protected static async doesNotRenderNavigation() {
 		assertDoesNotRenderNavigation(this.vc)
+	}
+
+	@test()
+	protected static async rendersFacebookGroupButton() {
+		buttonAssert.cardRendersButton(this.cardVc, 'facebookGroup')
+	}
+
+	@test()
+	protected static async clickingFacebookGroupButtonOpensUrl() {
+		TestRouter.setShouldThrowWhenRedirectingToBadSvc(false)
+		await vcAssert.assertActionRedirects({
+			action: () => interactor.clickButton(this.formVc, 'facebookGroup'),
+			router: this.views.getRouter(),
+			destination: {
+				id: 'https://www.facebook.com/groups/8bitstories',
+			},
+		})
 	}
 
 	private static MetaVc(): SpyMetaSkillView {

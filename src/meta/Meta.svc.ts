@@ -1,5 +1,6 @@
 import {
 	CardViewController,
+	FormOnChangeOptions,
 	FormViewController,
 	Router,
 	SkillView,
@@ -31,17 +32,31 @@ export default class MetaSkillViewController extends AbstractEightBitSkillView {
 				schema: metaSchema,
 				onCancel: this.handleCancelForm.bind(this),
 				onSubmit: this.handleSubmitForm.bind(this),
+				onChange: this.handleChangeForm.bind(this),
 				sections: [
 					{
 						fields: [
-							'name',
+							{
+								name: 'name',
+								hint: 'You can use your last name or come up with something totally unique. This is how your family will be referred to in your stories.',
+							},
 							{
 								name: 'values',
 								renderAs: 'textarea',
+								hint: 'Type in anything you want. It can be a bulleted list, a paragraph, or even a poem. These values will be incorporated into all your stories. If you are struggling here, checkout our 8-bit Facebook Group Tay started to discuss values with other families. 👇',
 							},
 						],
 					},
 				],
+				footer: {
+					buttons: [
+						{
+							id: 'facebookGroup',
+							label: 'Join our Facebook Group',
+							onClick: this.handleClickJoinFacebookGroup.bind(this),
+						},
+					],
+				},
 			})
 		)
 	}
@@ -61,6 +76,18 @@ export default class MetaSkillViewController extends AbstractEightBitSkillView {
 				],
 			},
 		})
+	}
+
+	private async handleClickJoinFacebookGroup() {
+		await this.router.redirect(
+			'https://www.facebook.com/groups/8bitstories' as any
+		)
+	}
+
+	private async handleChangeForm(options: FormOnChangeOptions<MetaSchema>) {
+		const { values } = options
+		const title = values.name ? `The ${values.name} Family` : 'Your Family'
+		this.cardVc.setHeaderTitle(title)
 	}
 
 	public async load(

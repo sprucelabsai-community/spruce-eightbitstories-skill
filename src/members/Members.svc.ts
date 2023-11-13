@@ -57,7 +57,7 @@ export default class MembersSkillViewController extends AbstractEightBitSkillVie
 							id: 'add',
 							label: 'Add Family Member',
 							type: 'primary',
-							onClick: this.handleRenderClickAdd.bind(this),
+							onClick: this.handleClickAdd.bind(this),
 						},
 					],
 				},
@@ -133,7 +133,7 @@ export default class MembersSkillViewController extends AbstractEightBitSkillVie
 		}
 	}
 
-	private async handleRenderClickAdd() {
+	private async handleClickAdd() {
 		const vc = this.Controller('eightbitstories.family-member-form-card', {
 			onCancel: async () => dlgVc.hide(),
 			onAdd: async () => {
