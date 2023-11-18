@@ -52,7 +52,7 @@ export default class MetaSkillViewController extends AbstractEightBitSkillView {
 					buttons: [
 						{
 							id: 'facebookGroup',
-							label: 'Join our Facebook Group',
+							label: 'Join the Facebook Group',
 							onClick: this.handleClickJoinFacebookGroup.bind(this),
 						},
 					],

@@ -11,7 +11,7 @@ const theme: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.ThemeProps = {
 	color2: '#fff',
 	color2Transparent: 'rgba(200, 200, 200, 0.9)',
 	color2Inverse: '#2a2829',
-	color2InverseTransparent: 'rgba(91, 91, 91, 0.9)',
+	color2InverseTransparent: 'rgba(16, 15, 15, 0.9)',
 	color3: '#fff',
 	color3Compliment: '#a7a7a7',
 	color3Inverse: '#2a2829',

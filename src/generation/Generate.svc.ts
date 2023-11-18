@@ -120,7 +120,7 @@ export default class GenerateSkillViewController extends AbstractEightBitSkillVi
 			await this.alert({
 				style: 'info',
 				message:
-					"I'm writing yoru story now! It can take up to a minute, so hang tight!",
+					"I'm writing your story now! It can take up to a minute, so hang tight!",
 			})
 		} catch (err: any) {
 			await this.alert({
