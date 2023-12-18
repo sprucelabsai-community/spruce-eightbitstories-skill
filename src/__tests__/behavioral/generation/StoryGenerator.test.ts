@@ -37,6 +37,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 
 		const choice: ChatCompletion.Choice = {
 			finish_reason: 'stop',
+			logprobs: null,
 			index: 0,
 			message: {
 				content: this.responseBody,
