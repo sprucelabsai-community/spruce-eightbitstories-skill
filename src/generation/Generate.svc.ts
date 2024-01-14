@@ -12,7 +12,7 @@ import { MercuryClient } from '@sprucelabs/mercury-client'
 import { buildSchema } from '@sprucelabs/schema'
 import { buildFormCard } from '@sprucelabs/spruce-form-utils'
 import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitSkillView'
-import { FormGettingVc } from './FormGettingVc'
+import FormGettingVc from './FormGettingVc'
 import { storyElements } from './storyElements'
 
 export default class GenerateSkillViewController extends AbstractEightBitSkillView {
@@ -23,6 +23,7 @@ export default class GenerateSkillViewController extends AbstractEightBitSkillVi
 	protected elementsVc: FormGettingVc<GenerateStorySchema>
 	protected membersVc: FormGettingVc<GenerateStorySchema>
 	private client!: MercuryClient
+	protected currentChallengeVc: FormGettingVc<CurrentChallengeSchema>
 
 	public constructor(options: ViewControllerOptions) {
 		super(options)
@@ -35,8 +36,36 @@ export default class GenerateSkillViewController extends AbstractEightBitSkillVi
 		this.controlsVc = this.ControlsVc()
 		this.elementsVc = this.ElementsVc()
 		this.membersVc = this.MembersVc()
+		this.currentChallengeVc = this.CurrentChallengeVc()
 
-		this.cardVcs = [this.elementsVc, this.membersVc, this.controlsVc]
+		this.cardVcs = [
+			this.elementsVc,
+			this.membersVc,
+			this.currentChallengeVc,
+			this.controlsVc,
+		]
+	}
+
+	private CurrentChallengeVc() {
+		return this.Controller(
+			'forms.card',
+			buildFormCard({
+				id: 'currentChallenge',
+				header: {
+					title: 'Current Challenge',
+					subtitle: `Have something you want to focus on for this story? Describe it below and I'll work it into tonight's story!`,
+				},
+				schema: currentChallengeSchema,
+				fields: [
+					{
+						name: 'currentChallenge',
+						renderAs: 'textarea',
+						label: 'Current Challenge',
+					},
+				],
+				shouldShowSubmitControls: false,
+			})
+		) as FormGettingVc<CurrentChallengeSchema>
 	}
 
 	private MembersVc() {
@@ -106,6 +135,9 @@ export default class GenerateSkillViewController extends AbstractEightBitSkillVi
 		try {
 			const members = this.membersVc.getValue('members') as string[]
 			const elements = this.elementsVc.getValue('elements') as string[]
+			const currentChallenge = this.currentChallengeVc.getValue(
+				'currentChallenge'
+			) as string
 
 			const client = await this.connectToApi()
 			await client.emitAndFlattenResponses(
@@ -114,6 +146,7 @@ export default class GenerateSkillViewController extends AbstractEightBitSkillVi
 					payload: {
 						familyMembers: members,
 						storyElements: elements,
+						currentChallenge,
 					},
 				}
 			)
@@ -228,3 +261,14 @@ const generateStoreSchema = buildSchema({
 })
 
 export type GenerateStorySchema = typeof generateStoreSchema
+
+const currentChallengeSchema = buildSchema({
+	id: 'currentChallenge',
+	fields: {
+		currentChallenge: {
+			type: 'text',
+		},
+	},
+})
+
+export type CurrentChallengeSchema = typeof currentChallengeSchema

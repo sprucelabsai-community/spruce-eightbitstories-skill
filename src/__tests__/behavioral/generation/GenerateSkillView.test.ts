@@ -11,6 +11,7 @@ import { FormCardViewController } from '@sprucelabs/spruce-form-utils'
 import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
 import { assert, generateId, test } from '@sprucelabs/test-utils'
 import GenerateSkillViewController, {
+	CurrentChallengeSchema,
 	GenerateStorySchema,
 } from '../../../generation/Generate.svc'
 import { storyElements } from '../../../generation/storyElements'
@@ -45,6 +46,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		vcAssert.assertSkillViewRendersCards(this.vc, [
 			'elements',
 			'members',
+			'currentChallenge',
 			'controls',
 		])
 	}
@@ -83,12 +85,14 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 	protected static elementsAndMembersCardsRendersForms() {
 		formAssert.cardRendersForm(this.elementsVc)
 		formAssert.cardRendersForm(this.membersVc)
+		formAssert.cardRendersForm(this.currentChallengeVc)
 	}
 
 	@test()
 	protected static async formCardsDoNotRenderButtons() {
 		assert.isFalse(this.elementsFormVc.getShouldRenderSubmitControls())
 		assert.isFalse(this.membersFormVc.getShouldRenderSubmitControls())
+		assert.isFalse(this.currentChallengeFormVc.getShouldRenderSubmitControls())
 	}
 
 	@test()
@@ -129,6 +133,16 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		selectAssert.assertSelectChoicesMatch(
 			schema.fields.members.options.choices as SelectChoice[],
 			expected
+		)
+	}
+
+	@test()
+	protected static async currentChallengeFormRendersAsExpected() {
+		formAssert.formRendersField(this.currentChallengeFormVc, 'currentChallenge')
+		formAssert.formFieldRendersAs(
+			this.currentChallengeFormVc,
+			'currentChallenge',
+			'textarea'
 		)
 	}
 
@@ -178,11 +192,18 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		const selectedMembers = await this.selectMembers(memberIdxs)
 		const selectedElements = await this.selectElements(elementIdxs)
 
+		const currentChallenge = generateId()
+		await this.currentChallengeFormVc.setValue(
+			'currentChallenge',
+			currentChallenge
+		)
+
 		await this.clickGenerateAndAssertRedirect()
 
 		assert.isEqualDeep(passedPayload, {
 			familyMembers: selectedMembers,
 			storyElements: selectedElements,
+			currentChallenge,
 		})
 	}
 
@@ -316,6 +337,14 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 		return this.vc.getMembersVc()
 	}
 
+	private static get currentChallengeVc() {
+		return this.vc.getCurrentChallengeVc()
+	}
+
+	private static get currentChallengeFormVc() {
+		return this.currentChallengeVc.getFormVc() as FormViewController<CurrentChallengeSchema>
+	}
+
 	private static get elementsVc() {
 		return this.vc.getElementsVc()
 	}
@@ -333,6 +362,10 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 }
 
 class SpyGenerateSkillView extends GenerateSkillViewController {
+	public getCurrentChallengeVc() {
+		return this.currentChallengeVc
+	}
+
 	public getMembersFormVc() {
 		return this.getMembersVc().getFormVc() as FormViewController<GenerateStorySchema>
 	}

@@ -14,6 +14,7 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 	private static familyMembers: string[]
 	private static storyElements: string[]
 	private static originalGenerator: StoryGenerator
+	private static currentChallenge: string
 
 	protected static async beforeEach() {
 		await super.beforeEach()
@@ -21,6 +22,7 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 		this.skill = skill
 		this.familyMembers = [generateId()]
 		this.storyElements = [generateId()]
+		this.currentChallenge = generateId()
 		this.dropInStubGenerator()
 	}
 
@@ -61,6 +63,7 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 			familyMemberIds: this.familyMembers,
 			storyElementIds: this.storyElements,
 			personId: this.fakedPerson.id,
+			currentChallenge: this.currentChallenge,
 		})
 	}
 
@@ -76,6 +79,7 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
 				payload: {
 					familyMembers: this.familyMembers,
 					storyElements: this.storyElements,
+					currentChallenge: this.currentChallenge,
 				},
 			}
 		)

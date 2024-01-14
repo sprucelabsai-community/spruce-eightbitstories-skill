@@ -61,12 +61,18 @@ export class StoryGeneratorImpl {
 			personId,
 			familyMemberIds: familyMemberIds,
 			storyElementIds: storyElementIds,
+			currentChallenge,
 		} = options
 
 		const meta = await this.loadMeta(personId)
 		const familyMembers = await this.loadFamilyMembers(familyMemberIds)
 
-		const prompt = this.generatePrompt({ familyMembers, meta, storyElementIds })
+		const prompt = this.generatePrompt({
+			familyMembers,
+			meta,
+			storyElementIds,
+			currentChallenge,
+		})
 
 		const response = await this.send(prompt)
 
@@ -95,13 +101,15 @@ export class StoryGeneratorImpl {
 		familyMembers: PublicFamilyMember[]
 		meta: PublicMeta
 		storyElementIds: string[]
+		currentChallenge?: string | null
 	}) {
-		const { familyMembers, meta, storyElementIds } = options
+		const { familyMembers, meta, storyElementIds, currentChallenge } = options
 
 		return this.prompt.generate({
 			familyMembers,
 			familyName: meta.name,
 			familyValues: meta.values,
+			currentChallenge: currentChallenge ?? undefined,
 			storyElements: storyElements.filter((element) =>
 				storyElementIds.includes(element.id)
 			),
@@ -157,4 +165,5 @@ export interface GenerateOptions {
 	personId: string
 	familyMemberIds: string[]
 	storyElementIds: string[]
+	currentChallenge?: string | null
 }

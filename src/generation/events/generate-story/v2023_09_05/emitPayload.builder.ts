@@ -15,6 +15,9 @@ const generateStoryEmitPayloadBuilder = buildSchema({
 			minArrayLength: 1,
 			isRequired: true,
 		},
+		currentChallenge: {
+			type: 'text',
+		},
 	},
 })
 

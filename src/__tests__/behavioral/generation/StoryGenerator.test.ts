@@ -182,19 +182,16 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 	@seed('familyMembers', 5)
 	@seed('meta')
 	protected static async emitsDidGenerateAfterGenerating() {
-		let wasHit = false
 		let passedTarget: DidGenerateTargetAndPayload['target'] | undefined
 		let passedPayload: DidGenerateTargetAndPayload['payload'] | undefined
 
 		await this.eventFaker.fakeDidGenerateStory(({ target, payload }) => {
-			wasHit = true
 			passedTarget = target
 			passedPayload = payload
 		})
 
 		await this.generate()
 
-		assert.isTrue(wasHit)
 		assert.isEqualDeep(passedTarget, {
 			personId: this.fakedPerson.id,
 		})
@@ -203,6 +200,15 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 
 		assert.isEqualDeep(passedPayload, {
 			storyId: story.id,
+		})
+	}
+
+	@test()
+	@seed('meta')
+	protected static async passesCurrentChallengeToPromptGenerator() {
+		await this.assertSendsExpectedPrompt({
+			storeElementIds: [storyElements[1].id, storyElements[2].id],
+			currentChallenge: generateId(),
 		})
 	}
 
@@ -219,11 +225,13 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 		meta?: PublicMeta
 		familyMemberIds?: string[]
 		storeElementIds?: string[]
+		currentChallenge?: string
 	}) {
 		const {
 			meta: metaOptions,
 			familyMemberIds: familyMemberIds,
 			storeElementIds,
+			currentChallenge,
 		} = options ?? {}
 
 		const meta = metaOptions ?? (await this.metas.findOne({}))
@@ -235,11 +243,13 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 			familyName: meta.name,
 			familyValues: meta.values,
 			storyElements: this.getStoryElementIds(storeElementIds),
+			currentChallenge,
 		})
 
 		await this.generate({
 			familyMemberIds,
 			storeElementIds,
+			currentChallenge,
 		})
 
 		assert.isEqual(this.passedOptions?.messages[0]?.content, expected)
@@ -271,14 +281,21 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 	private static async generate(options?: {
 		familyMemberIds?: string[]
 		storeElementIds?: string[]
+		currentChallenge?: string
 	}) {
-		const { familyMemberIds: familyMemberIds, storeElementIds } = options ?? {}
+		const {
+			familyMemberIds: familyMemberIds,
+			storeElementIds,
+			currentChallenge,
+		} = options ?? {}
+
 		const members = await this.loadFamilyMembers(familyMemberIds)
 
 		return await this.generator.generate({
 			familyMemberIds: members.map((m) => m.id),
 			personId: this.fakedPerson.id,
 			storyElementIds: storeElementIds ?? [storyElements[0].id],
+			currentChallenge,
 		})
 	}
 }

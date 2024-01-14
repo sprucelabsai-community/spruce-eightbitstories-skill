@@ -25,6 +25,11 @@ const generateStoryEmitPayloadSchema: SpruceSchemas.Eightbitstories.v2023_09_05.
 	                minArrayLength: 1,
 	                options: undefined
 	            },
+	            /** . */
+	            'currentChallenge': {
+	                type: 'text',
+	                options: undefined
+	            },
 	    }
 }
 

@@ -8,13 +8,18 @@ export default class PromptGenerator {
 	}
 
 	public generate(options: GeneratePromptOptions) {
-		const { familyMembers, familyValues, familyName, storyElements } =
-			assertOptions(options, [
-				'familyMembers',
-				'familyValues',
-				'familyName',
-				'storyElements',
-			])
+		const {
+			familyMembers,
+			familyValues,
+			familyName,
+			storyElements,
+			currentChallenge,
+		} = assertOptions(options, [
+			'familyMembers',
+			'familyValues',
+			'familyName',
+			'storyElements',
+		])
 
 		let message = INTRO
 
@@ -28,6 +33,10 @@ export default class PromptGenerator {
 			.map((element) => element.name + ':' + element.description)
 			.join('\n\n')
 
+		if (currentChallenge) {
+			message += `\n\nCurrent Challenge To Focus On For This Story:\n${currentChallenge}`
+		}
+
 		message += `\n\nDuration:\n10 minutes\n`
 
 		return message
@@ -39,4 +48,5 @@ export interface GeneratePromptOptions {
 	familyValues: string
 	familyName: string
 	storyElements: StoryElement[]
+	currentChallenge?: string
 }

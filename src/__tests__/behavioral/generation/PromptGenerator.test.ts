@@ -14,6 +14,7 @@ export default class PromptGeneratorTest extends AbstractEightBitTest {
 
 	protected static async beforeEach() {
 		await super.beforeEach()
+
 		this.prompt = PromptGenerator.Generator()
 		assert.isInstanceOf(this.prompt, PromptGenerator)
 		this.promptOptions = {
@@ -57,13 +58,7 @@ export default class PromptGeneratorTest extends AbstractEightBitTest {
 	@test()
 	protected static async generatesExpectedPromptFromOneMemberAndOneElement() {
 		const actual = this.generate()
-		const expected = this.generateExpectedPrompt()
-
-		function removeSpaces(str: string) {
-			return str.replace(/\s/g, '')
-		}
-
-		assert.isEqual(removeSpaces(actual), removeSpaces(expected.trim()))
+		this.assertPromptEqualsExpected(actual)
 	}
 
 	@test()
@@ -88,6 +83,23 @@ export default class PromptGeneratorTest extends AbstractEightBitTest {
 		this.promptOptions.storyElements = [storyElements[0], storyElements[9]]
 		const prompt = this.generate()
 		this.log('Prompt:', prompt)
+	}
+
+	@test()
+	protected static async generatesCurrentChallengeIfPassed() {
+		this.promptOptions.currentChallenge = generateId()
+		const actual = this.generate()
+		this.assertPromptEqualsExpected(actual)
+	}
+
+	private static assertPromptEqualsExpected(actual: string) {
+		const expected = this.generateExpectedPrompt()
+
+		function removeSpaces(str: string) {
+			return str.replace(/\s/g, '')
+		}
+
+		assert.isEqual(removeSpaces(actual), removeSpaces(expected.trim()))
 	}
 
 	private static generateExpectedPrompt() {
@@ -119,7 +131,7 @@ ${this.promptOptions.storyElements
 	.map((element) => element.name + ':' + element.description)
 	.join('\n\n')}
 
-
+${this.promptOptions.currentChallenge ? `Current Challenge To Focus On For This Story:\n${this.promptOptions.currentChallenge}\n\n` : ''}
 Duration:
 
 10 minutes
