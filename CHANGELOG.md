@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v1.0.0...v1.1.0) (2024-01-21)
+
+
+### Features
+
+* testing with semver ([7313f4d](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/7313f4d))
+
 # 1.0.0 (2024-01-21)
 
 
