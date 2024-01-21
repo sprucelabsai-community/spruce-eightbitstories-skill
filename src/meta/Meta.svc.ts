@@ -118,7 +118,7 @@ export default class MetaSkillViewController extends AbstractEightBitSkillView {
 			await this.emitSave()
 			await this.redirectToRoot()
 		} catch (err: any) {
-			this.alert({
+			await this.alert({
 				message: err.message ?? 'Failed to save your family details!',
 			})
 		}

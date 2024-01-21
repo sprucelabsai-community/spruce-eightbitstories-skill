@@ -40,7 +40,7 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
 
 	@test()
 	protected static async requiresBeingLoggedIn() {
-		vcAssert.assertLoginIsRequired(this.vc)
+		await vcAssert.assertLoginIsRequired(this.vc)
 	}
 
 	@test()

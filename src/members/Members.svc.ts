@@ -127,7 +127,7 @@ export default class MembersSkillViewController extends AbstractEightBitSkillVie
 			)
 			this.listVc.deleteRow(member.id)
 		} catch (err: any) {
-			this.alert({
+			await this.alert({
 				message: err.message ?? `I could not delete your family member!!!`,
 			})
 		}

@@ -187,7 +187,7 @@ export default class GenerateSkillViewController extends AbstractEightBitSkillVi
 			'eightbitstories.did-generate-story::v2023_09_05',
 			({ payload }) => {
 				const { storyId } = payload
-				this.router.redirect('eightbitstories.story', {
+				void this.router.redirect('eightbitstories.story', {
 					story: storyId,
 				})
 			}
