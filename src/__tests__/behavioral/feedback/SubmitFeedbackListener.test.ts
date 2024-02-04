@@ -47,8 +47,9 @@ export default class SubmitFeedbackListenerTest extends AbstractEightBitTest {
 			message: {
 				classification: 'transactional',
 				body:
-					`8-bit feedback from person with id "${this.fakedPerson.id}": ` +
-					this.randomFeedback,
+					`8-bit feedback: ` +
+					this.randomFeedback +
+					`\n\nhttps://spruce.bot/#views/feed.root?personId=${this.fakedPerson.id}`,
 			},
 		})
 	}

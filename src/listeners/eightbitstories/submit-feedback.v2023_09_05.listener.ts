@@ -18,7 +18,10 @@ export default async (
 		},
 		payload: {
 			message: {
-				body: `8-bit feedback from person with id "${personId}": ` + feedback,
+				body:
+					`8-bit feedback: ` +
+					feedback +
+					`\n\nhttps://spruce.bot/#views/feed.root?personId=${personId}`,
 				classification: 'transactional',
 			},
 		},
