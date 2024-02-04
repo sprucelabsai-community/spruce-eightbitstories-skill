@@ -57,10 +57,7 @@ export default class FeedbackCardViewController extends AbstractViewController<C
 		})
 	}
 
-	private FormVc(): FormViewController<{
-		id: string
-		fields: { feedback: { type: 'text'; label: string } }
-	}> {
+	private FormVc(): FormViewController<FeedbackSchema> {
 		return this.Controller(
 			'form',
 			buildForm({
