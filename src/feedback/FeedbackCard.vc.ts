@@ -117,6 +117,7 @@ const feedbackSchema = buildSchema({
 		feedback: {
 			type: 'text',
 			label: 'Enter your feedback, ideas, questions, or you know, whatever!',
+			isRequired: true,
 		},
 	},
 })
