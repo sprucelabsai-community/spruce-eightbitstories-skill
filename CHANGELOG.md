@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v1.1.0...v1.2.0) (2024-02-04)
+
+
+### Features
+
+* people can submit feeback ([539ad01](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/539ad01))
+
 # [1.1.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v1.0.0...v1.1.0) (2024-01-21)
 
 
