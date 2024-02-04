@@ -2,6 +2,7 @@ import {
 	buttonAssert,
 	interactor,
 	listAssert,
+	navigationAssert,
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
@@ -10,7 +11,6 @@ import FamilyMemberFormCardViewController from '../../../members/FamilyMemberFor
 import MembersSkillViewController from '../../../members/Members.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { DeleteMemberTargetAndPayload } from '../../support/EventFaker'
-import { assertDoesNotRenderNavigation } from '../assertDoesNotRenderNavigation'
 import SpyFamilyMemberCard from './SpyFamilyMemberCard'
 
 @fake.login()
@@ -234,7 +234,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
 	@test()
 	protected static async doesNotRenderNavigation() {
-		assertDoesNotRenderNavigation(this.vc)
+		navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
 	}
 
 	private static async loadClickFirstMemberAssertDialog() {

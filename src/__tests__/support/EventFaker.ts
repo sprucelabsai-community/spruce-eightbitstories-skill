@@ -3,6 +3,36 @@ import { generateId } from '@sprucelabs/test-utils'
 import { GetMeta, PublicFamilyMember } from '../../eightbitstories.types'
 
 export default class EventFaker {
+	public async fakeSendMessage(
+		cb?: (targetAndPayload: SendMessageTargetAndPayload) => void
+	) {
+		await eventFaker.on('send-message::v2020_12_25', (targetAndPayload) => {
+			cb?.(targetAndPayload)
+			return {
+				message: {
+					id: generateId(),
+					dateCreated: 0,
+					body: generateId(),
+					classification: 'transactional' as const,
+					source: {},
+					target: {},
+				},
+			}
+		})
+	}
+	public async fakeSubmitFeedback(
+		cb?: (targetAndPayload: SubmitFeedbackTargetAndPayload) => void
+	) {
+		await eventFaker.on(
+			'eightbitstories.submit-feedback::v2023_09_05',
+			(targetAndPayload) => {
+				cb?.(targetAndPayload)
+				return {
+					success: true,
+				}
+			}
+		)
+	}
 	public async fakeDidGenerateStory(
 		cb?: (targetAndPayload: DidGenerateTargetAndPayload) => void
 	) {
@@ -157,3 +187,9 @@ export type GetStoryTargetAndPayload =
 	SpruceSchemas.Eightbitstories.v2023_09_05.GetStoryEmitTargetAndPayload
 export type DidGenerateTargetAndPayload =
 	SpruceSchemas.Eightbitstories.v2023_09_05.DidGenerateStoryEmitTargetAndPayload
+
+export type SubmitFeedbackTargetAndPayload =
+	SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitTargetAndPayload
+
+export type SendMessageTargetAndPayload =
+	SpruceSchemas.Mercury.v2020_12_25.SendMessageEmitTargetAndPayload

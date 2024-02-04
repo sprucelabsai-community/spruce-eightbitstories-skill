@@ -33,6 +33,7 @@ export default class MetaSkillViewController extends AbstractEightBitSkillView {
 				onCancel: this.handleCancelForm.bind(this),
 				onSubmit: this.handleSubmitForm.bind(this),
 				onChange: this.handleChangeForm.bind(this),
+				cancelButtonLabel: 'Back',
 				sections: [
 					{
 						fields: [

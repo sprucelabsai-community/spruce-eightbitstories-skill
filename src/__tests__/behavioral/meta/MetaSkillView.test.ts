@@ -3,6 +3,7 @@ import {
 	buttonAssert,
 	formAssert,
 	interactor,
+	navigationAssert,
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { TestRouter, eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
@@ -10,7 +11,6 @@ import { assert, generateId, test } from '@sprucelabs/test-utils'
 import { GetMeta } from '../../../eightbitstories.types'
 import MetaSkillViewController from '../../../meta/Meta.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
-import { assertDoesNotRenderNavigation } from '../assertDoesNotRenderNavigation'
 
 @fake.login()
 export default class MetaSkillViewTest extends AbstractEightBitTest {
@@ -95,7 +95,7 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
 
 	@test()
 	protected static async doesNotRenderNavigation() {
-		assertDoesNotRenderNavigation(this.vc)
+		navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
 	}
 
 	@test()

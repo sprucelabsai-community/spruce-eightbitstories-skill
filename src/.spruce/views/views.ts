@@ -4,6 +4,7 @@ import MetaSkillViewController from '../../meta/Meta.svc'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
 import StorySkillViewController from '../../story/Story.svc'
 import FamilyMemberFormCardViewController from '../../members/FamilyMemberFormCard.vc'
+import FeedbackCardViewController from '../../feedback/FeedbackCard.vc'
 
 const vcs = {
     GenerateSkillViewController,
@@ -12,6 +13,7 @@ const vcs = {
     RootSkillViewController,
     StorySkillViewController,
     FamilyMemberFormCardViewController,
+    FeedbackCardViewController,
 }
 
 type LoadOptions<Args extends Record<string,any>[]> = Args[0]['args'] extends Record<string, any> ? Args[0]['args'] : Record<never, any>
@@ -35,6 +37,7 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 
 	interface ViewControllerMap {
 		'eightbitstories.family-member-form-card': FamilyMemberFormCardViewController
+		'eightbitstories.feedback-card': FeedbackCardViewController
 		'eightbitstories.generate': GenerateSkillViewController
 		'eightbitstories.members': MembersSkillViewController
 		'eightbitstories.meta': MetaSkillViewController
@@ -44,6 +47,7 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 
     interface ViewControllerOptionsMap {
 		'eightbitstories.family-member-form-card': ConstructorParameters<typeof FamilyMemberFormCardViewController>[0]
+		'eightbitstories.feedback-card': ConstructorParameters<typeof FeedbackCardViewController>[0]
 	}
 }
 

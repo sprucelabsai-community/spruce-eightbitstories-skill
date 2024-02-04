@@ -56,6 +56,16 @@ const eightBitStoriesPermissions = buildPermissionContract({
 			},
 			requireAllStatuses: false,
 		},
+		{
+			id: 'can-submit-feedback',
+			name: 'Can submit feedback',
+			defaults: {
+				loggedIn: {
+					default: true,
+				},
+			},
+			requireAllStatuses: false,
+		},
 	],
 })
 

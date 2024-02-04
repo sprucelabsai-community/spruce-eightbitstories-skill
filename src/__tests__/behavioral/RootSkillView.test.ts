@@ -1,24 +1,28 @@
 import {
 	buttonAssert,
 	interactor,
+	navigationAssert,
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
-import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
-import { test } from '@sprucelabs/test-utils'
+import {
+	AbstractSpruceFixtureTest,
+	fake,
+} from '@sprucelabs/spruce-test-fixtures'
+import { assert, test } from '@sprucelabs/test-utils'
+import FeedbackCardViewController from '../../feedback/FeedbackCard.vc'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
-import { assertDoesNotRenderNavigation } from './assertDoesNotRenderNavigation'
+import { SpyFeedbackCard } from './feedback/SpyFeedCard'
 
+@fake.login()
 export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 	private static vc: SpyRootSkillView
 
 	protected static async beforeEach() {
 		await super.beforeEach()
 
+		this.views.setController('eightbitstories.feedback-card', SpyFeedbackCard)
 		this.views.setController('eightbitstories.root', SpyRootSkillView)
-		this.vc = this.views.Controller(
-			'eightbitstories.root',
-			{}
-		) as SpyRootSkillView
+		this.vc = this.Vc()
 
 		await this.load()
 	}
@@ -29,12 +33,21 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static rendersExpectedButtons() {
+	protected static async rendersExpectedButtons() {
 		buttonAssert.cardRendersButtons(this.cardVc, [
 			'meta',
 			'members',
 			'generate',
+			'feedback',
 		])
+	}
+
+	@test()
+	protected static async noFeedbackButtonIfNotLoggedIn() {
+		this.auth.clearSession()
+		this.vc = this.Vc()
+		await this.load()
+		buttonAssert.cardDoesNotRenderButton(this.cardVc, 'feedback')
 	}
 
 	@test()
@@ -60,7 +73,41 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 
 	@test()
 	protected static async rendersNullNav() {
-		assertDoesNotRenderNavigation(this.vc)
+		navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
+	}
+
+	@test()
+	protected static async clickingFeedbackRendersDialog() {
+		await this.clickFeedbackAndAssertDialog()
+	}
+
+	@test()
+	protected static async submittingFormHidesDialog() {
+		const { feedbackVc, dlgVc } = await this.clickFeedbackAndAssertDialog()
+		const handler = feedbackVc.getOnSubmitHandler()
+		await handler()
+		assert.isFalse(dlgVc.getIsVisible())
+	}
+
+	private static async clickFeedbackAndAssertDialog() {
+		const dlgVc = await vcAssert.assertRendersDialog(this.vc, () =>
+			this.clickButton('feedback')
+		)
+
+		const feedbackVc = vcAssert.assertRendersAsInstanceOf(
+			dlgVc,
+			FeedbackCardViewController
+		) as SpyFeedbackCard
+
+		return { feedbackVc, dlgVc }
+	}
+
+	private static Vc(): SpyRootSkillView {
+		return this.views.Controller('eightbitstories.root', {}) as SpyRootSkillView
+	}
+
+	private static get auth() {
+		return this.permissions.getAuthenticator()
 	}
 
 	private static async assertClickingButtonRedirects(
@@ -68,12 +115,16 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 		destination: string
 	) {
 		await vcAssert.assertActionRedirects({
-			action: () => interactor.clickButton(this.cardVc, button),
+			action: () => this.clickButton(button),
 			router: this.views.getRouter(),
 			destination: {
 				id: destination,
 			},
 		})
+	}
+
+	private static clickButton(button: string): any {
+		return interactor.clickButton(this.cardVc, button)
 	}
 
 	private static async load() {

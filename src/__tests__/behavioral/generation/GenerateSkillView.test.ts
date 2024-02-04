@@ -3,6 +3,7 @@ import {
 	buttonAssert,
 	formAssert,
 	interactor,
+	navigationAssert,
 	vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { selectAssert } from '@sprucelabs/schema'
@@ -17,7 +18,6 @@ import GenerateSkillViewController, {
 import { storyElements } from '../../../generation/storyElements'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { GenerateStoryTargetAndPayload } from '../../support/EventFaker'
-import { assertDoesNotRenderNavigation } from '../assertDoesNotRenderNavigation'
 
 @fake.login()
 export default class GenerateSkillViewTest extends AbstractEightBitTest {
@@ -237,7 +237,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 
 	@test()
 	protected static async rendersNullNavigation() {
-		assertDoesNotRenderNavigation(this.vc)
+		navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
 	}
 
 	private static async clickGenerateAndAssertRedirect(destination?: {
