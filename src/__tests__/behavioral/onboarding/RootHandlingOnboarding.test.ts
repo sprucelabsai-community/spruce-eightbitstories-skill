@@ -30,14 +30,14 @@ export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
 	}
 
 	@test()
-	protected static async loginNotRequiredByDefault() {
-		Onboarding.clear()
-		await vcAssert.assertLoginIsNotRequired(this.vc)
+	protected static async loginIsNotRequiredByDefault() {
+		this.clearOnboarding()
+		await this.assertLoginIsNotRequired()
 	}
 
 	@test()
 	protected static async requiresLoginIfOnboardingIsSetup() {
-		await vcAssert.assertLoginIsRequired(this.vc)
+		await this.assertLoginRequired()
 	}
 
 	@test()
@@ -60,6 +60,40 @@ export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
 	protected static async onboardingIsClearedAfterRedirect() {
 		await this.loadAndAssertRedirect()
 		assert.isFalse(this.onboarding.isOnboarding)
+	}
+
+	@test()
+	protected static async loadingNotLoggedInAndNotOnboardingRedirectsToOnboarding() {
+		this.permissions.getAuthenticator().clearSession()
+		this.clearOnboarding()
+
+		await vcAssert.assertActionRedirects({
+			action: () => this.load(),
+			destination: {
+				id: 'eightbitstories.onboarding',
+			},
+			router: this.views.getRouter(),
+		})
+	}
+
+	@test()
+	protected static async doesNotRedirectIfOnboardingSkipped() {
+		this.clearOnboarding()
+		this.onboarding.skip()
+		await this.load()
+		await this.assertLoginIsNotRequired()
+	}
+
+	private static async assertLoginIsNotRequired() {
+		await vcAssert.assertLoginIsNotRequired(this.vc)
+	}
+
+	private static async assertLoginRequired() {
+		await vcAssert.assertLoginIsRequired(this.vc)
+	}
+
+	private static clearOnboarding() {
+		Onboarding.clear()
 	}
 
 	private static async loadAndAssertRedirect() {

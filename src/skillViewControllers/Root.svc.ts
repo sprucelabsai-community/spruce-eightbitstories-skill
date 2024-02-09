@@ -12,7 +12,6 @@ export default class RootSkillViewController extends AbstractEightBitSkillView {
 	public static id = 'root'
 	protected cardVc: CardViewController
 	private router!: Router
-	private isLoggedIn = false
 
 	public constructor(options: ViewControllerOptions) {
 		super(options)
@@ -40,7 +39,7 @@ export default class RootSkillViewController extends AbstractEightBitSkillView {
 		})
 	}
 
-	private renderBody() {
+	private renderBody(shouldRenderFeedbackButton = false) {
 		return {
 			sections: [
 				{
@@ -55,14 +54,12 @@ export default class RootSkillViewController extends AbstractEightBitSkillView {
 							label: 'Family Members',
 							onClick: this.handleClickMembers.bind(this),
 						},
-						this.isLoggedIn
-							? {
-									id: 'feedback',
-									label: 'Submit Feedback',
-									onClick: this.handleClickFeedback.bind(this),
-									type: 'secondary',
-								}
-							: null,
+						shouldRenderFeedbackButton && {
+							id: 'feedback',
+							label: 'Submit Feedback',
+							onClick: this.handleClickFeedback.bind(this),
+							type: 'secondary',
+						},
 						{
 							id: 'generate',
 							label: 'Write Story',
@@ -94,9 +91,18 @@ export default class RootSkillViewController extends AbstractEightBitSkillView {
 		const { router, authenticator } = options
 
 		this.router = router
-		this.isLoggedIn = authenticator.isLoggedIn()
+		const isLoggedIn = authenticator.isLoggedIn()
 
-		if (this.onboarding.isOnboarding) {
+		if (
+			!this.onboarding.didSkipOnboarding &&
+			!isLoggedIn &&
+			!this.onboarding.isOnboarding
+		) {
+			await this.router.redirect('eightbitstories.onboarding')
+			return
+		}
+
+		if (!this.onboarding.didSkipOnboarding && this.onboarding.isOnboarding) {
 			await this.remote.saveMeta({
 				name: this.onboarding.name!,
 				values: this.onboarding.values!,
@@ -105,11 +111,12 @@ export default class RootSkillViewController extends AbstractEightBitSkillView {
 			this.onboarding.reset()
 
 			await this.router.redirect('eightbitstories.members')
+
 			return
 		}
 
-		if (this.isLoggedIn) {
-			this.cardVc.setBody(this.renderBody())
+		if (isLoggedIn) {
+			this.cardVc.setBody(this.renderBody(true))
 		}
 	}
 

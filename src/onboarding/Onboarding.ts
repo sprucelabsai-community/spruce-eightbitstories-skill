@@ -1,4 +1,5 @@
 export default class Onboarding {
+	private _didSkipOnboarding = false
 	private _isOnboarding = false
 	private _name: string | undefined
 	private _values: string | undefined
@@ -23,6 +24,10 @@ export default class Onboarding {
 		this._isOnboarding = true
 	}
 
+	public skip() {
+		this._didSkipOnboarding = true
+	}
+
 	public get name() {
 		return this._name
 	}
@@ -33,6 +38,10 @@ export default class Onboarding {
 
 	public get isOnboarding() {
 		return this._isOnboarding
+	}
+
+	public get didSkipOnboarding() {
+		return this._didSkipOnboarding
 	}
 
 	public reset() {

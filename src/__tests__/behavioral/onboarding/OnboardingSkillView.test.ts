@@ -29,12 +29,11 @@ export default class OnboardingSkillViewTest extends AbstractEightBitTest {
 			'eightbitstories.onboarding',
 			SpyOnboardingSkillView
 		)
-		this.vc = this.views.Controller(
-			'eightbitstories.onboarding',
-			{}
-		) as SpyOnboardingSkillView
+		this.vc = this.Vc()
 
-		await this.views.load(this.vc)
+		this.auth.clearSession()
+
+		await this.load()
 	}
 
 	@test()
@@ -246,6 +245,50 @@ export default class OnboardingSkillViewTest extends AbstractEightBitTest {
 		assert.isTrue(onboarding.isOnboarding)
 	}
 
+	@test()
+	protected static async redirectsToRootIfLoggedIn() {
+		this.vc = this.Vc()
+		this.auth.setSessionToken(this.fakedPerson.id, this.fakedPerson)
+		await vcAssert.assertActionRedirects({
+			action: () => this.load(),
+			destination: {
+				id: 'eightbitstories.root',
+			},
+			router: this.views.getRouter(),
+		})
+	}
+
+	@test()
+	protected static async firstSlideRendersSkipButton() {
+		this.assertRendersButton('skip')
+		await this.clickNext()
+		this.assertDoesNotRenderButton('skip')
+	}
+
+	@test()
+	protected static async clickingSkipRedirectsToRoot() {
+		const onboarding = Onboarding.getInstance()
+
+		assert.isFalse(onboarding.didSkipOnboarding)
+
+		await vcAssert.assertActionRedirects({
+			action: () => this.clickButton('skip'),
+			destination: {
+				id: 'eightbitstories.root',
+			},
+			router: this.views.getRouter(),
+		})
+
+		assert.isTrue(onboarding.didSkipOnboarding)
+	}
+
+	private static Vc(): SpyOnboardingSkillView {
+		return this.views.Controller(
+			'eightbitstories.onboarding',
+			{}
+		) as SpyOnboardingSkillView
+	}
+
 	private static async fillEverythingOutClickNextAndAssertRedirect() {
 		await this.fillOutNameAndValues()
 		await this.clickNext()
@@ -354,6 +397,14 @@ export default class OnboardingSkillViewTest extends AbstractEightBitTest {
 
 	private static get nameFormVc() {
 		return this.vc.nameFormVc
+	}
+
+	private static async load() {
+		await this.views.load(this.vc)
+	}
+
+	private static get auth() {
+		return this.permissions.getAuthenticator()
 	}
 }
 

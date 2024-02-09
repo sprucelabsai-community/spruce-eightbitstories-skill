@@ -1,5 +1,4 @@
 import {
-	AbstractSkillViewController,
 	ViewControllerOptions,
 	SkillView,
 	SwipeCardViewController,
@@ -11,9 +10,9 @@ import {
 	Router,
 } from '@sprucelabs/heartwood-view-controllers'
 import { buildSchema } from '@sprucelabs/schema'
-import Onboarding from './Onboarding'
+import AbstractEightBitSkillView from '../skillViewControllers/AbstracteightBitSkillView'
 
-export default class OnboardingSkillViewController extends AbstractSkillViewController {
+export default class OnboardingSkillViewController extends AbstractEightBitSkillView {
 	public static id = 'onboarding'
 	protected swipeVc: SwipeCardViewController
 	private titles = {
@@ -75,7 +74,7 @@ export default class OnboardingSkillViewController extends AbstractSkillViewCont
 					{
 						text: {
 							content:
-								"Let's get started customizing your bedtime stories! It's very important that everyone is under the same name! We used our last name 'Romero', but you could really use anything you want, as long as it brings everyone together under the same banner!",
+								"Let's get started customizing your bedtime stories! It's very important that everyone is under the same name! We used our last name 'Romero', but you could really use anything you want, as long as it brings everyone together under one banner!",
 						},
 					},
 					{
@@ -113,19 +112,44 @@ export default class OnboardingSkillViewController extends AbstractSkillViewCont
 	}
 
 	private renderFooter() {
-		const idx = this.swipeVc?.getPresentSlide() ?? 0
 		return {
 			buttons: [
-				idx > 0
-					? {
-							id: 'back',
-							label: 'Back',
-							onClick: this.handleClickBack.bind(this),
-						}
-					: null,
+				this.optionallyRenderBackButton(),
 				this.renderNextButton(),
+				this.optionallyRenderSkipButton(),
 			].filter((b) => b) as Button[],
 		}
+	}
+
+	private getSlideIdx() {
+		return this.swipeVc?.getPresentSlide() ?? 0
+	}
+
+	private optionallyRenderSkipButton() {
+		const idx = this.getSlideIdx()
+		return idx == 0
+			? {
+					id: 'skip',
+					label: `I've done this, log me in already!`,
+					onClick: this.handleClickSkip.bind(this),
+				}
+			: null
+	}
+
+	private async handleClickSkip() {
+		this.onboarding.skip()
+		await this.router.redirect('eightbitstories.root')
+	}
+
+	private optionallyRenderBackButton() {
+		const idx = this.getSlideIdx()
+		return idx > 0
+			? {
+					id: 'back',
+					label: 'Back',
+					onClick: this.handleClickBack.bind(this),
+				}
+			: null
 	}
 
 	private async handleClickBack() {
@@ -151,10 +175,12 @@ export default class OnboardingSkillViewController extends AbstractSkillViewCont
 		}
 	}
 
-	public async load(
-		options: SkillViewControllerLoadOptions<Record<string, any>>
-	): Promise<void> {
-		const { router } = options
+	public async load(options: SkillViewControllerLoadOptions): Promise<void> {
+		const { router, authenticator } = options
+		if (authenticator.isLoggedIn()) {
+			await router.redirect('eightbitstories.root')
+			return
+		}
 		this.router = router
 	}
 
@@ -174,8 +200,7 @@ export default class OnboardingSkillViewController extends AbstractSkillViewCont
 			)
 		}
 
-		const onboarding = Onboarding.getInstance()
-		onboarding.set({
+		this.onboarding.set({
 			name,
 			values,
 		})

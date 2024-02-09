@@ -10,6 +10,7 @@ import {
 } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test-utils'
 import FeedbackCardViewController from '../../feedback/FeedbackCard.vc'
+import Onboarding from '../../onboarding/Onboarding'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
 import { SpyFeedbackCard } from './feedback/SpyFeedCard'
 
@@ -43,7 +44,8 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 	}
 
 	@test()
-	protected static async noFeedbackButtonIfNotLoggedIn() {
+	protected static async noFeedbackButtonIfNotLoggedInAndSkippingOnboarding() {
+		Onboarding.getInstance().skip()
 		this.auth.clearSession()
 		this.vc = this.Vc()
 		await this.load()
