@@ -1,5 +1,4 @@
 import {
-	AbstractSkillViewController,
 	Button,
 	CardViewController,
 	Router,
@@ -7,8 +6,9 @@ import {
 	SkillViewControllerLoadOptions,
 	ViewControllerOptions,
 } from '@sprucelabs/heartwood-view-controllers'
+import AbstractEightBitSkillView from './AbstracteightBitSkillView'
 
-export default class RootSkillViewController extends AbstractSkillViewController {
+export default class RootSkillViewController extends AbstractEightBitSkillView {
 	public static id = 'root'
 	protected cardVc: CardViewController
 	private router!: Router
@@ -21,6 +21,10 @@ export default class RootSkillViewController extends AbstractSkillViewController
 
 	public renderNavigation() {
 		return null
+	}
+
+	public async getIsLoginRequired() {
+		return this.onboarding.isOnboarding
 	}
 
 	private CardVc(): CardViewController {
@@ -88,9 +92,21 @@ export default class RootSkillViewController extends AbstractSkillViewController
 		options: SkillViewControllerLoadOptions<Record<string, any>>
 	): Promise<void> {
 		const { router, authenticator } = options
-		this.router = router
 
+		this.router = router
 		this.isLoggedIn = authenticator.isLoggedIn()
+
+		if (this.onboarding.isOnboarding) {
+			await this.remote.saveMeta({
+				name: this.onboarding.name!,
+				values: this.onboarding.values!,
+			})
+
+			this.onboarding.reset()
+
+			await this.router.redirect('eightbitstories.members')
+			return
+		}
 
 		if (this.isLoggedIn) {
 			this.cardVc.setBody(this.renderBody())

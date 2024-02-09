@@ -10,9 +10,9 @@ import {
 	buildForm,
 } from '@sprucelabs/heartwood-view-controllers'
 import metaSchema from '#spruce/schemas/eightbitstories/v2023_09_05/meta.schema'
-import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitSkillView'
+import AbstractLoggedInEightBitSkillView from '../skillViewControllers/AbstractLoggedInEightBitSkillView'
 
-export default class MetaSkillViewController extends AbstractEightBitSkillView {
+export default class MetaSkillViewController extends AbstractLoggedInEightBitSkillView {
 	public static id = 'meta'
 	protected cardVc: CardViewController
 	protected formVc: FormViewController<MetaSchema>
@@ -127,19 +127,8 @@ export default class MetaSkillViewController extends AbstractEightBitSkillView {
 	}
 
 	private async emitSave() {
-		const client = await this.connectToApi()
 		const { name, values } = this.formVc.getValues()
-		await client.emitAndFlattenResponses(
-			'eightbitstories.save-meta::v2023_09_05',
-			{
-				payload: {
-					meta: {
-						name: name!,
-						values: values!,
-					},
-				},
-			}
-		)
+		await this.remote.saveMeta({ name: name!, values: values! })
 	}
 
 	private async handleCancelForm() {

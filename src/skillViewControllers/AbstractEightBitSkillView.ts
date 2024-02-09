@@ -1,11 +1,22 @@
-import { AbstractSkillViewController } from '@sprucelabs/heartwood-view-controllers'
+import {
+	AbstractSkillViewController,
+	ViewControllerOptions,
+} from '@sprucelabs/heartwood-view-controllers'
+import Onboarding from '../onboarding/Onboarding'
+import RemoteStoreImpl, { RemoteStore } from '../RemoteStore'
 
 export default abstract class AbstractEightBitSkillView extends AbstractSkillViewController {
-	public async getIsLoginRequired() {
-		return true
+	protected remote: RemoteStore
+	public constructor(options: ViewControllerOptions) {
+		super(options)
+		this.remote = RemoteStoreImpl.Store(options.connectToApi)
 	}
 
 	public renderNavigation() {
 		return null
+	}
+
+	protected get onboarding() {
+		return Onboarding.getInstance()
 	}
 }

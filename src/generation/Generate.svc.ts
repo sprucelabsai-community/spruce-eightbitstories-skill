@@ -11,11 +11,11 @@ import {
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { buildSchema } from '@sprucelabs/schema'
 import { buildFormCard } from '@sprucelabs/spruce-form-utils'
-import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitSkillView'
+import AbstractLoggedInEightBitSkillView from '../skillViewControllers/AbstractLoggedInEightBitSkillView'
 import FormGettingVc from './FormGettingVc'
 import { storyElements } from './storyElements'
 
-export default class GenerateSkillViewController extends AbstractEightBitSkillView {
+export default class GenerateSkillViewController extends AbstractLoggedInEightBitSkillView {
 	public static id = 'generate'
 	protected cardVcs: ViewController<Card>[] = []
 	protected controlsVc: CardViewController
