@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v1.2.1...v1.3.0) (2024-02-09)
+
+
+### Features
+
+* onboarding complete!! ([91de2c1](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/91de2c1))
+
 ## [1.2.1](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v1.2.0...v1.2.1) (2024-02-04)
 
 # [1.2.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v1.1.0...v1.2.0) (2024-02-04)
