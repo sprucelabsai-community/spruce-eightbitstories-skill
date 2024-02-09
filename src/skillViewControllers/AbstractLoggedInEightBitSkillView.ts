@@ -1,4 +1,4 @@
-import AbstractEightBitSkillView from './AbstracteightBitSkillView'
+import AbstractEightBitSkillView from './AbstractEightBitSkillView'
 
 export default abstract class AbstractLoggedInEightBitSkillView extends AbstractEightBitSkillView {
 	public async getIsLoginRequired() {

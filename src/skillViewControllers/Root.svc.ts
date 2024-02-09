@@ -6,7 +6,7 @@ import {
 	SkillViewControllerLoadOptions,
 	ViewControllerOptions,
 } from '@sprucelabs/heartwood-view-controllers'
-import AbstractEightBitSkillView from './AbstracteightBitSkillView'
+import AbstractEightBitSkillView from './AbstractEightBitSkillView'
 
 export default class RootSkillViewController extends AbstractEightBitSkillView {
 	public static id = 'root'

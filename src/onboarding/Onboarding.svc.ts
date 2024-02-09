@@ -10,7 +10,7 @@ import {
 	Router,
 } from '@sprucelabs/heartwood-view-controllers'
 import { buildSchema } from '@sprucelabs/schema'
-import AbstractEightBitSkillView from '../skillViewControllers/AbstracteightBitSkillView'
+import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitSkillView'
 
 export default class OnboardingSkillViewController extends AbstractEightBitSkillView {
 	public static id = 'onboarding'
