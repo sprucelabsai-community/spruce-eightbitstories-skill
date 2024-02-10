@@ -8,9 +8,10 @@ import {
 	Button,
 	SkillViewControllerLoadOptions,
 	Router,
+	CardFooter,
 } from '@sprucelabs/heartwood-view-controllers'
 import { buildSchema } from '@sprucelabs/schema'
-import AbstractEightBitSkillView from '../skillViewControllers/AbstracEightBitSkillView'
+import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitSkillView'
 
 export default class OnboardingSkillViewController extends AbstractEightBitSkillView {
 	public static id = 'onboarding'
@@ -97,7 +98,7 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
 		this.swipeVc.setFooter(this.renderFooter())
 	}
 
-	private `SwipeVc(): SwipeCardViewController {
+	private SwipeVc(): SwipeCardViewController {
 		return this.Controller('swipe-card', {
 			header: this.renderHeader(),
 			onSlideChange: this.handleSlideChange.bind(this),
@@ -111,8 +112,9 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
 		})
 	}
 
-	private renderFooter() {
+	private renderFooter(): CardFooter {
 		return {
+			isSticky: true,
 			buttons: [
 				this.optionallyRenderBackButton(),
 				this.renderNextButton(),
