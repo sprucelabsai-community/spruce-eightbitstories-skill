@@ -50,7 +50,7 @@ export default class MembersSkillViewController extends AbstractLoggedInEightBit
 					buttons: [
 						{
 							id: 'back',
-							label: 'Back',
+							label: 'Done',
 							onClick: this.handleClickBack.bind(this),
 						},
 						{

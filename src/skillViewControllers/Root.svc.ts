@@ -33,7 +33,7 @@ export default class RootSkillViewController extends AbstractEightBitSkillView {
 				title: '8-bit Stories',
 				image:
 					'https://s3.amazonaws.com/storybook.sprucelabs.ai/8bitstories.jpg',
-				subtitle: 'Bedtime stories for families who know their values!',
+				subtitle: 'Bedtime stories about your family on epic adventures!',
 			},
 			body: this.renderBody(),
 		})
