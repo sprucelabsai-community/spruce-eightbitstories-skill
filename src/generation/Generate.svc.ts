@@ -7,7 +7,6 @@ import {
 	ViewController,
 	ViewControllerOptions,
 	buildSkillViewLayout,
-	splitCardsIntoLayouts,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { buildSchema } from '@sprucelabs/schema'
