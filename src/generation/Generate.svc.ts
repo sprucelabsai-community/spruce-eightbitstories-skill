@@ -6,6 +6,7 @@ import {
 	SkillViewControllerLoadOptions,
 	ViewController,
 	ViewControllerOptions,
+	buildSkillViewLayout,
 	splitCardsIntoLayouts,
 } from '@sprucelabs/heartwood-view-controllers'
 import { MercuryClient } from '@sprucelabs/mercury-client'
@@ -228,11 +229,12 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
 	}
 
 	public render(): SkillView {
+		const skillView = buildSkillViewLayout('big-left', {
+			leftCards: [this.elementsVc.render(), this.membersVc.render()],
+			rightCards: [this.currentChallengeVc.render(), this.controlsVc.render()],
+		})
 		return {
-			layouts: splitCardsIntoLayouts(
-				this.cardVcs.map((c) => c.render()),
-				3
-			),
+			...skillView,
 		}
 	}
 }
