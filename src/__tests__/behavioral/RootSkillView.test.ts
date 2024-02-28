@@ -46,9 +46,12 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 	@test()
 	protected static async noFeedbackButtonIfNotLoggedInAndSkippingOnboarding() {
 		Onboarding.getInstance().skip()
+
 		this.auth.clearSession()
 		this.vc = this.Vc()
+
 		await this.load()
+
 		buttonAssert.cardDoesNotRenderButton(this.cardVc, 'feedback')
 	}
 
@@ -87,7 +90,9 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
 	protected static async submittingFormHidesDialog() {
 		const { feedbackVc, dlgVc } = await this.clickFeedbackAndAssertDialog()
 		const handler = feedbackVc.getOnSubmitHandler()
+
 		await handler()
+
 		assert.isFalse(dlgVc.getIsVisible())
 	}
 
