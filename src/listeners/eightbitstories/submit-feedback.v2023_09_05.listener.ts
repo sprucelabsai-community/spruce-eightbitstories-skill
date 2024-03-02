@@ -8,9 +8,11 @@ import { SpruceSchemas } from '#spruce/schemas/schemas.types'
 export default async (
 	event: SpruceEvent<SkillEventContract, EmitPayload>
 ): SpruceEventResponse<ResponsePayload> => {
-	const { client, payload, source } = event
+	const { payload, source, connectToApiAsSkill } = event
 	const { feedback } = payload
 	const { personId } = source
+
+	const client = await connectToApiAsSkill()
 
 	await client.emitAndFlattenResponses('send-message::v2020_12_25', {
 		target: {

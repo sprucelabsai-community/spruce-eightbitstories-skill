@@ -32,11 +32,14 @@ export default class SubmitFeedbackListenerTest extends AbstractEightBitTest {
 
 		let passedTarget: SendMessageTargetAndPayload['target'] | undefined
 		let passedPayload: SendMessageTargetAndPayload['payload'] | undefined
+		let passedSource: SendMessageTargetAndPayload['source'] | undefined
 
-		await this.eventFaker.fakeSendMessage(({ target, payload }) => {
+		await this.eventFaker.fakeSendMessage(({ target, payload, source }) => {
 			passedTarget = target
 			passedPayload = payload
+			passedSource = source
 		})
+
 		await this.submitFeedback()
 
 		assert.isEqualDeep(passedTarget, {
@@ -51,6 +54,12 @@ export default class SubmitFeedbackListenerTest extends AbstractEightBitTest {
 					this.randomFeedback +
 					`\n\nhttps://spruce.bot/#views/feed.root?personId=${this.fakedPerson.id}`,
 			},
+		})
+
+		const { skill } = await this.skills.loginAsCurrentSkill()
+
+		assert.isEqualDeep(passedSource, {
+			skillId: skill.id,
 		})
 	}
 
