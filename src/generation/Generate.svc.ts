@@ -61,7 +61,7 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
 						name: 'currentChallenge',
 						renderAs: 'textarea',
 						label: 'Current Challenge',
-						hint: 'Example: "We\'re on a trip to meet our friends for a pictnic! Lisa is scared of being away from home, so lets focus on being brave!"',
+						hint: 'Example: "We\'re on a trip to meet our friends for a pictnic! Lisa is scared of being away from home, so lets focus on being brave and adventurous!"',
 					},
 				],
 				shouldShowSubmitControls: false,
