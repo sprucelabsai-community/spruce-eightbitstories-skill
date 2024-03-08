@@ -170,6 +170,7 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
 
 	public async load(options: SkillViewControllerLoadOptions) {
 		const { router } = options
+
 		this.router = router
 		this.client = await this.connectToApi()
 

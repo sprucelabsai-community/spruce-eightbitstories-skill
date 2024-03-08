@@ -81,8 +81,8 @@ export default class PromptGeneratorTest extends AbstractEightBitTest {
 		this.promptOptions.familyName = 'Romero'
 		this.promptOptions.familyValues = `A Romero never gives up, but knows when to pivot.\nA Romero always tries their best!`
 		this.promptOptions.storyElements = [storyElements[0], storyElements[9]]
-		const prompt = this.generate()
-		this.log('Prompt:', prompt)
+		// const prompt = this.generate()
+		// this.log('Prompt:', prompt)
 	}
 
 	@test()

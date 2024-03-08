@@ -59,6 +59,7 @@
     "@sprucelabs/spruce-skill-utils": "^30.2.0",
     "@sprucelabs/spruce-store-plugin": "^60.1.260",
     "@sprucelabs/spruce-view-plugin": "^46.0.388",
+    "axios": "^1.6.7",
     "dotenv": "^16.4.5",
     "openai": "^4.28.0"
   },
