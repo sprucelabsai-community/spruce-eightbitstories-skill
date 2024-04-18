@@ -1,3 +1,11 @@
+# [2.0.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v1.3.23...v2.0.0) (2024-04-18)
+
+
+### Breaking Changes
+
+* upgrade ([26cabb3](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/26cabb3))
+* upgrade ([aab388a](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/aab388a))
+
 ## [1.3.23](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v1.3.22...v1.3.23) (2024-04-03)
 
 ## [1.3.22](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v1.3.21...v1.3.22) (2024-04-03)
