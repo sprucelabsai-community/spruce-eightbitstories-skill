@@ -5,9 +5,9 @@ import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
 export default class OnboardingTrackerTest extends AbstractEightBitTest {
-	@test()
-	protected static async defaultsToNotOnboarding() {
-		const onboarding = Onboarding.getInstance()
-		assert.isFalse(onboarding.isOnboarding)
-	}
+    @test()
+    protected static async defaultsToNotOnboarding() {
+        const onboarding = Onboarding.getInstance()
+        assert.isFalse(onboarding.isOnboarding)
+    }
 }

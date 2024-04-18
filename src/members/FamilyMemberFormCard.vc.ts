@@ -1,157 +1,160 @@
 import {
-	AbstractViewController,
-	Card,
-	CardViewController,
-	FormViewController,
-	ViewControllerOptions,
-	buildForm,
+    AbstractViewController,
+    Card,
+    CardViewController,
+    FormViewController,
+    ViewControllerOptions,
+    buildForm,
 } from '@sprucelabs/heartwood-view-controllers'
 import familyMemberSchema from '#spruce/schemas/eightbitstories/v2023_09_05/familyMember.schema'
 import {
-	FamilyMember,
-	FamilyMemberSchema,
-	PublicFamilyMember,
+    FamilyMember,
+    FamilyMemberSchema,
+    PublicFamilyMember,
 } from '../eightbitstories.types'
 
 export default class FamilyMemberFormCardViewController extends AbstractViewController<Card> {
-	public static id = 'family-member-form-card'
-	private cardVc: CardViewController
-	protected formVc: FormViewController<FamilyMemberSchema>
-	private onCancelHandler: () => void | Promise<void>
-	private onUpdateHandler?: OnAddHandler
-	protected onAddHandler?: OnAddHandler
-	protected member?: PublicFamilyMember
+    public static id = 'family-member-form-card'
+    private cardVc: CardViewController
+    protected formVc: FormViewController<FamilyMemberSchema>
+    private onCancelHandler: () => void | Promise<void>
+    private onUpdateHandler?: OnAddHandler
+    protected onAddHandler?: OnAddHandler
+    protected member?: PublicFamilyMember
 
-	public constructor(
-		options: ViewControllerOptions & FamilyMemberFormCardOptions
-	) {
-		super(options)
+    public constructor(
+        options: ViewControllerOptions & FamilyMemberFormCardOptions
+    ) {
+        super(options)
 
-		const { onCancel, onAdd, member, onUpdate } = options
+        const { onCancel, onAdd, member, onUpdate } = options
 
-		this.onCancelHandler = onCancel
-		this.onAddHandler = onAdd
-		this.onUpdateHandler = onUpdate
-		this.member = member
+        this.onCancelHandler = onCancel
+        this.onAddHandler = onAdd
+        this.onUpdateHandler = onUpdate
+        this.member = member
 
-		this.formVc = this.FormVc()
-		this.cardVc = this.CardVc()
-	}
+        this.formVc = this.FormVc()
+        this.cardVc = this.CardVc()
+    }
 
-	public async load() {
-		if (this.member) {
-			await this.formVc.setValues(this.member)
-		}
-	}
+    public async load() {
+        if (this.member) {
+            await this.formVc.setValues(this.member)
+        }
+    }
 
-	private CardVc(): CardViewController {
-		return this.Controller('card', {
-			header: {
-				title: this.member ? this.member.name : 'Add family member!',
-			},
-			body: {
-				sections: [
-					{
-						form: this.formVc.render(),
-					},
-				],
-			},
-		})
-	}
+    private CardVc(): CardViewController {
+        return this.Controller('card', {
+            header: {
+                title: this.member ? this.member.name : 'Add family member!',
+            },
+            body: {
+                sections: [
+                    {
+                        form: this.formVc.render(),
+                    },
+                ],
+            },
+        })
+    }
 
-	private FormVc() {
-		return this.Controller(
-			'form',
-			buildForm({
-				id: 'family-member-form',
-				schema: familyMemberSchema,
-				onCancel: this.handleClickCancel.bind(this),
-				onSubmit: this.handleSubmit.bind(this),
-				sections: [
-					{
-						fields: [
-							{
-								name: 'name',
-								hint: "Enter their first name, full name, nick name, or anything else and I'll use it when identifying them in your stories!",
-							},
-							{
-								name: 'bio',
-								renderAs: 'textarea',
-								hint: 'Tell me a little about your family member. What do they do? What do they like? You can even put in things like their favorite color or food. This will help me write better stories about them!',
-							},
-						],
-					},
-				],
-			})
-		)
-	}
+    private FormVc() {
+        return this.Controller(
+            'form',
+            buildForm({
+                id: 'family-member-form',
+                schema: familyMemberSchema,
+                onCancel: this.handleClickCancel.bind(this),
+                onSubmit: this.handleSubmit.bind(this),
+                sections: [
+                    {
+                        fields: [
+                            {
+                                name: 'name',
+                                hint: "Enter their first name, full name, nick name, or anything else and I'll use it when identifying them in your stories!",
+                            },
+                            {
+                                name: 'bio',
+                                renderAs: 'textarea',
+                                hint: 'Tell me a little about your family member. What do they do? What do they like? You can even put in things like their favorite color or food. This will help me write better stories about them!',
+                            },
+                        ],
+                    },
+                ],
+            })
+        )
+    }
 
-	private async handleSubmit() {
-		this.formVc.setIsBusy(true)
+    private async handleSubmit() {
+        this.formVc.setIsBusy(true)
 
-		try {
-			if (this.member) {
-				await this.updateMember()
-			} else {
-				await this.createMember()
-			}
-		} catch (err: any) {
-			await this.alert({
-				message: err.message ?? 'Oh no! I could not add your family member!',
-			})
-		}
+        try {
+            if (this.member) {
+                await this.updateMember()
+            } else {
+                await this.createMember()
+            }
+        } catch (err: any) {
+            await this.alert({
+                message:
+                    err.message ?? 'Oh no! I could not add your family member!',
+            })
+        }
 
-		this.formVc.setIsBusy(false)
-	}
+        this.formVc.setIsBusy(false)
+    }
 
-	private async updateMember() {
-		const client = await this.connectToApi()
-		await client.emitAndFlattenResponses(
-			'eightbitstories.update-family-member::v2023_09_05',
-			{
-				target: {
-					familyMemberId: this.member!.id,
-				},
-				payload: {
-					familyMember: this.formVc.getValues(),
-				},
-			}
-		)
+    private async updateMember() {
+        const client = await this.connectToApi()
+        await client.emitAndFlattenResponses(
+            'eightbitstories.update-family-member::v2023_09_05',
+            {
+                target: {
+                    familyMemberId: this.member!.id,
+                },
+                payload: {
+                    familyMember: this.formVc.getValues(),
+                },
+            }
+        )
 
-		await this.onUpdateHandler?.({
-			id: this.member!.id,
-			...this.formVc.getValues(),
-		} as PublicFamilyMember)
-	}
+        await this.onUpdateHandler?.({
+            id: this.member!.id,
+            ...this.formVc.getValues(),
+        } as PublicFamilyMember)
+    }
 
-	private async createMember() {
-		const client = await this.connectToApi()
-		const [{ familyMember }] = await client.emitAndFlattenResponses(
-			'eightbitstories.add-family-member::v2023_09_05',
-			{
-				payload: {
-					familyMember: { ...(this.formVc.getValues() as FamilyMember) },
-				},
-			}
-		)
+    private async createMember() {
+        const client = await this.connectToApi()
+        const [{ familyMember }] = await client.emitAndFlattenResponses(
+            'eightbitstories.add-family-member::v2023_09_05',
+            {
+                payload: {
+                    familyMember: {
+                        ...(this.formVc.getValues() as FamilyMember),
+                    },
+                },
+            }
+        )
 
-		await this.onAddHandler?.(familyMember)
-	}
+        await this.onAddHandler?.(familyMember)
+    }
 
-	private async handleClickCancel() {
-		await this.onCancelHandler()
-	}
+    private async handleClickCancel() {
+        await this.onCancelHandler()
+    }
 
-	public render() {
-		return this.cardVc.render()
-	}
+    public render() {
+        return this.cardVc.render()
+    }
 }
 
 export interface FamilyMemberFormCardOptions {
-	onCancel: () => void | Promise<void>
-	onAdd?: OnAddHandler
-	onUpdate?: OnAddHandler
-	member?: PublicFamilyMember
+    onCancel: () => void | Promise<void>
+    onAdd?: OnAddHandler
+    onUpdate?: OnAddHandler
+    member?: PublicFamilyMember
 }
 
 type OnAddHandler = (member: PublicFamilyMember) => void | Promise<void>

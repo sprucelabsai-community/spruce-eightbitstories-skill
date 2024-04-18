@@ -8,26 +8,26 @@ export type PublicMeta = SpruceSchemas.Eightbitstories.v2023_09_05.GetMeta
 export type GetMeta = SpruceSchemas.Eightbitstories.v2023_09_05.GetMeta
 export type SaveMeta = SpruceSchemas.Eightbitstories.v2023_09_05.SaveMeta
 export type FamilyMemberSchema =
-	SpruceSchemas.Eightbitstories.v2023_09_05.FamilyMemberSchema
+    SpruceSchemas.Eightbitstories.v2023_09_05.FamilyMemberSchema
 export type FamilyMember =
-	SpruceSchemas.Eightbitstories.v2023_09_05.FamilyMember
+    SpruceSchemas.Eightbitstories.v2023_09_05.FamilyMember
 export type AddFamilyMember =
-	SpruceSchemas.Eightbitstories.v2023_09_05.AddFamilyMember
+    SpruceSchemas.Eightbitstories.v2023_09_05.AddFamilyMember
 export type UpdateFamilyMember =
-	SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMember
+    SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMember
 export type PublicFamilyMember =
-	SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
+    SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
 
 export interface StoryElement {
-	id: string
-	name: string
-	description: string
+    id: string
+    name: string
+    description: string
 }
 
 declare module '@sprucelabs/spruce-skill-utils/build/types/skill.types' {
-	interface SkillContext {
-		metas: MetaTracker
-		family: Family
-		generator: StoryGenerator
-	}
+    interface SkillContext {
+        metas: MetaTracker
+        family: Family
+        generator: StoryGenerator
+    }
 }

@@ -1,26 +1,26 @@
 import { SkillEventContract } from '@sprucelabs/mercury-types'
 import {
-	SpruceEvent,
-	SpruceEventResponse,
+    SpruceEvent,
+    SpruceEventResponse,
 } from '@sprucelabs/spruce-event-utils'
 import { SpruceSchemas } from '#spruce/schemas/schemas.types'
 
 export default async (
-	event: SpruceEvent<SkillEventContract, EmitPayload>
+    event: SpruceEvent<SkillEventContract, EmitPayload>
 ): SpruceEventResponse<ResponsePayload> => {
-	const { family, target, source } = event
-	const { familyMemberId } = target
-	const { personId } = source
+    const { family, target, source } = event
+    const { familyMemberId } = target
+    const { personId } = source
 
-	await family.deleteMember(personId!, familyMemberId)
+    await family.deleteMember(personId!, familyMemberId)
 
-	return {
-		success: true,
-	}
+    return {
+        success: true,
+    }
 }
 
 type EmitPayload =
-	SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberEmitTargetAndPayload
+    SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberEmitTargetAndPayload
 
 type ResponsePayload =
-	SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberResponsePayload
+    SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberResponsePayload

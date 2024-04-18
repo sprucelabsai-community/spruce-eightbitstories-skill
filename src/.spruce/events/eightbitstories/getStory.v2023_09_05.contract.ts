@@ -4,18 +4,18 @@ import getStoryEmitTargetAndPayloadSchema from '#spruce/schemas/eightbitstories/
 import getStoryResponsePayloadSchema from '#spruce/schemas/eightbitstories/v2023_09_05/getStoryResponsePayload.schema'
 
 const getStoryEventContract = buildEventContract({
-	eventSignatures: {
-		'eightbitstories.get-story::v2023_09_05': {
-			isGlobal: true,
-			emitPermissions: {
-				contractId: 'eightbitstories.eight-bit-stories',
-				permissionIdsAny: ['can-read-story'],
-			},
+    eventSignatures: {
+        'eightbitstories.get-story::v2023_09_05': {
+            isGlobal: true,
+            emitPermissions: {
+                contractId: 'eightbitstories.eight-bit-stories',
+                permissionIdsAny: ['can-read-story'],
+            },
 
-			emitPayloadSchema: getStoryEmitTargetAndPayloadSchema,
-			responsePayloadSchema: getStoryResponsePayloadSchema,
-		},
-	},
+            emitPayloadSchema: getStoryEmitTargetAndPayloadSchema,
+            responsePayloadSchema: getStoryResponsePayloadSchema,
+        },
+    },
 })
 export default getStoryEventContract
 
