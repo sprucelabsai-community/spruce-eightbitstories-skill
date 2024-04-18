@@ -1,6 +1,4 @@
 import {
-    FormViewController,
-    SwipeCardViewController,
     buttonAssert,
     formAssert,
     interactor,
@@ -10,10 +8,7 @@ import {
 import { fake } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert, generateId } from '@sprucelabs/test-utils'
 import Onboarding from '../../../onboarding/Onboarding'
-import OnboardingSkillViewController, {
-    NameFormSchema,
-    ValuesFormSchema,
-} from '../../../onboarding/Onboarding.svc'
+import OnboardingSkillViewController from '../../../onboarding/Onboarding.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
@@ -334,7 +329,7 @@ export default class OnboardingSkillViewTest extends AbstractEightBitTest {
     }
 
     private static get valuesFormVc() {
-        return this.vc.valuesFormVc
+        return this.vc.getValuesFormVc()
     }
 
     private static assertPresentSlide(slide: string) {
@@ -392,11 +387,11 @@ export default class OnboardingSkillViewTest extends AbstractEightBitTest {
     }
 
     private static get swipeVc() {
-        return this.vc.swipeVc
+        return this.vc.getSwipeVc()
     }
 
     private static get nameFormVc() {
-        return this.vc.nameFormVc
+        return this.vc.getNameFormVc()
     }
 
     private static async load() {
@@ -409,7 +404,15 @@ export default class OnboardingSkillViewTest extends AbstractEightBitTest {
 }
 
 class SpyOnboardingSkillView extends OnboardingSkillViewController {
-    public swipeVc!: SwipeCardViewController
-    public nameFormVc!: FormViewController<NameFormSchema>
-    public valuesFormVc!: FormViewController<ValuesFormSchema>
+    public getSwipeVc() {
+        return this.swipeVc
+    }
+
+    public getNameFormVc() {
+        return this.nameFormVc
+    }
+
+    public getValuesFormVc() {
+        return this.valuesFormVc
+    }
 }

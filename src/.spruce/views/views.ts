@@ -7,6 +7,8 @@ import OnboardingSkillViewController from '../../onboarding/Onboarding.svc'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
 import StorySkillViewController from '../../story/Story.svc'
 
+import '@sprucelabs/heartwood-view-controllers'
+
 const vcs = {
     GenerateSkillViewController,
     MembersSkillViewController,
@@ -17,6 +19,8 @@ const vcs = {
     FeedbackCardViewController,
     FamilyMemberFormCardViewController,
 }
+
+export const pluginsByName = {}
 
 type LoadOptions<Args extends Record<string, any>[]> =
     Args[0]['args'] extends Record<string, any>
@@ -73,11 +77,14 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
             typeof FamilyMemberFormCardViewController
         >[0]
     }
+
+    interface ViewControllerPlugins {}
 }
 
 //@ts-ignore
 if (typeof heartwood === 'function') {
-    heartwood(vcs)
+    //@ts-ignore
+    heartwood(vcs, pluginsByName)
 }
 
 export default vcs
