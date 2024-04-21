@@ -12,8 +12,8 @@ import '@sprucelabs/heartwood-view-controllers'
 const vcs = {
     GenerateSkillViewController,
     MembersSkillViewController,
-    MetaSkillViewController,
     OnboardingSkillViewController,
+    MetaSkillViewController,
     RootSkillViewController,
     StorySkillViewController,
     FeedbackCardViewController,
@@ -31,8 +31,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
     interface SkillViewControllerMap {
         'eightbitstories.generate': GenerateSkillViewController
         'eightbitstories.members': MembersSkillViewController
-        'eightbitstories.meta': MetaSkillViewController
         'eightbitstories.onboarding': OnboardingSkillViewController
+        'eightbitstories.meta': MetaSkillViewController
         'eightbitstories.root': RootSkillViewController
         'eightbitstories.story': StorySkillViewController
     }
@@ -44,11 +44,11 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
         'eightbitstories.members': LoadOptions<
             Parameters<MembersSkillViewController['load']>
         >
-        'eightbitstories.meta': LoadOptions<
-            Parameters<MetaSkillViewController['load']>
-        >
         'eightbitstories.onboarding': LoadOptions<
             Parameters<OnboardingSkillViewController['load']>
+        >
+        'eightbitstories.meta': LoadOptions<
+            Parameters<MetaSkillViewController['load']>
         >
         'eightbitstories.root': LoadOptions<
             Parameters<RootSkillViewController['load']>
@@ -63,8 +63,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
         'eightbitstories.family-member-form-card': FamilyMemberFormCardViewController
         'eightbitstories.generate': GenerateSkillViewController
         'eightbitstories.members': MembersSkillViewController
-        'eightbitstories.meta': MetaSkillViewController
         'eightbitstories.onboarding': OnboardingSkillViewController
+        'eightbitstories.meta': MetaSkillViewController
         'eightbitstories.root': RootSkillViewController
         'eightbitstories.story': StorySkillViewController
     }
