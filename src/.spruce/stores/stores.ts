@@ -3,7 +3,7 @@ import MetaStore from '../../meta/Meta.store'
 import StoriesStore from '../../story/Stories.store'
 
 export default {
-    familyMembers: FamilyMembersStore,
-    meta: MetaStore,
-    stories: StoriesStore,
+            familyMembers: FamilyMembersStore,
+            meta: MetaStore,
+            stories: StoriesStore,
 }
