@@ -3,7 +3,7 @@ import { SchemaError } from '@sprucelabs/schema'
 import { Level, LogTransport } from '@sprucelabs/spruce-skill-utils'
 import axios from 'axios'
 
-export const buildSlackTransport: (url: string, level: Level) => LogTransport =
+const buildSlackTransport: (url: string, level: Level) => LogTransport =
     function (url: string, level: Level) {
         if (!url) {
             throw new SchemaError({
@@ -39,3 +39,5 @@ export const buildSlackTransport: (url: string, level: Level) => LogTransport =
             }
         }
     }
+
+export default buildSlackTransport
