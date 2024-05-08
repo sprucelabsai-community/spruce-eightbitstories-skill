@@ -1,7 +1,7 @@
 import GenerateSkillViewController from '../../generation/Generate.svc'
 import MembersSkillViewController from '../../members/Members.svc'
-import OnboardingSkillViewController from '../../onboarding/Onboarding.svc'
 import MetaSkillViewController from '../../meta/Meta.svc'
+import OnboardingSkillViewController from '../../onboarding/Onboarding.svc'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
 import StorySkillViewController from '../../story/Story.svc'
 import FeedbackCardViewController from '../../feedback/FeedbackCard.vc'
@@ -12,8 +12,8 @@ import '@sprucelabs/heartwood-view-controllers'
 const vcs = {
     GenerateSkillViewController,
     MembersSkillViewController,
-    OnboardingSkillViewController,
     MetaSkillViewController,
+    OnboardingSkillViewController,
     RootSkillViewController,
     StorySkillViewController,
     FeedbackCardViewController,
@@ -29,8 +29,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 	interface SkillViewControllerMap {
 		'eightbitstories.generate': GenerateSkillViewController
 		'eightbitstories.members': MembersSkillViewController
-		'eightbitstories.onboarding': OnboardingSkillViewController
 		'eightbitstories.meta': MetaSkillViewController
+		'eightbitstories.onboarding': OnboardingSkillViewController
 		'eightbitstories.root': RootSkillViewController
 		'eightbitstories.story': StorySkillViewController
 	}
@@ -38,8 +38,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 	interface SkillViewControllerArgsMap {
 		'eightbitstories.generate': LoadOptions<Parameters<GenerateSkillViewController['load']>>
 		'eightbitstories.members': LoadOptions<Parameters<MembersSkillViewController['load']>>
-		'eightbitstories.onboarding': LoadOptions<Parameters<OnboardingSkillViewController['load']>>
 		'eightbitstories.meta': LoadOptions<Parameters<MetaSkillViewController['load']>>
+		'eightbitstories.onboarding': LoadOptions<Parameters<OnboardingSkillViewController['load']>>
 		'eightbitstories.root': LoadOptions<Parameters<RootSkillViewController['load']>>
 		'eightbitstories.story': LoadOptions<Parameters<StorySkillViewController['load']>>
 	}
@@ -49,8 +49,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 		'eightbitstories.family-member-form-card': FamilyMemberFormCardViewController
 		'eightbitstories.generate': GenerateSkillViewController
 		'eightbitstories.members': MembersSkillViewController
-		'eightbitstories.onboarding': OnboardingSkillViewController
 		'eightbitstories.meta': MetaSkillViewController
+		'eightbitstories.onboarding': OnboardingSkillViewController
 		'eightbitstories.root': RootSkillViewController
 		'eightbitstories.story': StorySkillViewController
 	}
