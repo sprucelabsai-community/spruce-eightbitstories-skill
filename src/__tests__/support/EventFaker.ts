@@ -3,6 +3,18 @@ import { generateId } from '@sprucelabs/test-utils'
 import { GetMeta, PublicFamilyMember } from '../../eightbitstories.types'
 
 export default class EventFaker {
+    public async fakeGetMmpSetup(cb?: () => void) {
+        await eventFaker.on(
+            'eightbitstories.get-mmp-setup::v2023_09_05',
+            () => {
+                return {
+                    appToken: generateId(),
+                    environement: 'production',
+                }
+            }
+        )
+    }
+
     public async fakeSendMessage(
         cb?: (targetAndPayload: SendMessageTargetAndPayload) => void
     ) {
