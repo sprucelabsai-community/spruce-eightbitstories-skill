@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v2.1.0...v2.2.0) (2024-06-18)
+
+
+### Features
+
+* adjust setup ([69351e7](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/69351e7))
+
 # [2.1.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v2.0.12...v2.1.0) (2024-06-18)
 
 
