@@ -116,16 +116,20 @@ export default class RootSkillViewController extends AbstractEightBitSkillView {
     }
 
     private async setupMmp() {
-        const client = await this.connectToApi()
-        const [{ appToken, environment }] =
-            await client.emitAndFlattenResponses(
-                'eightbitstories.get-mmp-setup::v2023_09_05'
-            )
+        try {
+            const client = await this.connectToApi()
+            const [{ appToken, environment }] =
+                await client.emitAndFlattenResponses(
+                    'eightbitstories.get-mmp-setup::v2023_09_05'
+                )
 
-        this.plugins.mmp.setup({
-            appToken,
-            environment,
-        })
+            this.plugins.mmp.setup({
+                appToken,
+                environment,
+            })
+        } catch (err: any) {
+            this.log.error('Failed to setup MMP', err.stack ?? err.message)
+        }
     }
 
     private async handleFinishOnboarding() {
