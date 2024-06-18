@@ -7,10 +7,12 @@ export default class EventFaker {
         await eventFaker.on(
             'eightbitstories.get-mmp-setup::v2023_09_05',
             () => {
-                return {
-                    appToken: generateId(),
-                    environement: 'production',
-                }
+                return (
+                    cb?.() ?? {
+                        appToken: generateId(),
+                        environment: 'production',
+                    }
+                )
             }
         )
     }

@@ -1,10 +1,7 @@
-import {
-    vcAssert,
-    vcPluginAssert,
-} from '@sprucelabs/heartwood-view-controllers'
+import { vcPluginAssert } from '@sprucelabs/heartwood-view-controllers'
 import { AdjustMmpVcPlugin, mmpAssert } from '@sprucelabs/spruce-mmp-vc-plugin'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert } from '@sprucelabs/test-utils'
+import { test, generateId } from '@sprucelabs/test-utils'
 import RootSkillViewController from '../../../skillViewControllers/Root.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
@@ -25,14 +22,23 @@ export default class AdjustMmpTest extends AbstractEightBitTest {
 
     @test()
     protected static async adjustIsConfiguredOnLoad() {
-        let wasHit = false
+        const appToken = generateId()
+        const environment = generateId()
+
         await this.eventFaker.fakeGetMmpSetup(() => {
-            wasHit = true
+            return {
+                appToken,
+                environment,
+            }
         })
 
         await mmpAssert.pluginIsSetup({
             action: () => this.views.load(this.vc),
             partner: 'adjust',
+            setupOptions: {
+                appToken,
+                environment,
+            },
         })
     }
 }

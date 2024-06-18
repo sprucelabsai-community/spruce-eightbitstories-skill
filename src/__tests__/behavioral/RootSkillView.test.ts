@@ -4,18 +4,16 @@ import {
     navigationAssert,
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
-import {
-    AbstractSpruceFixtureTest,
-    fake,
-} from '@sprucelabs/spruce-test-fixtures'
+import { fake } from '@sprucelabs/spruce-test-fixtures'
 import { assert, test } from '@sprucelabs/test-utils'
 import FeedbackCardViewController from '../../feedback/FeedbackCard.vc'
 import Onboarding from '../../onboarding/Onboarding'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
+import AbstractEightBitTest from '../support/AbstractEightBitTest'
 import { SpyFeedbackCard } from './feedback/SpyFeedCard'
 
 @fake.login()
-export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
+export default class RootSkillViewTest extends AbstractEightBitTest {
     private static vc: SpyRootSkillView
 
     protected static async beforeEach() {
@@ -28,6 +26,7 @@ export default class RootSkillViewTest extends AbstractSpruceFixtureTest {
         this.views.setController('eightbitstories.root', SpyRootSkillView)
         this.vc = this.Vc()
 
+        await this.eventFaker.fakeGetMmpSetup()
         await this.load()
     }
 

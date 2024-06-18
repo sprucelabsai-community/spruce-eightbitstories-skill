@@ -26,6 +26,8 @@ export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
 
         this.vc = this.views.Controller('eightbitstories.root', {})
 
+        await this.eventFaker.fakeGetMmpSetup()
+
         this.setupOnboarding()
     }
 

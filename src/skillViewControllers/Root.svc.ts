@@ -88,6 +88,8 @@ export default class RootSkillViewController extends AbstractEightBitSkillView {
     ): Promise<void> {
         const { router, authenticator } = options
 
+        await this.setupMmp()
+
         this.router = router
         const isLoggedIn = authenticator.isLoggedIn()
 
@@ -104,21 +106,37 @@ export default class RootSkillViewController extends AbstractEightBitSkillView {
             !this.onboarding.didSkipOnboarding &&
             this.onboarding.isOnboarding
         ) {
-            await this.remote.saveMeta({
-                name: this.onboarding.name!,
-                values: this.onboarding.values!,
-            })
-
-            this.onboarding.reset()
-
-            await this.router.redirect('eightbitstories.members')
-
+            await this.handleFinishOnboarding()
             return
         }
 
         if (isLoggedIn) {
             this.cardVc.setBody(this.renderBody(true))
         }
+    }
+
+    private async setupMmp() {
+        const client = await this.connectToApi()
+        const [{ appToken, environment }] =
+            await client.emitAndFlattenResponses(
+                'eightbitstories.get-mmp-setup::v2023_09_05'
+            )
+
+        this.plugins.mmp.setup({
+            appToken,
+            environment,
+        })
+    }
+
+    private async handleFinishOnboarding() {
+        await this.remote.saveMeta({
+            name: this.onboarding.name!,
+            values: this.onboarding.values!,
+        })
+
+        this.onboarding.reset()
+
+        await this.router.redirect('eightbitstories.members')
     }
 
     private async handleClickMeta() {
