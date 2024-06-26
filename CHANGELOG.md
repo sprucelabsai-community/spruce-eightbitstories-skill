@@ -1,3 +1,5 @@
+## [2.2.5](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v2.2.4...v2.2.5) (2024-06-26)
+
 ## [2.2.4](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v2.2.3...v2.2.4) (2024-06-24)
 
 ## [2.2.3](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v2.2.2...v2.2.3) (2024-06-24)
