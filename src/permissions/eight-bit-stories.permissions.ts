@@ -66,6 +66,19 @@ const eightBitStoriesPermissions = buildPermissionContract({
             },
             requireAllStatuses: false,
         },
+        {
+            id: 'can-mmp',
+            name: 'Can do MMP things (for tracking)',
+            defaults: {
+                anonymous: {
+                    default: true,
+                },
+                loggedIn: {
+                    default: true,
+                },
+            },
+            requireAllStatuses: false,
+        },
     ],
 })
 
