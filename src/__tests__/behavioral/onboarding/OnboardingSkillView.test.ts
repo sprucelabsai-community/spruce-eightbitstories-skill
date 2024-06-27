@@ -8,29 +8,10 @@ import {
 import { fake } from '@sprucelabs/spruce-test-fixtures'
 import { test, assert, generateId } from '@sprucelabs/test-utils'
 import Onboarding from '../../../onboarding/Onboarding'
-import OnboardingSkillViewController from '../../../onboarding/Onboarding.svc'
-import AbstractEightBitTest from '../../support/AbstractEightBitTest'
+import AbstractOnboardingTest from './AbstractOnboardingTest'
 
 @fake.login()
-export default class OnboardingSkillViewTest extends AbstractEightBitTest {
-    private static vc: SpyOnboardingSkillView
-
-    protected static async beforeEach() {
-        await super.beforeEach()
-
-        Onboarding.clear()
-
-        this.views.setController(
-            'eightbitstories.onboarding',
-            SpyOnboardingSkillView
-        )
-        this.vc = this.Vc()
-
-        this.auth.clearSession()
-
-        await this.load()
-    }
-
+export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     @test()
     protected static async rendersExpectedCard() {
         vcAssert.assertSkillViewRendersSwipeCard(this.vc)
@@ -277,13 +258,6 @@ export default class OnboardingSkillViewTest extends AbstractEightBitTest {
         assert.isTrue(onboarding.didSkipOnboarding)
     }
 
-    private static Vc(): SpyOnboardingSkillView {
-        return this.views.Controller(
-            'eightbitstories.onboarding',
-            {}
-        ) as SpyOnboardingSkillView
-    }
-
     private static async fillEverythingOutClickNextAndAssertRedirect() {
         await this.fillOutNameAndValues()
         await this.clickNext()
@@ -392,27 +366,5 @@ export default class OnboardingSkillViewTest extends AbstractEightBitTest {
 
     private static get nameFormVc() {
         return this.vc.getNameFormVc()
-    }
-
-    private static async load() {
-        await this.views.load(this.vc)
-    }
-
-    private static get auth() {
-        return this.permissions.getAuthenticator()
-    }
-}
-
-class SpyOnboardingSkillView extends OnboardingSkillViewController {
-    public getSwipeVc() {
-        return this.swipeVc
-    }
-
-    public getNameFormVc() {
-        return this.nameFormVc
-    }
-
-    public getValuesFormVc() {
-        return this.valuesFormVc
     }
 }

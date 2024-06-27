@@ -184,6 +184,9 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
             await router.redirect('eightbitstories.root')
             return
         }
+
+        this.plugins.mmp.trackEvent('lsljiq')
+
         this.router = router
     }
 
