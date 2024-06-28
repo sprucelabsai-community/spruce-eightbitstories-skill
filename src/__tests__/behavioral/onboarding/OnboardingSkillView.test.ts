@@ -1,7 +1,6 @@
 import {
     buttonAssert,
     formAssert,
-    interactor,
     navigationAssert,
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
@@ -100,7 +99,7 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     @test()
     protected static async clearingNameResetsHeader() {
         await this.jumpToNameSlide()
-        await this.nameFormVc.setValue('name', generateId())
+        await this.setName(generateId())
         await this.setName('')
 
         this.assertExpectedHeader('Family Name')
@@ -261,27 +260,11 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     private static async fillEverythingOutClickNextAndAssertRedirect() {
         await this.fillOutNameAndValues()
         await this.clickNext()
-        await vcAssert.assertActionRedirects({
-            action: () => this.clickNext(),
-            destination: {
-                id: 'eightbitstories.root',
-            },
-            router: this.views.getRouter(),
-        })
+        await this.clickNextAndAssertRedirect()
     }
 
     private static async clickBack() {
         await this.clickButton('back')
-    }
-
-    private static async fillOutNameAndValues() {
-        await this.fillOutNameSubmitAndClearValues()
-        await this.valuesFormVc.setValue('values', generateId())
-    }
-
-    private static async fillOutNameSubmitAndClearValues() {
-        await this.fillOutNameAndSubmit()
-        await this.clickButton('clear')
     }
 
     private static assertDoesNotRenderButton(name: string) {
@@ -296,26 +279,8 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
         buttonAssert.cardRendersButton(this.swipeVc, name)
     }
 
-    private static async fillOutNameAndSubmit() {
-        await this.jumpToNameSlide()
-        await this.setName()
-        await interactor.submitForm(this.nameFormVc)
-    }
-
-    private static get valuesFormVc() {
-        return this.vc.getValuesFormVc()
-    }
-
     private static assertPresentSlide(slide: string) {
         assert.isEqual(this.swipeVc.getPresentSlideId(), slide)
-    }
-
-    private static async clickNext() {
-        await this.clickButton('next')
-    }
-
-    private static async clickButton(name: string) {
-        await interactor.clickButton(this.swipeVc, name)
     }
 
     private static assertNextButtonIsDisabled() {
@@ -324,18 +289,6 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
 
     private static assertNextButtonIsEnabled() {
         buttonAssert.buttonIsEnabled(this.swipeVc, 'next')
-    }
-
-    private static async jumpToNameSlide() {
-        await this.jumpToSlide('name')
-    }
-
-    private static async setName(name?: string) {
-        await this.nameFormVc.setValue('name', name ?? generateId())
-    }
-
-    private static async jumpToSlide(slide: string) {
-        await this.swipeVc.jumpToSlide(slide)
     }
 
     private static assertExpectedHeader(
@@ -358,13 +311,5 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
 
     private static assertRendersNextButton() {
         this.assertRendersButton('next')
-    }
-
-    private static get swipeVc() {
-        return this.vc.getSwipeVc()
-    }
-
-    private static get nameFormVc() {
-        return this.vc.getNameFormVc()
     }
 }

@@ -10,6 +10,7 @@ export default class Onboarding {
         if (!this.instance) {
             this.instance = new this()
         }
+
         return this.instance
     }
 

@@ -16,18 +16,25 @@ import AbstractEightBitSkillView from '../skillViewControllers/AbstractEightBitS
 export default class OnboardingSkillViewController extends AbstractEightBitSkillView {
     public static id = 'onboarding'
     protected swipeVc: SwipeCardViewController
-    private titles = {
+    private titles: Record<SLIDE, string> = {
         intro: 'Unlimited Personalized Bedtime Stories',
         name: 'Family Name',
         values: 'Family Values',
         members: 'Family Members',
     }
 
-    private images = {
+    private images: Partial<Record<SLIDE, string>> = {
         name: 'https://s3.amazonaws.com/storybook.sprucelabs.ai/onboarding-boat.jpg',
         values: 'https://s3.amazonaws.com/storybook.sprucelabs.ai/snow.jpg',
         members:
             'https://s3.amazonaws.com/storybook.sprucelabs.ai/theme-park.jpg',
+    }
+
+    private eventsBySlide: Record<SLIDE, string> = {
+        intro: 'lsljiq',
+        name: 'ylvvtus',
+        values: '2spok6',
+        members: 'r5s2ts',
     }
 
     protected nameFormVc: FormViewController<NameFormSchema>
@@ -161,7 +168,7 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
 
     private renderNextButton(): Button {
         let isEnabled = true
-        const currentSlide = this.swipeVc?.getPresentSlideId() ?? 'intro'
+        const currentSlide = this.getPresentSlideId()
 
         if (currentSlide === 'name' && !this.nameFormVc.isValid()) {
             isEnabled = false
@@ -185,13 +192,14 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
             return
         }
 
-        this.plugins.mmp.trackEvent('lsljiq')
+        this.trackEvent('lsljiq')
 
         this.router = router
     }
 
     private async handleClickNext() {
         if (this.getPresentSlideId() === 'members') {
+            this.trackEvent('vhyhpq')
             await this.router.redirect('eightbitstories.root')
             return
         }
@@ -221,21 +229,29 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
     }
 
     private async handleSlideChange() {
+        this.trackOnSlideChange()
         this.updateHeader()
         this.updateFooter()
     }
 
+    private trackOnSlideChange() {
+        const presentSlide = this.getPresentSlideId()
+        const event = this.eventsBySlide[presentSlide]
+        this.trackEvent(event)
+    }
+
+    private trackEvent(event: string) {
+        this.plugins.mmp.trackEvent(event)
+    }
+
     private updateHeader() {
         const header = this.renderHeader()
-        //@ts-ignore
         this.swipeVc.setHeader(header)
     }
 
     private renderHeader() {
         const slide = this.getPresentSlideId()
-        //@ts-ignore
         const title = this.titles[slide]
-        //@ts-ignore
         const image = this.images[slide] ?? null
 
         const header = {
@@ -246,7 +262,7 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
     }
 
     private getPresentSlideId() {
-        return this.swipeVc?.getPresentSlideId() ?? 'intro'
+        return (this.swipeVc?.getPresentSlideId() ?? 'intro') as SLIDE
     }
 
     private renderMembersSlide(): CardSection {
@@ -275,6 +291,7 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
     }
 
     private async handleClickClear() {
+        this.trackEvent('pi1iuf')
         await this.valuesFormVc.setValue('values', null)
         this.swipeVc.updateSlide('values', this.renderValuesSlide(false))
         this.updateFooter()
@@ -349,3 +366,5 @@ const valuesFormSchema = buildSchema({
 })
 
 export type ValuesFormSchema = typeof valuesFormSchema
+
+type SLIDE = 'intro' | 'name' | 'values' | 'members'
