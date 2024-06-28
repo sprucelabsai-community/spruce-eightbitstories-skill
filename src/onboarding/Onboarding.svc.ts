@@ -32,7 +32,7 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
 
     private eventsBySlide: Record<SLIDE, string> = {
         intro: 'lsljiq',
-        name: 'ylvvtus',
+        name: 'ylvvtu',
         values: '2spok6',
         members: 'r5s2ts',
     }

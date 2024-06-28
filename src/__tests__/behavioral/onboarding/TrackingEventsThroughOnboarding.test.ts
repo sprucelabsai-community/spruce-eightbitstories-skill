@@ -12,7 +12,7 @@ export default class TrackingEventsThroughOnboardingTest extends AbstractOnboard
 
     @test()
     protected static async firesClickNextPastIntro() {
-        await this.assertDidTrack(() => this.clickNext(), 'ylvvtus')
+        await this.assertDidTrack(() => this.clickNext(), 'ylvvtu')
     }
 
     @test()
