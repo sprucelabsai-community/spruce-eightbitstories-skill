@@ -1,5 +1,5 @@
 # 8-bit Stories
-Bedtime stories about your family on epic adventures!
+Your Family. Epic Adventures.
 
 [<img src="https://video.squarespace-cdn.com/content/v1/6518d0701bba42532ec534cb/e490e488-9c69-4dbc-b44b-bad9f234b84f/thumbnail" />](https://8bitstories.app)
 
