@@ -17,7 +17,7 @@ export default class TrackingEventsThroughOnboardingTest extends AbstractOnboard
 
     @test()
     protected static async firesIfSwipingPastIntro() {
-        await this.assertDidTrack(() => this.jumpToNameSlide(), 'ylvvtus')
+        await this.assertDidTrack(() => this.jumpToNameSlide(), 'ylvvtu')
     }
 
     @test()
