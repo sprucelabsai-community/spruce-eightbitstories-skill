@@ -42,6 +42,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
             message: {
                 content: this.responseBody,
                 role: 'assistant',
+                refusal: null,
             },
         }
 
