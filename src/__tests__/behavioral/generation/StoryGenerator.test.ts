@@ -83,7 +83,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
         const messages = this.passedOptions?.messages
 
         assert.isTruthy(this.passedOptions)
-        assert.isEqual(this.passedOptions?.model, 'gpt-3.5-turbo')
+        assert.isEqual(this.passedOptions?.model, 'gpt-4o')
         assert.isLength(messages, 2)
 
         const firstMessage = messages?.[0]
