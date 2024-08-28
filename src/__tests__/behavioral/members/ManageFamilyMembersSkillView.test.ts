@@ -329,7 +329,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
 class SpyMembersSkillView extends MembersSkillViewController {
     public getListVc() {
-        return this.listVc
+        return this.activeRecordCardVc.getListVc()
     }
     public getCardVc() {
         return this.cardVc

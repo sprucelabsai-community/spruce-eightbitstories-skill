@@ -14,7 +14,7 @@ export default class MembersSkillViewController extends AbstractLoggedInEightBit
     public static id = 'members'
 
     private router!: Router
-    private activeRecordCardVc: ActiveRecordCardViewController
+    protected activeRecordCardVc: ActiveRecordCardViewController
 
     public constructor(options: ViewControllerOptions) {
         super(options)
@@ -96,7 +96,10 @@ export default class MembersSkillViewController extends AbstractLoggedInEightBit
             onCancel: async () => dlgVc.hide(),
             onUpdate: async (member) => {
                 void dlgVc.hide()
-                this.listVc.upsertRow(member.id, this.renderRow(member))
+                this.activeRecordCardVc.upsertRow(
+                    member.id,
+                    this.renderRow(member)
+                )
             },
         })
 
@@ -125,7 +128,8 @@ export default class MembersSkillViewController extends AbstractLoggedInEightBit
                     },
                 }
             )
-            this.listVc.deleteRow(member.id)
+            console.log('deleting row')
+            this.activeRecordCardVc.deleteRow(member.id)
         } catch (err: any) {
             await this.alert({
                 message:
@@ -157,9 +161,6 @@ export default class MembersSkillViewController extends AbstractLoggedInEightBit
 
     protected get cardVc() {
         return this.activeRecordCardVc
-    }
-    protected get listVc() {
-        return this.activeRecordCardVc.getListVc()
     }
 
     public render(): SkillView {
