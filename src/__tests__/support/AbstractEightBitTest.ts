@@ -1,5 +1,6 @@
 import { AbstractSpruceFixtureTest } from '@sprucelabs/spruce-test-fixtures'
 import { assert, generateId } from '@sprucelabs/test-utils'
+import { FamilyMember } from '../../eightbitstories.types'
 import FamilyMembersStore from '../../members/FamilyMembers.store'
 import MetaStore from '../../meta/Meta.store'
 import StoriesStore from '../../story/Stories.store'
@@ -39,7 +40,7 @@ export default abstract class AbstractEightBitTest extends AbstractSpruceFixture
             `You gotta @seed('familyMembers', 1) to get your first family member`
         )
 
-        return match
+        return match as FamilyMember
     }
 
     protected static async getFirstGeneratedStory() {
