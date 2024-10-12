@@ -1,7 +1,7 @@
 {
   "name": "eight-bit-stories",
   "description": "A ChatGPT powered bedtime story generator for parents who know their values and want them incorporated into nightly rituals.",
-  "version": "2.4.34",
+  "version": "2.4.35",
   "skill": {
     "namespace": "eightbitstories"
   },
