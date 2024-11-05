@@ -16,13 +16,6 @@ const listeners: EventFeatureListener[] = [
         isGlobal: require('../../feedback/listeners/eightbitstories/submit-feedback.v2023_09_05.listener').isGlobal,
     },
     {
-        eventName: 'get-mmp-setup',
-        eventNamespace: 'eightbitstories',
-        version: 'v2023_09_05',
-        callback: require('../../mmp/listeners/eightbitstories/get-mmp-setup.v2023_09_05.listener').default,
-        isGlobal: require('../../mmp/listeners/eightbitstories/get-mmp-setup.v2023_09_05.listener').isGlobal,
-    },
-    {
         eventName: 'add-family-member',
         eventNamespace: 'eightbitstories',
         version: 'v2023_09_05',
@@ -63,6 +56,13 @@ const listeners: EventFeatureListener[] = [
         version: 'v2023_09_05',
         callback: require('../../meta/listeners/eightbitstories/save-meta.v2023_09_05.listener').default,
         isGlobal: require('../../meta/listeners/eightbitstories/save-meta.v2023_09_05.listener').isGlobal,
+    },
+    {
+        eventName: 'get-mmp-setup',
+        eventNamespace: 'eightbitstories',
+        version: 'v2023_09_05',
+        callback: require('../../mmp/listeners/eightbitstories/get-mmp-setup.v2023_09_05.listener').default,
+        isGlobal: require('../../mmp/listeners/eightbitstories/get-mmp-setup.v2023_09_05.listener').isGlobal,
     },
     {
         eventName: 'generate-story',
