@@ -43,7 +43,7 @@
     "@sprucelabs/data-stores": "^28.3.215",
     "@sprucelabs/error": "^6.0.539",
     "@sprucelabs/globby": "^2.0.499",
-    "@sprucelabs/heartwood-view-controllers": "^111.1.29",
+    "@sprucelabs/heartwood-view-controllers": "^111.1.33",
     "@sprucelabs/mercury-client": "^42.0.602",
     "@sprucelabs/mercury-core-events": "^25.0.46",
     "@sprucelabs/mercury-types": "^47.0.600",
@@ -61,7 +61,7 @@
     "@sprucelabs/spruce-view-plugin": "^47.1.27",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
-    "openai": "^4.71.1"
+    "openai": "^4.72.0"
   },
   "devDependencies": {
     "@sprucelabs/jest-json-reporter": "^8.0.540",
@@ -79,7 +79,7 @@
     "jest-circus": "^29.7.0",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
-    "tsc-watch": "^6.2.0",
+    "tsc-watch": "^6.2.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.6.3"
   },

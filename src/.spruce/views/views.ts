@@ -25,6 +25,8 @@ export const pluginsByName = {
 	mmp: AdjustMmpVcPlugin,
 }
 
+
+
 type LoadOptions<Args extends Record<string,any>[]> = Args[0]['args'] extends Record<string, any> ? Args[0]['args'] : Record<never, any>
 
 declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.types' {
@@ -65,7 +67,11 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 	interface ViewControllerPlugins {
 		mmp: AdjustMmpVcPlugin
 	}
+
+	interface AppControllerMap {
+	}
 }
+
 
 //@ts-ignore
 if(typeof heartwood === 'function') { 
