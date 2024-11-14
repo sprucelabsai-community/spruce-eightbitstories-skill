@@ -1,4 +1,5 @@
 import {
+    SkillViewControllerId,
     SpruceSchemas,
     buttonAssert,
     formAssert,
@@ -112,7 +113,7 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
             action: () => interactor.clickButton(this.formVc, 'facebookGroup'),
             router: this.views.getRouter(),
             destination: {
-                id: 'https://www.facebook.com/groups/8bitstories',
+                id: 'https://www.facebook.com/groups/8bitstories' as SkillViewControllerId,
             },
         })
     }

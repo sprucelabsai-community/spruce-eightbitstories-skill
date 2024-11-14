@@ -2,6 +2,7 @@ import {
     buttonAssert,
     interactor,
     navigationAssert,
+    SkillViewControllerId,
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
@@ -124,7 +125,7 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
 
     private static async assertClickingButtonRedirects(
         button: string,
-        destination: string
+        destination: SkillViewControllerId
     ) {
         await vcAssert.assertActionRedirects({
             action: () => this.clickButton(button),

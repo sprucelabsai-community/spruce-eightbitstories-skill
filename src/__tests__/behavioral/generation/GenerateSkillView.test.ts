@@ -1,5 +1,6 @@
 import {
     FormViewController,
+    SkillViewControllerId,
     buttonAssert,
     formAssert,
     interactor,
@@ -223,7 +224,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
         await this.selectFirstMember()
 
         const destination = {
-            id: 'eightbitstories.story',
+            id: 'eightbitstories.story' as SkillViewControllerId,
             args: {
                 story: generateId(),
             },
@@ -249,7 +250,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     private static async clickGenerateAndAssertRedirect(destination?: {
-        id: string
+        id: SkillViewControllerId
         args: { story: string }
     }) {
         await vcAssert.assertActionRedirects({

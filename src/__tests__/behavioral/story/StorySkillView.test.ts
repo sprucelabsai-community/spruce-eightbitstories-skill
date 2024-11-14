@@ -1,6 +1,7 @@
 import {
     buttonAssert,
     interactor,
+    SkillViewControllerId,
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { buildRouteToCreateInvite } from '@sprucelabs/spruce-invite-utils'
@@ -73,7 +74,7 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
     @test('again redirects to generate', 'again', 'eightbitstories.generate')
     protected static async clickingButtonRedirectsAsExpected(
         button: string,
-        destination: string
+        destination: SkillViewControllerId
     ) {
         await this.fakeStoryLoadClickButtonAssertRedirect(button, destination)
     }
@@ -102,7 +103,7 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
 
     private static async fakeStoryLoadClickButtonAssertRedirect(
         button: string,
-        destination: string,
+        destination: SkillViewControllerId,
         args?: Record<string, any>
     ) {
         await this.eventFaker.fakeGetStory()
@@ -116,7 +117,7 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
 
     private static async assertClickingButtonRedirectsToDestination(
         button: string,
-        destination: string,
+        destination: SkillViewControllerId,
         args?: Record<string, any>
     ) {
         await vcAssert.assertActionRedirects({
