@@ -80,3 +80,6 @@ if(typeof heartwood === 'function') {
 }
 
 export default vcs
+
+
+export const App = undefined
