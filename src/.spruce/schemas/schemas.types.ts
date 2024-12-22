@@ -82,7 +82,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface DidRegisterSkillViewsEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'target': SpruceSchemas.Heartwood.v2021_02_11.DidRegisterSkillViewsEmitTarget
 				
@@ -127,7 +127,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface GenerateUrlEmitTarget {
 			
 				/** Skill View Id. */
-				'skillViewId'?: (SkillViewControllerId)| undefined | null
+				'skillViewId'?: (SkillViewControllerId) | undefined | null
 		}
 
 		interface GenerateUrlEmitTargetSchema extends SpruceSchema.Schema {
@@ -157,7 +157,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface GenerateUrlEmitPayload {
 			
 				/** Load args. */
-				'args'?: (Record<string, any>)| undefined | null
+				'args'?: (Record<string, any>) | undefined | null
 		}
 
 		interface GenerateUrlEmitPayloadSchema extends SpruceSchema.Schema {
@@ -186,11 +186,11 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface GenerateUrlEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
-				'target'?: SpruceSchemas.Heartwood.v2021_02_11.GenerateUrlEmitTarget| undefined | null
+				'target'?: SpruceSchemas.Heartwood.v2021_02_11.GenerateUrlEmitTarget | undefined | null
 				
-				'payload'?: SpruceSchemas.Heartwood.v2021_02_11.GenerateUrlEmitPayload| undefined | null
+				'payload'?: SpruceSchemas.Heartwood.v2021_02_11.GenerateUrlEmitPayload | undefined | null
 		}
 
 		interface GenerateUrlEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
@@ -288,7 +288,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface GetActiveThemeEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'target': SpruceSchemas.Heartwood.v2021_02_11.GetActiveThemeEmitTarget
 		}
@@ -325,7 +325,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface GetActiveThemeResponsePayload {
 			
 				
-				'theme'?: SpruceSchemas.Heartwood.v2021_02_11.Theme| undefined | null
+				'theme'?: SpruceSchemas.Heartwood.v2021_02_11.Theme | undefined | null
 		}
 
 		interface GetActiveThemeResponsePayloadSchema extends SpruceSchema.Schema {
@@ -382,7 +382,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface GetSkillViewsEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'target': SpruceSchemas.Heartwood.v2021_02_11.GetViewControllersEmitTarget
 		}
@@ -423,11 +423,11 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 				
 				'ids': string[]
 				
-				'source'?: string| undefined | null
+				'source'?: string | undefined | null
 				
-				'sourceUrl'?: string| undefined | null
+				'sourceUrl'?: string | undefined | null
 				
-				'theme'?: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.Theme| undefined | null
+				'theme'?: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.Theme | undefined | null
 		}
 
 		interface GetSkillViewsResponsePayloadSchema extends SpruceSchema.Schema {
@@ -595,11 +595,11 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 				
 				'ids': string[]
 				
-				'source'?: string| undefined | null
+				'source'?: string | undefined | null
 				
-				'sourceUrl'?: string| undefined | null
+				'sourceUrl'?: string | undefined | null
 				
-				'theme'?: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.Theme| undefined | null
+				'theme'?: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.Theme | undefined | null
 		}
 
 		interface RegisterSkillViewsEmitPayloadSchema extends SpruceSchema.Schema {
@@ -644,7 +644,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface RegisterSkillViewsEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'payload': SpruceSchemas.Heartwood.v2021_02_11.RegisterSkillViewsEmitPayload
 		}
@@ -740,7 +740,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface UpsertThemeEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'target': SpruceSchemas.Heartwood.v2021_02_11.UpsertThemeEmitTarget
 				
@@ -917,7 +917,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface SubmitFeedbackEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitPayload
 		}
@@ -1041,7 +1041,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface DidGenerateStoryEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'target': SpruceSchemas.Eightbitstories.v2023_09_05.DidGenerateStoryEmitTarget
 				
@@ -1090,7 +1090,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 				
 				'familyMembers': string[]
 				
-				'currentChallenge'?: string| undefined | null
+				'currentChallenge'?: string | undefined | null
 		}
 
 		interface GenerateStoryEmitPayloadSchema extends SpruceSchema.Schema {
@@ -1134,7 +1134,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface GenerateStoryEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryEmitPayload
 		}
@@ -1239,7 +1239,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface AddFamilyMemberEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.AddFamilyMemberEmitPayload
 		}
@@ -1365,7 +1365,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface DeleteFamilyMemberEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'target': SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberEmitTarget
 		}
@@ -1460,7 +1460,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface UpdateFamilyMemberEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'target': SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMemberEmitTarget
 				
@@ -1505,9 +1505,9 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface UpdateFamilyMember {
 			
 				/** Name. */
-				'name'?: string| undefined | null
+				'name'?: string | undefined | null
 				/** Bio. */
-				'bio'?: string| undefined | null
+				'bio'?: string | undefined | null
 		}
 
 		interface UpdateFamilyMemberSchema extends SpruceSchema.Schema {
@@ -1639,7 +1639,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface GetMetaResponsePayload {
 			
 				
-				'meta'?: SpruceSchemas.Eightbitstories.v2023_09_05.GetMeta| undefined | null
+				'meta'?: SpruceSchemas.Eightbitstories.v2023_09_05.GetMeta | undefined | null
 		}
 
 		interface GetMetaResponsePayloadSchema extends SpruceSchema.Schema {
@@ -1667,7 +1667,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface SaveMetaEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitPayload
 		}
@@ -1798,43 +1798,6 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
 
 		
-		interface GetMmpSetupResponsePayload {
-			
-				
-				'appToken': string
-				
-				'environment': string
-		}
-
-		interface GetMmpSetupResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'getMmpSetupResponsePayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'appToken': {
-			                type: 'id',
-			                isRequired: true,
-			                options: undefined
-			            },
-			            /** . */
-			            'environment': {
-			                type: 'text',
-			                isRequired: true,
-			                options: undefined
-			            },
-			    }
-		}
-
-		interface GetMmpSetupResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GetMmpSetupResponsePayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
 		interface GetStoryEmitTarget {
 			
 				
@@ -1867,7 +1830,7 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		interface GetStoryEmitTargetAndPayload {
 			
 				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource| undefined | null
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
 				
 				'target': SpruceSchemas.Eightbitstories.v2023_09_05.GetStoryEmitTarget
 		}
@@ -1923,6 +1886,43 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		}
 
 		interface GetStoryResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GetStoryResponsePayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface GetMmpSetupResponsePayload {
+			
+				
+				'appToken': string
+				
+				'environment': string
+		}
+
+		interface GetMmpSetupResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'getMmpSetupResponsePayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'appToken': {
+			                type: 'id',
+			                isRequired: true,
+			                options: undefined
+			            },
+			            /** . */
+			            'environment': {
+			                type: 'text',
+			                isRequired: true,
+			                options: undefined
+			            },
+			    }
+		}
+
+		interface GetMmpSetupResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GetMmpSetupResponsePayloadSchema> {}
 
 	}
 
