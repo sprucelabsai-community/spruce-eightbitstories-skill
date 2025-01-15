@@ -18,8 +18,11 @@ import { storyElements } from './storyElements'
 export default class GenerateSkillViewController extends AbstractLoggedInEightBitSkillView {
     public static id = 'generate'
 
-    public static setInterval = setInterval
-    public static clearInterval = clearInterval
+    public static setInterval = (cb: () => Promise<void>, intervalMs: number) =>
+        setInterval(cb as any, intervalMs)
+
+    public static clearInterval = (intervalId?: NodeJS.Timeout) =>
+        clearInterval(intervalId)
 
     protected cardVcs: ViewController<Card>[] = []
     protected controlsVc: CardViewController
