@@ -52,6 +52,7 @@ export default class StoriesStore extends AbstractStore<
                 dateGenerated: new Date().getTime(),
                 source: {
                     personId: TestClass.fakedPerson.id,
+                    hash: generateId(),
                 },
             })
         )

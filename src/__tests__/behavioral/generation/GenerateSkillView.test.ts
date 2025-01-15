@@ -18,11 +18,18 @@ import GenerateSkillViewController, {
 } from '../../../generation/Generate.svc'
 import { storyElements } from '../../../generation/storyElements'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
-import { GenerateStoryTargetAndPayload } from '../../support/EventFaker'
+import {
+    GenerateStoryTargetAndPayload,
+    GetStoryStatusTargetAndPayload,
+} from '../../support/EventFaker'
 
 @fake.login()
 export default class GenerateSkillViewTest extends AbstractEightBitTest {
     private static vc: SpyGenerateSkillView
+    private static checkStatusIntervalCb: undefined | (() => Promise<void>)
+    private static checkStatusIntervalMs: number | undefined
+    private static intervalId: string
+    private static passedIntervalIdToClear?: string
 
     @seed('familyMembers', 3)
     protected static async beforeEach(): Promise<void> {
@@ -38,6 +45,27 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 
         await this.eventFaker.fakeListFamilyMembers(() => this.members.find({}))
         await this.loadVc()
+
+        delete this.checkStatusIntervalCb
+        delete this.checkStatusIntervalMs
+        delete this.passedIntervalIdToClear
+
+        this.intervalId = generateId()
+
+        //@ts-ignore
+        GenerateSkillViewController.setInterval = (
+            cb: () => Promise<void>,
+            intervalMs: number
+        ) => {
+            this.checkStatusIntervalMs = intervalMs
+            this.checkStatusIntervalCb = cb
+            return this.intervalId
+        }
+
+        //@ts-ignore
+        GenerateSkillViewController.clearInterval = (id: string) => {
+            this.passedIntervalIdToClear = id
+        }
     }
 
     @test()
@@ -213,6 +241,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
             familyMembers: selectedMembers,
             storyElements: selectedElements,
             currentChallenge,
+            storyHash: this.vc.getHash(),
         })
     }
 
@@ -247,6 +276,93 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     @test()
     protected static async rendersNullNavigation() {
         navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
+    }
+
+    @test()
+    protected static async checksForGeneratedStoryAfterSubmitting() {
+        let passedTarget: GetStoryStatusTargetAndPayload['target'] | undefined
+        await this.eventFaker.fakeGetStoryGenerationStatus(({ target }) => {
+            passedTarget = target
+        })
+
+        await this.fakeGenerateSelectEverythingClickGenerateAndInvokeIntervalCb()
+
+        assert.isEqualDeep(passedTarget, {
+            storyHash: this.vc.getHash(),
+        })
+    }
+
+    @test()
+    protected static async passesExpectedIntervalToChecksAfterSubmit() {
+        await this.eventFaker.fakeGenerateStory()
+        await this.selectElementFamilyMemberAndClickGenerate()
+        assert.isEqual(this.checkStatusIntervalMs, 1000 * 10)
+    }
+
+    @test()
+    protected static async doesNotSetIntervalIfGenerateThrows() {
+        await eventFaker.makeEventThrow(
+            'eightbitstories.generate-story::v2023_09_05'
+        )
+
+        await vcAssert.assertRendersAlert(this.vc, () =>
+            this.selectElementFamilyMemberAndClickGenerate()
+        )
+        assert.isUndefined(
+            this.checkStatusIntervalCb,
+            'should not have been set'
+        )
+    }
+
+    @test()
+    protected static async redirectsIfResponseIsStoryGenerated() {
+        const storyId = generateId()
+        await this.eventFaker.fakeGetStoryGenerationStatus(() => {
+            return {
+                status: 'ready',
+                storyId,
+            }
+        })
+
+        await this.fakeGenerateSelectEverythingAndClickGenerate()
+        await vcAssert.assertActionRedirects({
+            action: () => this.checkStatusIntervalCb?.(),
+            destination: {
+                id: 'eightbitstories.story',
+                args: {
+                    story: storyId,
+                },
+            },
+            router: this.views.getRouter(),
+        })
+    }
+
+    @test()
+    protected static async clearsTimeoutOnBlur() {
+        await this.fakeGenerateSelectEverythingAndClickGenerate()
+        assert.isFalsy(this.passedIntervalIdToClear)
+        await interactor.blur(this.vc)
+        assert.isEqual(
+            this.passedIntervalIdToClear,
+            this.intervalId,
+            'did not pass response to setInterval to clearInterval'
+        )
+    }
+
+    private static async fakeGenerateSelectEverythingClickGenerateAndInvokeIntervalCb() {
+        await this.fakeGenerateSelectEverythingAndClickGenerate()
+        await this.checkStatusIntervalCb?.()
+    }
+
+    private static async fakeGenerateSelectEverythingAndClickGenerate() {
+        await this.eventFaker.fakeGenerateStory()
+        await this.selectElementFamilyMemberAndClickGenerate()
+    }
+
+    private static async selectElementFamilyMemberAndClickGenerate() {
+        await this.selectFirstElement()
+        await this.selectFirstMember()
+        await this.clickGenerate()
     }
 
     private static async clickGenerateAndAssertRedirect(destination?: {
@@ -371,6 +487,10 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
 }
 
 class SpyGenerateSkillView extends GenerateSkillViewController {
+    public getHash() {
+        return this.storyHash!
+    }
+
     public getCurrentChallengeVc() {
         return this.currentChallengeVc
     }

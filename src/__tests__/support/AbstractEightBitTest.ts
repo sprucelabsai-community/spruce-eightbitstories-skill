@@ -44,7 +44,10 @@ export default abstract class AbstractEightBitTest extends AbstractSpruceFixture
     }
 
     protected static async getFirstGeneratedStory() {
-        const story = await this.stories.findOne({})
+        const story = await this.stories.findOne(
+            {},
+            { shouldIncludePrivateFields: true }
+        )
         assert.isTruthy(story)
         return story
     }

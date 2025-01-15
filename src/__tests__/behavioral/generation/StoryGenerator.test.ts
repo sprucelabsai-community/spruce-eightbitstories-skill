@@ -18,6 +18,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     private static passedOptions: ChatCompletionCreateParamsBase | undefined
     private static prompt: PromptGenerator
     private static responseBody = generateId()
+    private static storyHash: string
 
     protected static async beforeEach() {
         await super.beforeEach()
@@ -32,6 +33,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
             'eightbitstories.did-generate-story::v2023_09_05'
         )
 
+        this.storyHash = generateId()
         this.passedOptions = undefined
         this.prompt = PromptGenerator.Generator()
 
@@ -205,6 +207,15 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     }
 
     @test()
+    @seed('familyMembers', 1)
+    @seed('meta')
+    protected static async passesThroughHash() {
+        await this.generate()
+        const story = await this.getFirstGeneratedStory()
+        assert.isEqual(story.source.hash, this.storyHash, 'Hash did not match!')
+    }
+
+    @test()
     @seed('meta')
     protected static async passesCurrentChallengeToPromptGenerator() {
         await this.assertSendsExpectedPrompt({
@@ -297,6 +308,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
             personId: this.fakedPerson.id,
             storyElementIds: storeElementIds ?? [storyElements[0].id],
             currentChallenge,
+            storyHash: this.storyHash,
         })
     }
 }

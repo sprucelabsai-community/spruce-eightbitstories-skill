@@ -17,6 +17,10 @@ import { storyElements } from './storyElements'
 
 export default class GenerateSkillViewController extends AbstractLoggedInEightBitSkillView {
     public static id = 'generate'
+
+    public static setInterval = setInterval
+    public static clearInterval = clearInterval
+
     protected cardVcs: ViewController<Card>[] = []
     protected controlsVc: CardViewController
     private router!: Router
@@ -24,6 +28,8 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
     protected membersVc: FormGettingVc<GenerateStorySchema>
     private client!: MercuryClient
     protected currentChallengeVc: FormGettingVc<CurrentChallengeSchema>
+    protected storyHash?: string
+    private intervalId?: NodeJS.Timeout
 
     public constructor(options: ViewControllerOptions) {
         super(options)
@@ -140,6 +146,8 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
                 'currentChallenge'
             ) as string
 
+            this.storyHash = `${Date.now()}`
+
             const client = await this.connectToApi()
             await client.emitAndFlattenResponses(
                 'eightbitstories.generate-story::v2023_09_05',
@@ -148,9 +156,13 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
                         familyMembers: members,
                         storyElements: elements,
                         currentChallenge,
+                        storyHash: this.storyHash,
                     },
                 }
             )
+
+            this.startStatuChecks()
+
             await this.alert({
                 style: 'info',
                 message:
@@ -162,6 +174,34 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
             })
             this.controlsVc.setFooterIsBusy(false)
         }
+    }
+
+    private startStatuChecks() {
+        this.intervalId = GenerateSkillViewController.setInterval(async () => {
+            await this.handleStatusCheckInterval()
+        }, 1000 * 10)
+    }
+
+    private async handleStatusCheckInterval() {
+        const client = await this.connectToApi()
+        const [{ storyId }] = await client.emitAndFlattenResponses(
+            'eightbitstories.get-story-generation-status::v2023_09_05',
+            {
+                target: {
+                    storyHash: this.storyHash!,
+                },
+            }
+        )
+
+        if (storyId) {
+            await this.router.redirect('eightbitstories.story', {
+                story: storyId,
+            })
+        }
+    }
+
+    public didBlur() {
+        GenerateSkillViewController.clearInterval(this.intervalId)
     }
 
     private async handleClickBack() {

@@ -18,6 +18,10 @@ const generateStoryEmitPayloadBuilder = buildSchema({
         currentChallenge: {
             type: 'text',
         },
+        storyHash: {
+            type: 'id',
+            isRequired: true,
+        },
     },
 })
 

@@ -9,13 +9,15 @@ export default async (
     event: SpruceEvent<SkillEventContract, EmitPayload>
 ): SpruceEventResponse => {
     const { generator, payload, source } = event
-    const { familyMembers, storyElements, currentChallenge } = payload
+    const { familyMembers, storyElements, currentChallenge, storyHash } =
+        payload
 
     await generator.generate({
         familyMemberIds: familyMembers,
         storyElementIds: storyElements,
         personId: source.personId!,
         currentChallenge,
+        storyHash,
     })
 }
 

@@ -3,7 +3,8 @@
   "description": "A ChatGPT powered bedtime story generator for parents who know their values and want them incorporated into nightly rituals.",
   "version": "2.4.54",
   "skill": {
-    "namespace": "eightbitstories"
+    "namespace": "eightbitstories",
+    "version": "v2023_09_05"
   },
   "homepage": "https://github.com/[YOUR REPO PATH]",
   "bugs": {

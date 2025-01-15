@@ -16,6 +16,7 @@ export default buildSchema({
             type: 'text',
             isRequired: true,
         },
+
         source: {
             type: 'schema',
             isRequired: true,
@@ -25,6 +26,10 @@ export default buildSchema({
                     id: 'storySource',
                     fields: {
                         personId: {
+                            type: 'id',
+                            isRequired: true,
+                        },
+                        hash: {
                             type: 'id',
                             isRequired: true,
                         },

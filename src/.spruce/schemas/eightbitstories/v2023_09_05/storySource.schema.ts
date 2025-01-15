@@ -15,6 +15,12 @@ const storySourceSchema: SpruceSchemas.Eightbitstories.v2023_09_05.StorySourceSc
 	                isRequired: true,
 	                options: undefined
 	            },
+	            /** . */
+	            'hash': {
+	                type: 'id',
+	                isRequired: true,
+	                options: undefined
+	            },
 	    }
 }
 

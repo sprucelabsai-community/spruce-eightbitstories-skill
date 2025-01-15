@@ -30,6 +30,12 @@ const generateStoryEmitPayloadSchema: SpruceSchemas.Eightbitstories.v2023_09_05.
 	                type: 'text',
 	                options: undefined
 	            },
+	            /** . */
+	            'storyHash': {
+	                type: 'id',
+	                isRequired: true,
+	                options: undefined
+	            },
 	    }
 }
 

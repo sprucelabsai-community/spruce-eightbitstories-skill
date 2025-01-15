@@ -62,6 +62,7 @@ export class StoryGeneratorImpl {
             familyMemberIds: familyMemberIds,
             storyElementIds: storyElementIds,
             currentChallenge,
+            storyHash,
         } = options
 
         const meta = await this.loadMeta(personId)
@@ -81,6 +82,7 @@ export class StoryGeneratorImpl {
             dateGenerated: new Date().getTime(),
             source: {
                 personId,
+                hash: storyHash,
             },
         })
 
@@ -167,4 +169,5 @@ export interface GenerateOptions {
     familyMemberIds: string[]
     storyElementIds: string[]
     currentChallenge?: string | null
+    storyHash: string
 }

@@ -11,6 +11,7 @@ import eightbitstoriesGetMetaEventContract_v2023_09_05, { GetMetaEventContract a
 import eightbitstoriesGetMmpSetupEventContract_v2023_09_05, { GetMmpSetupEventContract as EightbitstoriesGetMmpSetupEventContract_v2023_09_05  } from '#spruce/events/eightbitstories/getMmpSetup.v2023_09_05.contract'
 import heartwoodGetSkillViewsEventContract_v2021_02_11, { GetSkillViewsEventContract as HeartwoodGetSkillViewsEventContract_v2021_02_11  } from '#spruce/events/heartwood/getSkillViews.v2021_02_11.contract'
 import eightbitstoriesGetStoryEventContract_v2023_09_05, { GetStoryEventContract as EightbitstoriesGetStoryEventContract_v2023_09_05  } from '#spruce/events/eightbitstories/getStory.v2023_09_05.contract'
+import eightbitstoriesGetStoryGenerationStatusEventContract_v2023_09_05, { GetStoryGenerationStatusEventContract as EightbitstoriesGetStoryGenerationStatusEventContract_v2023_09_05  } from '#spruce/events/eightbitstories/getStoryGenerationStatus.v2023_09_05.contract'
 import eightbitstoriesListFamilyMembersEventContract_v2023_09_05, { ListFamilyMembersEventContract as EightbitstoriesListFamilyMembersEventContract_v2023_09_05  } from '#spruce/events/eightbitstories/listFamilyMembers.v2023_09_05.contract'
 import heartwoodListViewsEventContract_v2021_02_11, { ListViewsEventContract as HeartwoodListViewsEventContract_v2021_02_11  } from '#spruce/events/heartwood/listViews.v2021_02_11.contract'
 import heartwoodRegisterDashboardCardsEventContract_v2021_02_11, { RegisterDashboardCardsEventContract as HeartwoodRegisterDashboardCardsEventContract_v2021_02_11  } from '#spruce/events/heartwood/registerDashboardCards.v2021_02_11.contract'
@@ -32,6 +33,7 @@ export default [
     eightbitstoriesGetMmpSetupEventContract_v2023_09_05,
     heartwoodGetSkillViewsEventContract_v2021_02_11,
     eightbitstoriesGetStoryEventContract_v2023_09_05,
+    eightbitstoriesGetStoryGenerationStatusEventContract_v2023_09_05,
     eightbitstoriesListFamilyMembersEventContract_v2023_09_05,
     heartwoodListViewsEventContract_v2021_02_11,
     heartwoodRegisterDashboardCardsEventContract_v2021_02_11,
@@ -77,6 +79,9 @@ declare module '@sprucelabs/mercury-types/build/types/mercury.types' {
     
     
     'eightbitstories.get-story::v2023_09_05': EightbitstoriesGetStoryEventContract_v2023_09_05['eventSignatures']['eightbitstories.get-story::v2023_09_05'],
+    
+    
+    'eightbitstories.get-story-generation-status::v2023_09_05': EightbitstoriesGetStoryGenerationStatusEventContract_v2023_09_05['eventSignatures']['eightbitstories.get-story-generation-status::v2023_09_05'],
     
     
     'eightbitstories.list-family-members::v2023_09_05': EightbitstoriesListFamilyMembersEventContract_v2023_09_05['eventSignatures']['eightbitstories.list-family-members::v2023_09_05'],

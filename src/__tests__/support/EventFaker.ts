@@ -3,6 +3,22 @@ import { generateId } from '@sprucelabs/test-utils'
 import { GetMeta, PublicFamilyMember } from '../../eightbitstories.types'
 
 export default class EventFaker {
+    public async fakeGetStoryGenerationStatus(
+        cb?: (
+            targetAndPayload: GetStoryStatusTargetAndPayload
+        ) => void | SpruceSchemas.Eightbitstories.v2023_09_05.GetStoryGenerationStatusResponsePayload
+    ) {
+        await eventFaker.on(
+            'eightbitstories.get-story-generation-status::v2023_09_05',
+            (targetAndPayload) => {
+                return (
+                    cb?.(targetAndPayload) ?? {
+                        status: 'generating' as const,
+                    }
+                )
+            }
+        )
+    }
     public async fakeGetMmpSetup(cb?: () => void) {
         await eventFaker.on(
             'eightbitstories.get-mmp-setup::v2023_09_05',
@@ -208,3 +224,6 @@ export type SubmitFeedbackTargetAndPayload =
 
 export type SendMessageTargetAndPayload =
     SpruceSchemas.Mercury.v2020_12_25.SendMessageEmitTargetAndPayload
+
+export type GetStoryStatusTargetAndPayload =
+    SpruceSchemas.Eightbitstories.v2023_09_05.GetStoryGenerationStatusEmitTargetAndPayload
