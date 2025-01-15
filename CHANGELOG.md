@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v2.4.54...v2.5.0) (2025-01-15)
+
+
+### Features
+
+* interval to check for generated story (no longer dependent on event coming around) ([ebcc48c](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/ebcc48c))
+
 ## [2.4.54](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v2.4.53...v2.4.54) (2025-01-15)
 
 ## [2.4.53](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v2.4.52...v2.4.53) (2025-01-09)
