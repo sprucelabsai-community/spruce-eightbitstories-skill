@@ -7,6 +7,8 @@ const getMmpSetupEventContract = buildEventContract({
     eventSignatures: {
         'eightbitstories.get-mmp-setup::v2023_09_05': {
             isGlobal: true,
+            
+            
             emitPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-mmp"]},
             
             

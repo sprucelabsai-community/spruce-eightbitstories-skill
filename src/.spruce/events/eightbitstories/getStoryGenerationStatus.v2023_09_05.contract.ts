@@ -8,6 +8,8 @@ const getStoryGenerationStatusEventContract = buildEventContract({
     eventSignatures: {
         'eightbitstories.get-story-generation-status::v2023_09_05': {
             isGlobal: true,
+            
+            
             emitPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-read-story"]},
             
             emitPayloadSchema: getStoryGenerationStatusEmitTargetAndPayloadSchema,

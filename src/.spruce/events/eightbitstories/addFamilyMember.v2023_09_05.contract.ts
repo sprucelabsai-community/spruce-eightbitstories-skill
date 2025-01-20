@@ -8,6 +8,8 @@ const addFamilyMemberEventContract = buildEventContract({
     eventSignatures: {
         'eightbitstories.add-family-member::v2023_09_05': {
             isGlobal: true,
+            
+            
             emitPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-manage-family-members"]},
             
             emitPayloadSchema: addFamilyMemberEmitTargetAndPayloadSchema,
