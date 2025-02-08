@@ -66,7 +66,7 @@ export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
 
     @test()
     protected static async loadingNotLoggedInAndNotOnboardingRedirectsToOnboarding() {
-        this.permissions.getAuthenticator().clearSession()
+        await this.permissions.getAuthenticator().clearSession()
         this.clearOnboarding()
 
         await vcAssert.assertActionRedirects({

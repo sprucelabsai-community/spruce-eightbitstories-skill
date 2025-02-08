@@ -22,7 +22,7 @@ export default abstract class AbstractOnboardingTest extends AbstractEightBitTes
 
         this.vc = this.Vc()
 
-        this.auth.clearSession()
+        await this.auth.clearSession()
 
         await this.load()
     }

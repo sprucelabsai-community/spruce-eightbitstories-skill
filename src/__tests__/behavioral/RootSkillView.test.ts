@@ -50,7 +50,7 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
     protected static async noFeedbackButtonIfNotLoggedInAndSkippingOnboarding() {
         Onboarding.getInstance().skip()
 
-        this.auth.clearSession()
+        await this.auth.clearSession()
         this.vc = this.Vc()
 
         await this.load()
