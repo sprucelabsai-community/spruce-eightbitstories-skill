@@ -2,10 +2,10 @@ import GenerateSkillViewController from '../../generation/Generate.svc'
 import MetaSkillViewController from '../../meta/Meta.svc'
 import MembersSkillViewController from '../../members/Members.svc'
 import OnboardingSkillViewController from '../../onboarding/Onboarding.svc'
-import StorySkillViewController from '../../story/Story.svc'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
-import FamilyMemberFormCardViewController from '../../members/FamilyMemberFormCard.vc'
+import StorySkillViewController from '../../story/Story.svc'
 import FeedbackCardViewController from '../../feedback/FeedbackCard.vc'
+import FamilyMemberFormCardViewController from '../../members/FamilyMemberFormCard.vc'
 import AdjustMmpVcPlugin from '../../viewPlugins/mmp.view.plugin'
 
 import '@sprucelabs/heartwood-view-controllers'
@@ -15,10 +15,10 @@ const vcs = {
     MetaSkillViewController,
     MembersSkillViewController,
     OnboardingSkillViewController,
-    StorySkillViewController,
     RootSkillViewController,
-    FamilyMemberFormCardViewController,
+    StorySkillViewController,
     FeedbackCardViewController,
+    FamilyMemberFormCardViewController,
 }
 
 export const pluginsByName = {
@@ -35,8 +35,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 		'eightbitstories.meta': MetaSkillViewController
 		'eightbitstories.members': MembersSkillViewController
 		'eightbitstories.onboarding': OnboardingSkillViewController
-		'eightbitstories.story': StorySkillViewController
 		'eightbitstories.root': RootSkillViewController
+		'eightbitstories.story': StorySkillViewController
 	}
 
 	interface SkillViewControllerArgsMap {
@@ -44,24 +44,24 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 		'eightbitstories.meta': LoadOptions<Parameters<MetaSkillViewController['load']>>
 		'eightbitstories.members': LoadOptions<Parameters<MembersSkillViewController['load']>>
 		'eightbitstories.onboarding': LoadOptions<Parameters<OnboardingSkillViewController['load']>>
-		'eightbitstories.story': LoadOptions<Parameters<StorySkillViewController['load']>>
 		'eightbitstories.root': LoadOptions<Parameters<RootSkillViewController['load']>>
+		'eightbitstories.story': LoadOptions<Parameters<StorySkillViewController['load']>>
 	}
 
 	interface ViewControllerMap {
-		'eightbitstories.family-member-form-card': FamilyMemberFormCardViewController
 		'eightbitstories.feedback-card': FeedbackCardViewController
+		'eightbitstories.family-member-form-card': FamilyMemberFormCardViewController
 		'eightbitstories.generate': GenerateSkillViewController
 		'eightbitstories.meta': MetaSkillViewController
 		'eightbitstories.members': MembersSkillViewController
 		'eightbitstories.onboarding': OnboardingSkillViewController
-		'eightbitstories.story': StorySkillViewController
 		'eightbitstories.root': RootSkillViewController
+		'eightbitstories.story': StorySkillViewController
 	}
 
     interface ViewControllerOptionsMap {
-		'eightbitstories.family-member-form-card': ConstructorParameters<typeof FamilyMemberFormCardViewController>[0]
 		'eightbitstories.feedback-card': ConstructorParameters<typeof FeedbackCardViewController>[0]
+		'eightbitstories.family-member-form-card': ConstructorParameters<typeof FamilyMemberFormCardViewController>[0]
 	}
 
 	interface ViewControllerPlugins {
