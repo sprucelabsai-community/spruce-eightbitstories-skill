@@ -8,18 +8,19 @@ import {
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { TestRouter, eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
-import { assert, generateId, test } from '@sprucelabs/test-utils'
+import { assert, generateId, test, suite } from '@sprucelabs/test-utils'
 import { GetMeta } from '../../../eightbitstories.types'
 import MetaSkillViewController from '../../../meta/Meta.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
+@suite()
 export default class MetaSkillViewTest extends AbstractEightBitTest {
-    private static vc: SpyMetaSkillView
-    private static passedMeta?: SpruceSchemas.Eightbitstories.v2023_09_05.GetMeta
-    private static meta: GetMeta
+    private vc!: SpyMetaSkillView
+    private passedMeta?: SpruceSchemas.Eightbitstories.v2023_09_05.GetMeta
+    private meta!: GetMeta
 
-    public static async beforeEach() {
+    public async beforeEach() {
         await super.beforeEach()
         this.views.setController('eightbitstories.meta', SpyMetaSkillView)
 
@@ -40,22 +41,22 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async requiresBeingLoggedIn() {
+    protected async requiresBeingLoggedIn() {
         await vcAssert.assertLoginIsRequired(this.vc)
     }
 
     @test()
-    protected static async rendersACard() {
+    protected async rendersACard() {
         vcAssert.assertSkillViewRendersCard(this.vc)
     }
 
     @test()
-    protected static async redirectsOnClickToCancel() {
+    protected async redirectsOnClickToCancel() {
         await this.assertFormActionRedirectsToRoot('back')
     }
 
     @test()
-    protected static async rendersAlertIfSaveFails() {
+    protected async rendersAlertIfSaveFails() {
         await eventFaker.makeEventThrow(
             'eightbitstories.save-meta::v2023_09_05'
         )
@@ -63,7 +64,7 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async submittingEmitsSaveMetaEvent() {
+    protected async submittingEmitsSaveMetaEvent() {
         const { name, values } = await this.randomizeMetaAndSetFormValues()
 
         await this.submitFormAndAssertRedirect()
@@ -75,39 +76,39 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async redirectsOnClickToSave() {
+    protected async redirectsOnClickToSave() {
         await this.randomizeMetaAndSetFormValues()
         await this.assertFormActionRedirectsToRoot('save')
     }
 
     @test()
-    protected static async rendersForm() {
+    protected async rendersForm() {
         formAssert.cardRendersForm(this.cardVc)
     }
 
     @test()
-    protected static async rendersExpectedFormFields() {
+    protected async rendersExpectedFormFields() {
         formAssert.formRendersFields(this.formVc, ['name', 'values'])
     }
 
     @test()
-    protected static async loadingViewLoadsMeta() {
+    protected async loadingViewLoadsMeta() {
         const values = this.formVc.getValues()
         assert.isEqualDeep(values, this.meta)
     }
 
     @test()
-    protected static async doesNotRenderNavigation() {
+    protected async doesNotRenderNavigation() {
         navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
     }
 
     @test()
-    protected static async rendersFacebookGroupButton() {
+    protected async rendersFacebookGroupButton() {
         buttonAssert.cardRendersButton(this.cardVc, 'facebookGroup')
     }
 
     @test()
-    protected static async clickingFacebookGroupButtonOpensUrl() {
+    protected async clickingFacebookGroupButtonOpensUrl() {
         TestRouter.setShouldThrowWhenRedirectingToBadSvc(false)
         await vcAssert.assertActionRedirects({
             action: () => interactor.clickButton(this.formVc, 'facebookGroup'),
@@ -118,36 +119,34 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
         })
     }
 
-    private static MetaVc(): SpyMetaSkillView {
+    private MetaVc(): SpyMetaSkillView {
         return this.views.Controller(
             'eightbitstories.meta',
             {}
         ) as SpyMetaSkillView
     }
 
-    private static async submitFormAndAssertRedirect() {
+    private async submitFormAndAssertRedirect() {
         await vcAssert.assertActionRedirects({
             action: () => this.submitForm(),
             router: this.views.getRouter(),
         })
     }
 
-    private static async randomizeMetaAndSetFormValues() {
+    private async randomizeMetaAndSetFormValues() {
         this.meta.name = generateId()
         this.meta.values = generateId()
         await this.fillOutForm({ ...this.meta })
         return this.meta
     }
 
-    private static async fillOutForm(meta: GetMeta) {
+    private async fillOutForm(meta: GetMeta) {
         await this.formVc.setValues({
             ...meta,
         })
     }
 
-    private static async assertFormActionRedirectsToRoot(
-        action: 'back' | 'save'
-    ) {
+    private async assertFormActionRedirectsToRoot(action: 'back' | 'save') {
         const strategy = {
             back: () => interactor.cancelForm(this.formVc),
             save: () => this.submitForm(),
@@ -162,19 +161,19 @@ export default class MetaSkillViewTest extends AbstractEightBitTest {
         })
     }
 
-    private static submitForm() {
+    private submitForm() {
         return interactor.submitForm(this.formVc)
     }
 
-    private static async loadVc() {
+    private async loadVc() {
         await this.views.load(this.vc)
     }
 
-    private static get cardVc() {
+    private get cardVc() {
         return this.vc.getCardVc()
     }
 
-    private static get formVc() {
+    private get formVc() {
         return this.vc.getFormVc()
     }
 }

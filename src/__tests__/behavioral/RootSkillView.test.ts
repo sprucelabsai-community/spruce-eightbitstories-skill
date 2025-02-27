@@ -6,7 +6,7 @@ import {
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { assert, test } from '@sprucelabs/test-utils'
+import { assert, test, suite } from '@sprucelabs/test-utils'
 import FeedbackCardViewController from '../../feedback/FeedbackCard.vc'
 import Onboarding from '../../onboarding/Onboarding'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
@@ -14,10 +14,11 @@ import AbstractEightBitTest from '../support/AbstractEightBitTest'
 import { SpyFeedbackCard } from './feedback/SpyFeedCard'
 
 @fake.login()
+@suite()
 export default class RootSkillViewTest extends AbstractEightBitTest {
-    private static vc: SpyRootSkillView
+    private vc!: SpyRootSkillView
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
 
         this.views.setController(
@@ -32,12 +33,12 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static rendersCard() {
+    protected rendersCard() {
         vcAssert.assertSkillViewRendersCard(this.vc, 'controls')
     }
 
     @test()
-    protected static async rendersExpectedButtons() {
+    protected async rendersExpectedButtons() {
         buttonAssert.cardRendersButtons(this.cardVc, [
             'meta',
             'members',
@@ -47,7 +48,7 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async noFeedbackButtonIfNotLoggedInAndSkippingOnboarding() {
+    protected async noFeedbackButtonIfNotLoggedInAndSkippingOnboarding() {
         Onboarding.getInstance().skip()
 
         await this.auth.clearSession()
@@ -59,12 +60,12 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async clickingMetaRedirectsToMetaSkillView() {
+    protected async clickingMetaRedirectsToMetaSkillView() {
         await this.assertClickingButtonRedirects('meta', 'eightbitstories.meta')
     }
 
     @test()
-    protected static async clickingMembersRedirectsToMembersSkillView() {
+    protected async clickingMembersRedirectsToMembersSkillView() {
         await this.assertClickingButtonRedirects(
             'members',
             'eightbitstories.members'
@@ -72,7 +73,7 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async clickingGenerateRedirectsToGenerateSkillView() {
+    protected async clickingGenerateRedirectsToGenerateSkillView() {
         await this.assertClickingButtonRedirects(
             'generate',
             'eightbitstories.generate'
@@ -80,17 +81,17 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async rendersNullNav() {
+    protected async rendersNullNav() {
         navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
     }
 
     @test()
-    protected static async clickingFeedbackRendersDialog() {
+    protected async clickingFeedbackRendersDialog() {
         await this.clickFeedbackAndAssertDialog()
     }
 
     @test()
-    protected static async submittingFormHidesDialog() {
+    protected async submittingFormHidesDialog() {
         const { feedbackVc, dlgVc } = await this.clickFeedbackAndAssertDialog()
         const handler = feedbackVc.getOnSubmitHandler()
 
@@ -99,7 +100,7 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
         assert.isFalse(dlgVc.getIsVisible())
     }
 
-    private static async clickFeedbackAndAssertDialog() {
+    private async clickFeedbackAndAssertDialog() {
         const dlgVc = await vcAssert.assertRendersDialog(this.vc, () =>
             this.clickButton('feedback')
         )
@@ -112,18 +113,18 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
         return { feedbackVc, dlgVc }
     }
 
-    private static Vc(): SpyRootSkillView {
+    private Vc(): SpyRootSkillView {
         return this.views.Controller(
             'eightbitstories.root',
             {}
         ) as SpyRootSkillView
     }
 
-    private static get auth() {
+    private get auth() {
         return this.permissions.getAuthenticator()
     }
 
-    private static async assertClickingButtonRedirects(
+    private async assertClickingButtonRedirects(
         button: string,
         destination: SkillViewControllerId
     ) {
@@ -136,15 +137,15 @@ export default class RootSkillViewTest extends AbstractEightBitTest {
         })
     }
 
-    private static clickButton(button: string): any {
+    private clickButton(button: string): any {
         return interactor.clickButton(this.cardVc, button)
     }
 
-    private static async load() {
+    private async load() {
         await this.views.load(this.vc)
     }
 
-    private static get cardVc() {
+    private get cardVc() {
         return this.vc.getCardVc()
     }
 }

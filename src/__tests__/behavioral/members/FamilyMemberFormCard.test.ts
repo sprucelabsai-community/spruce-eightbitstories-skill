@@ -4,7 +4,7 @@ import {
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, suite, assert, generateId } from '@sprucelabs/test-utils'
 import {
     AddFamilyMember,
     PublicFamilyMember,
@@ -18,11 +18,12 @@ import {
 import SpyFamilyMemberCard from './SpyFamilyMemberCard'
 
 @fake.login()
+@suite()
 export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
-    private static vc: SpyFamilyMemberCard
-    private static lastAddedMember?: PublicFamilyMember
+    private vc!: SpyFamilyMemberCard
+    private lastAddedMember?: PublicFamilyMember
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
 
         delete this.lastAddedMember
@@ -35,17 +36,17 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async cardRendersForm() {
+    protected async cardRendersForm() {
         formAssert.cardRendersForm(this.vc)
     }
 
     @test()
-    protected static async formRendersExpectedFields() {
+    protected async formRendersExpectedFields() {
         formAssert.formRendersFields(this.formVc, ['name', 'bio'])
     }
 
     @test()
-    protected static async errorSubmittingRendersAlert() {
+    protected async errorSubmittingRendersAlert() {
         await eventFaker.makeEventThrow(
             'eightbitstories.add-family-member::v2023_09_05'
         )
@@ -56,7 +57,7 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async passesExpectedPayloadToAddEvent() {
+    protected async passesExpectedPayloadToAddEvent() {
         let passedPayload: AddMemberTargetAndPayload['payload'] | undefined
 
         await this.eventFaker.fakeAddFamilyMember(({ payload }) => {
@@ -69,7 +70,7 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async onAddHandlerCalledWithMemberFromResponseToAddEvent() {
+    protected async onAddHandlerCalledWithMemberFromResponseToAddEvent() {
         const values: PublicFamilyMember = {
             id: generateId(),
             name: generateId(),
@@ -87,7 +88,7 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
 
     @test()
     @seed('familyMembers', 1)
-    protected static async submittingWithMemberEmitsUpdateEvent() {
+    protected async submittingWithMemberEmitsUpdateEvent() {
         const member = await this.resetWithFirstMember()
 
         let passedTarget:
@@ -110,7 +111,7 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
 
     @test()
     @seed('familyMembers', 1)
-    protected static async errorUpdatingRendersAlert() {
+    protected async errorUpdatingRendersAlert() {
         await this.resetWithFirstMember()
         await eventFaker.makeEventThrow(
             'eightbitstories.update-family-member::v2023_09_05'
@@ -119,7 +120,7 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
         await vcAssert.assertRendersAlert(this.vc, () => this.submitForm())
     }
 
-    private static async resetWithFirstMember() {
+    private async resetWithFirstMember() {
         const member = await this.getFirstFamilyMember()
         this.vc = this.Vc({
             member,
@@ -127,7 +128,7 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
         return member
     }
 
-    private static Vc(
+    private Vc(
         options?: Partial<FamilyMemberFormCardOptions>
     ): SpyFamilyMemberCard {
         return this.views.Controller(
@@ -142,25 +143,25 @@ export default class FamilyMemberFormCardTest extends AbstractEightBitTest {
         ) as SpyFamilyMemberCard
     }
 
-    private static async submitRandomValues() {
+    private async submitRandomValues() {
         const values = await this.fillOutFormWithRandomValues()
         await this.submitForm()
         return values
     }
 
-    private static submitForm(): any {
+    private submitForm(): any {
         return interactor.submitForm(this.formVc)
     }
 
-    private static async fillOutFormWithRandomValues() {
+    private async fillOutFormWithRandomValues() {
         return await this.vc.fillOutRandomly()
     }
 
-    private static get formVc() {
+    private get formVc() {
         return this.vc.getFormVc()
     }
 
-    private static getValues() {
+    private getValues() {
         return this.formVc.getValues() as AddFamilyMember
     }
 }

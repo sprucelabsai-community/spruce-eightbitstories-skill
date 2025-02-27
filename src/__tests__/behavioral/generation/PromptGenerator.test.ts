@@ -1,5 +1,11 @@
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, errorAssert, generateId } from '@sprucelabs/test-utils'
+import {
+    test,
+    suite,
+    assert,
+    errorAssert,
+    generateId,
+} from '@sprucelabs/test-utils'
 import { INTRO } from '../../../generation/constants'
 import PromptGenerator, {
     GeneratePromptOptions,
@@ -8,11 +14,12 @@ import { storyElements } from '../../../generation/storyElements'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
+@suite()
 export default class PromptGeneratorTest extends AbstractEightBitTest {
-    private static prompt: PromptGenerator
-    private static promptOptions: GeneratePromptOptions
+    private prompt!: PromptGenerator
+    private promptOptions!: GeneratePromptOptions
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
 
         this.prompt = PromptGenerator.Generator()
@@ -37,7 +44,7 @@ export default class PromptGeneratorTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async throwsWhenMissingExpected() {
+    protected async throwsWhenMissingExpected() {
         //@ts-ignore
         const err = assert.doesThrow(() => this.prompt.generate())
         errorAssert.assertError(err, 'MISSING_PARAMETERS', {
@@ -51,18 +58,18 @@ export default class PromptGeneratorTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async generatesWithExpected() {
+    protected async generatesWithExpected() {
         this.generate()
     }
 
     @test()
-    protected static async generatesExpectedPromptFromOneMemberAndOneElement() {
+    protected async generatesExpectedPromptFromOneMemberAndOneElement() {
         const actual = this.generate()
         this.assertPromptEqualsExpected(actual)
     }
 
     @test()
-    protected static async testGenerations() {
+    protected async testGenerations() {
         this.promptOptions.familyMembers = [
             {
                 name: 'Tay',
@@ -86,13 +93,13 @@ export default class PromptGeneratorTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async generatesCurrentChallengeIfPassed() {
+    protected async generatesCurrentChallengeIfPassed() {
         this.promptOptions.currentChallenge = generateId()
         const actual = this.generate()
         this.assertPromptEqualsExpected(actual)
     }
 
-    private static assertPromptEqualsExpected(actual: string) {
+    private assertPromptEqualsExpected(actual: string) {
         const expected = this.generateExpectedPrompt()
 
         function removeSpaces(str: string) {
@@ -102,7 +109,7 @@ export default class PromptGeneratorTest extends AbstractEightBitTest {
         assert.isEqual(removeSpaces(actual), removeSpaces(expected.trim()))
     }
 
-    private static generateExpectedPrompt() {
+    private generateExpectedPrompt() {
         return (
             INTRO +
             `
@@ -139,7 +146,7 @@ Duration:
         )
     }
 
-    private static generate() {
+    private generate() {
         const prompt = this.prompt.generate(this.promptOptions)
 
         return prompt

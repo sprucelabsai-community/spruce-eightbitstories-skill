@@ -4,17 +4,24 @@ import {
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, errorAssert, generateId } from '@sprucelabs/test-utils'
+import {
+    test,
+    suite,
+    assert,
+    errorAssert,
+    generateId,
+} from '@sprucelabs/test-utils'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { SubmitFeedbackTargetAndPayload } from '../../support/EventFaker'
 import { SpyFeedbackCard } from './SpyFeedCard'
 
 @fake.login()
+@suite()
 export default class FeedbackCardTest extends AbstractEightBitTest {
-    private static vc: SpyFeedbackCard
-    private static wasOnSubmitCalled: boolean
+    private vc!: SpyFeedbackCard
+    private wasOnSubmitCalled!: boolean
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
 
         await this.eventFaker.fakeSubmitFeedback()
@@ -33,7 +40,7 @@ export default class FeedbackCardTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async throwsWhenMissingRequired() {
+    protected async throwsWhenMissingRequired() {
         const err = assert.doesThrow(() =>
             //@ts-ignore
             this.views.Controller('eightbitstories.feedback-card', {})
@@ -45,7 +52,7 @@ export default class FeedbackCardTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async rendersFormWithExpectedFields() {
+    protected async rendersFormWithExpectedFields() {
         formAssert.cardRendersForm(this.vc)
         formAssert.formRendersFields(this.formVc, ['feedback'])
         formAssert.formFieldRendersAs(this.formVc, 'feedback', 'textarea')
@@ -53,7 +60,7 @@ export default class FeedbackCardTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async rendersAlertWhenFailsToSave() {
+    protected async rendersAlertWhenFailsToSave() {
         await eventFaker.makeEventThrow(
             'eightbitstories.submit-feedback::v2023_09_05'
         )
@@ -62,7 +69,7 @@ export default class FeedbackCardTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async emitsSubmitEventWhenFormSubmitted() {
+    protected async emitsSubmitEventWhenFormSubmitted() {
         let passedPayload: SubmitFeedbackTargetAndPayload['payload'] | undefined
 
         await this.eventFaker.fakeSubmitFeedback(({ payload }) => {
@@ -76,28 +83,28 @@ export default class FeedbackCardTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async callsOnCompleteWhenFormSubmitted() {
+    protected async callsOnCompleteWhenFormSubmitted() {
         this.assertOnSubmitNotCalled()
         await this.setRandomFeedback()
         await this.submit()
         assert.isTrue(this.wasOnSubmitCalled)
     }
 
-    private static async setRandomFeedback() {
+    private async setRandomFeedback() {
         const feedback = generateId()
         await this.formVc.setValue('feedback', feedback)
         return feedback
     }
 
-    private static assertOnSubmitNotCalled() {
+    private assertOnSubmitNotCalled() {
         assert.isFalse(this.wasOnSubmitCalled)
     }
 
-    private static submit() {
+    private submit() {
         return interactor.submitForm(this.formVc)
     }
 
-    private static get formVc() {
+    private get formVc() {
         return this.vc.getFormVc()
     }
 }

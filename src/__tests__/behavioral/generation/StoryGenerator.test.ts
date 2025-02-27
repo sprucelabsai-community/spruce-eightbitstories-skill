@@ -1,5 +1,11 @@
 import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, errorAssert, generateId } from '@sprucelabs/test-utils'
+import {
+    test,
+    suite,
+    assert,
+    errorAssert,
+    generateId,
+} from '@sprucelabs/test-utils'
 import OpenAI from 'openai'
 import {
     ChatCompletion,
@@ -13,14 +19,15 @@ import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { DidGenerateTargetAndPayload } from '../../support/EventFaker'
 
 @fake.login()
+@suite()
 export default class StoryGeneratorTest extends AbstractEightBitTest {
-    private static generator: SpyGenerator
-    private static passedOptions: ChatCompletionCreateParamsBase | undefined
-    private static prompt: PromptGenerator
-    private static responseBody = generateId()
-    private static storyHash: string
+    private generator!: SpyGenerator
+    private passedOptions!: ChatCompletionCreateParamsBase | undefined
+    private prompt!: PromptGenerator
+    private responseBody = generateId()
+    private storyHash!: string
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
 
         this.generator = (await StoryGeneratorImpl.Generator({
@@ -62,7 +69,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async throwsWithMissing() {
+    protected async throwsWithMissing() {
         const err = await assert.doesThrowAsync(() =>
             //@ts-ignore
             StoryGeneratorImpl.Generator()
@@ -73,13 +80,13 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async setsOpenAiOnClass() {
+    protected async setsOpenAiOnClass() {
         assert.isInstanceOf(this.generator.getApi(), OpenAI)
     }
 
     @test()
     @seed('meta')
-    protected static async generateReachesOutToOpenAi() {
+    protected async generateReachesOutToOpenAi() {
         await this.generate()
 
         const messages = this.passedOptions?.messages
@@ -102,14 +109,14 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     @test()
     @seed('familyMembers', 3)
     @seed('meta')
-    protected static async passesExpectedPromptAsSystemMessage() {
+    protected async passesExpectedPromptAsSystemMessage() {
         await this.assertSendsExpectedPrompt()
     }
 
     @test()
     @seed('familyMembers', 1)
     @seed('meta')
-    protected static async filtersMetaByPerson() {
+    protected async filtersMetaByPerson() {
         //@ts-ignore
         await this.metas.update({}, { 'target.personId': generateId() })
         const meta = await this.metas.createOne({
@@ -128,7 +135,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     @test()
     @seed('familyMembers', 5)
     @seed('meta')
-    protected static async onlyLoadsPassedMembers() {
+    protected async onlyLoadsPassedMembers() {
         const members = await this.members.find({})
         const ids = [members[0].id, members[3].id]
 
@@ -140,14 +147,14 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     @test()
     @seed('familyMembers', 5)
     @seed('meta')
-    protected static async usesPassedStoryElements() {
+    protected async usesPassedStoryElements() {
         await this.assertSendsExpectedPrompt({
             storeElementIds: [storyElements[1].id, storyElements[2].id],
         })
     }
 
     @test()
-    protected static async throwsErrorIfNoMetaFound() {
+    protected async throwsErrorIfNoMetaFound() {
         const err = await assert.doesThrowAsync(() => this.generate())
         errorAssert.assertError(err, 'META_NOT_FOUND')
     }
@@ -155,7 +162,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     @test()
     @seed('familyMembers', 5)
     @seed('meta')
-    protected static async writesStoreRecord() {
+    protected async writesStoreRecord() {
         await this.generate()
 
         const count = await this.stories.count()
@@ -165,7 +172,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     @test()
     @seed('familyMembers', 5)
     @seed('meta')
-    protected static async writesStoreRecordWithExpectedValues() {
+    protected async writesStoreRecordWithExpectedValues() {
         const dateCreatedFloor = new Date().getTime()
         await this.wait(1)
 
@@ -184,7 +191,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     @test()
     @seed('familyMembers', 5)
     @seed('meta')
-    protected static async emitsDidGenerateAfterGenerating() {
+    protected async emitsDidGenerateAfterGenerating() {
         let passedTarget: DidGenerateTargetAndPayload['target'] | undefined
         let passedPayload: DidGenerateTargetAndPayload['payload'] | undefined
 
@@ -209,7 +216,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
     @test()
     @seed('familyMembers', 1)
     @seed('meta')
-    protected static async passesThroughHash() {
+    protected async passesThroughHash() {
         await this.generate()
         const story = await this.getFirstGeneratedStory()
         assert.isEqual(story.source.hash, this.storyHash, 'Hash did not match!')
@@ -217,14 +224,14 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 
     @test()
     @seed('meta')
-    protected static async passesCurrentChallengeToPromptGenerator() {
+    protected async passesCurrentChallengeToPromptGenerator() {
         await this.assertSendsExpectedPrompt({
             storeElementIds: [storyElements[1].id, storyElements[2].id],
             currentChallenge: generateId(),
         })
     }
 
-    private static async getGeneratedStory() {
+    private async getGeneratedStory() {
         const match = await this.stories.findOne(
             {},
             { shouldIncludePrivateFields: true }
@@ -233,7 +240,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
         return match
     }
 
-    private static async assertSendsExpectedPrompt(options?: {
+    private async assertSendsExpectedPrompt(options?: {
         meta?: PublicMeta
         familyMemberIds?: string[]
         storeElementIds?: string[]
@@ -267,7 +274,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
         assert.isEqual(this.passedOptions?.messages[0]?.content, expected)
     }
 
-    private static getStoryElementIds(ids?: string[]): StoryElement[] {
+    private getStoryElementIds(ids?: string[]): StoryElement[] {
         if (ids) {
             return storyElements.filter((e) => ids.includes(e.id))
         }
@@ -275,9 +282,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
         return [storyElements[0]]
     }
 
-    private static async loadFamilyMembers(
-        familyMemberIds: string[] | undefined
-    ) {
+    private async loadFamilyMembers(familyMemberIds: string[] | undefined) {
         let membersQuery = {}
         if (familyMemberIds) {
             membersQuery = {
@@ -290,7 +295,7 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
         return members
     }
 
-    private static async generate(options?: {
+    private async generate(options?: {
         familyMemberIds?: string[]
         storeElementIds?: string[]
         currentChallenge?: string

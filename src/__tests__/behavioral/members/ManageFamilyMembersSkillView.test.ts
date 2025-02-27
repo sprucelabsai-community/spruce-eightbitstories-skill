@@ -6,7 +6,7 @@ import {
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, suite, assert, generateId } from '@sprucelabs/test-utils'
 import FamilyMemberFormCardViewController from '../../../members/FamilyMemberFormCard.vc'
 import MembersSkillViewController from '../../../members/Members.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
@@ -14,10 +14,11 @@ import { DeleteMemberTargetAndPayload } from '../../support/EventFaker'
 import SpyFamilyMemberCard from './SpyFamilyMemberCard'
 
 @fake.login()
+@suite()
 export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTest {
-    private static vc: SpyMembersSkillView
+    private vc!: SpyMembersSkillView
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
         this.views.setController('eightbitstories.members', SpyMembersSkillView)
         this.views.setController(
@@ -35,28 +36,28 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
     }
 
     @test()
-    protected static viewRendersCard() {
+    protected viewRendersCard() {
         vcAssert.assertSkillViewRendersCard(this.vc)
     }
 
     @test()
-    protected static async cardRendersList() {
+    protected async cardRendersList() {
         listAssert.cardRendersList(this.cardVc)
     }
 
     @test()
-    protected static async listRendersNoResultsRowToStart() {
+    protected async listRendersNoResultsRowToStart() {
         await this.load()
         listAssert.listRendersRow(this.listVc, 'no-results')
     }
 
     @test()
-    protected static async cardRendersAddAndBackButtons() {
+    protected async cardRendersAddAndBackButtons() {
         buttonAssert.cardRendersButtons(this.cardVc, ['add', 'back'])
     }
 
     @test()
-    protected static async clickingBackRedirectsToRoot() {
+    protected async clickingBackRedirectsToRoot() {
         await this.load()
 
         await vcAssert.assertActionRedirects({
@@ -69,7 +70,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
     }
 
     @test()
-    protected static async clickingAddMemberRendersDialog() {
+    protected async clickingAddMemberRendersDialog() {
         const { familyVc, dialogVc } =
             await this.clickAddAndAssertRendersFormCard()
         await interactor.cancelForm(familyVc.getFormVc())
@@ -77,7 +78,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
     }
 
     @test()
-    protected static async addingMemberHidesDialog() {
+    protected async addingMemberHidesDialog() {
         await this.load()
         await this.eventFaker.fakeAddFamilyMember()
         const { familyVc, dialogVc } =
@@ -89,7 +90,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
     @test()
     @seed('familyMembers', 1)
-    protected static async loadsFirstFamilyMember() {
+    protected async loadsFirstFamilyMember() {
         const match = await this.getFirstFamilyMember({
             shouldIncludePrivateFields: false,
         })
@@ -99,7 +100,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
     }
 
     @test()
-    protected static async addingAFamilyMemberRefreshesTheList() {
+    protected async addingAFamilyMemberRefreshesTheList() {
         await this.load()
 
         let hitCount = 0
@@ -120,20 +121,20 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
     @test()
     @seed('familyMembers', 1)
-    protected static async eachMemberRowRendersDeleteButton() {
+    protected async eachMemberRowRendersDeleteButton() {
         const match = await this.loadAndGetFirstMember()
         listAssert.rowRendersButton(this.listVc, match.id, 'delete')
     }
 
     @test()
     @seed('familyMembers', 1)
-    protected static async clickingDeleteButtonRendersConfirmation() {
+    protected async clickingDeleteButtonRendersConfirmation() {
         await this.loadClickDeleteAndAssertConfirm()
     }
 
     @test()
     @seed('familyMembers', 1)
-    protected static async clickingDeleteEmitsDeleteEvent() {
+    protected async clickingDeleteEmitsDeleteEvent() {
         let passedTarget: DeleteMemberTargetAndPayload['target'] | undefined
 
         await this.eventFaker.fakeDeleteFamilyMember(({ target }) => {
@@ -151,7 +152,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
     @test()
     @seed('familyMembers', 1)
-    protected static async decliningDoesNotDelete() {
+    protected async decliningDoesNotDelete() {
         let wasHit = false
 
         await this.eventFaker.fakeDeleteFamilyMember(() => {
@@ -166,7 +167,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
     @test()
     @seed('familyMembers', 1)
-    protected static async failingToDeleteRendersAlert() {
+    protected async failingToDeleteRendersAlert() {
         await eventFaker.makeEventThrow(
             'eightbitstories.delete-family-member::v2023_09_05'
         )
@@ -178,7 +179,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
     @test()
     @seed('familyMembers', 3)
-    protected static async deletingMemberRemovesRow() {
+    protected async deletingMemberRemovesRow() {
         const members = await this.members.find({})
 
         await this.load()
@@ -191,7 +192,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
     @test()
     @seed('familyMembers', 1)
-    protected static async clickingFamilyMemberRendersDialog() {
+    protected async clickingFamilyMemberRendersDialog() {
         const { cardVc, formVc, match } =
             await this.loadClickFirstMemberAssertDialog()
 
@@ -205,7 +206,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
     @test()
     @seed('familyMembers', 1)
-    protected static async cancellingEditHidesDialog() {
+    protected async cancellingEditHidesDialog() {
         const { dlgVc, formVc } = await this.loadClickFirstMemberAssertDialog()
         await interactor.cancelForm(formVc)
         assert.isFalse(dlgVc.getIsVisible())
@@ -213,7 +214,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
     @test()
     @seed('familyMembers', 1)
-    protected static async submittingEditFormHidesDialog() {
+    protected async submittingEditFormHidesDialog() {
         const { dlgVc, formVc } = await this.loadClickFirstMemberAssertDialog()
         await interactor.submitForm(formVc)
         assert.isFalse(dlgVc.getIsVisible())
@@ -221,7 +222,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
 
     @test()
     @seed('familyMembers', 1)
-    protected static async updatingMemberUpdatesRow() {
+    protected async updatingMemberUpdatesRow() {
         const { formVc } = await this.loadClickFirstMemberAssertDialog()
         const newName = generateId()
         const newBio = generateId()
@@ -235,11 +236,11 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
     }
 
     @test()
-    protected static async doesNotRenderNavigation() {
+    protected async doesNotRenderNavigation() {
         navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
     }
 
-    private static async loadClickFirstMemberAssertDialog() {
+    private async loadClickFirstMemberAssertDialog() {
         const match = await this.loadAndGetFirstMember()
         const { cardVc, formVc, dlgVc } = await this.clickAndRowAssertDialog(
             match.id
@@ -247,7 +248,7 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
         return { cardVc, formVc, dlgVc, match }
     }
 
-    private static async clickAndRowAssertDialog(id: string) {
+    private async clickAndRowAssertDialog(id: string) {
         const dlgVc = await vcAssert.assertRendersDialog(this.vc, () =>
             interactor.clickRow(this.listVc, id)
         )
@@ -261,53 +262,51 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
         return { cardVc, formVc, dlgVc }
     }
 
-    private static async clickDeleteConfirmAndAssertRemovedRow(id: string) {
+    private async clickDeleteConfirmAndAssertRemovedRow(id: string) {
         await this.clickDeleteAndConfirm(id)
         this.assertDoesNotRenderRow(id)
     }
 
-    private static async clickDeleteAndConfirm(id: string) {
+    private async clickDeleteAndConfirm(id: string) {
         const confirmVc = await this.clickDeleteAndAssertConfirm(id)
         await confirmVc.accept()
     }
 
-    private static assertDoesNotRenderRow(id: string) {
+    private assertDoesNotRenderRow(id: string) {
         listAssert.listDoesNotRenderRow(this.listVc, id)
     }
 
-    private static async loadClickDeleteAndConfirm() {
+    private async loadClickDeleteAndConfirm() {
         const confirmVc = await this.loadClickDeleteAndAssertConfirm()
         await confirmVc.accept()
     }
 
-    private static async loadClickDeleteAndAssertConfirm() {
+    private async loadClickDeleteAndAssertConfirm() {
         await this.load()
         return await this.clickDeleteAndAssertConfirm()
     }
 
-    private static async clickDeleteAndAssertConfirm(
-        rowIdOrIdx: number | string = 0
-    ) {
+    private async clickDeleteAndAssertConfirm(rowIdOrIdx: number | string = 0) {
         return await vcAssert.assertRendersConfirm(this.vc, () =>
             interactor.clickButtonInRow(this.listVc, rowIdOrIdx, 'delete')
         )
     }
 
-    private static async loadAndGetFirstMember() {
+    private async loadAndGetFirstMember() {
         await this.load()
         const match = await this.getFirstFamilyMember()
         return match
     }
 
-    private static get listVc() {
+    private get listVc() {
         return this.vc.getListVc()
     }
 
-    private static async load() {
+    private async load() {
         await this.views.load(this.vc)
     }
 
-    private static async clickAddAndAssertRendersFormCard() {
+    private async clickAddAndAssertRendersFormCard() {
         const dialogVc = await vcAssert.assertRendersDialog(this.vc, () =>
             this.clickButton('add')
         )
@@ -318,11 +317,11 @@ export default class ManageFamilyMembersSkillViewTest extends AbstractEightBitTe
         return { familyVc: familyVc as SpyFamilyMemberCard, dialogVc }
     }
 
-    private static clickButton(button: string): any {
+    private clickButton(button: string): any {
         return interactor.clickButton(this.cardVc, button)
     }
 
-    private static get cardVc() {
+    private get cardVc() {
         return this.vc.getCardVc()
     }
 }

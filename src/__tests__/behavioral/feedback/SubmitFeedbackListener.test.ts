@@ -1,14 +1,15 @@
 import { randomUtil } from '@sprucelabs/spruce-skill-utils'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, suite, assert, generateId } from '@sprucelabs/test-utils'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { SendMessageTargetAndPayload } from '../../support/EventFaker'
 
 @fake.login()
+@suite()
 export default class SubmitFeedbackListenerTest extends AbstractEightBitTest {
-    private static randomFeedback: string
+    private randomFeedback!: string
 
-    protected static async beforeEach(): Promise<void> {
+    protected async beforeEach(): Promise<void> {
         await super.beforeEach()
 
         await this.bootSkill()
@@ -19,12 +20,12 @@ export default class SubmitFeedbackListenerTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async isListening() {
+    protected async isListening() {
         await this.submitFeedback()
     }
 
     @test()
-    protected static async sendsMessageToPersonIdAsSkill() {
+    protected async sendsMessageToPersonIdAsSkill() {
         process.env.FEEDBACK_PERSON_PHONE = randomUtil.rand([
             '555-000-2222',
             '555-000-2235',
@@ -63,7 +64,7 @@ export default class SubmitFeedbackListenerTest extends AbstractEightBitTest {
         })
     }
 
-    private static async submitFeedback() {
+    private async submitFeedback() {
         await this.fakedClient.emitAndFlattenResponses(
             'eightbitstories.submit-feedback::v2023_09_05',
             {

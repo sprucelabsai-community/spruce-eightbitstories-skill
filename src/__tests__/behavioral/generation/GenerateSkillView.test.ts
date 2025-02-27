@@ -11,7 +11,7 @@ import { selectAssert } from '@sprucelabs/schema'
 import { SelectChoice } from '@sprucelabs/spruce-core-schemas'
 import { FormCardViewController } from '@sprucelabs/spruce-form-utils'
 import { eventFaker, fake, seed } from '@sprucelabs/spruce-test-fixtures'
-import { assert, generateId, test } from '@sprucelabs/test-utils'
+import { assert, generateId, test, suite } from '@sprucelabs/test-utils'
 import GenerateSkillViewController, {
     CurrentChallengeSchema,
     GenerateStorySchema,
@@ -24,15 +24,16 @@ import {
 } from '../../support/EventFaker'
 
 @fake.login()
+@suite()
 export default class GenerateSkillViewTest extends AbstractEightBitTest {
-    private static vc: SpyGenerateSkillView
-    private static checkStatusIntervalCb: undefined | (() => Promise<void>)
-    private static checkStatusIntervalMs: number | undefined
-    private static intervalId: string
-    private static passedIntervalIdToClear?: string
+    private vc!: SpyGenerateSkillView
+    private checkStatusIntervalCb: undefined | (() => Promise<void>)
+    private checkStatusIntervalMs!: number | undefined
+    private intervalId!: string
+    private passedIntervalIdToClear?: string
 
     @seed('familyMembers', 3)
-    protected static async beforeEach(): Promise<void> {
+    protected async beforeEach(): Promise<void> {
         await super.beforeEach()
 
         this.views.setController(
@@ -69,12 +70,12 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async requiresLogin() {
+    protected async requiresLogin() {
         await vcAssert.assertLoginIsRequired(this.vc)
     }
 
     @test()
-    protected static async rendersExpectedCards() {
+    protected async rendersExpectedCards() {
         vcAssert.assertSkillViewRendersCards(this.vc, [
             'elements',
             'members',
@@ -84,12 +85,12 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async controlsCardRendersExpectedButtons() {
+    protected async controlsCardRendersExpectedButtons() {
         buttonAssert.cardRendersButtons(this.controlsVc, ['back', 'generate'])
     }
 
     @test()
-    protected static async rendersAlertAndRedirectsIfNoMembers() {
+    protected async rendersAlertAndRedirectsIfNoMembers() {
         await this.eventFaker.fakeListFamilyMembers(() => [])
         this.vc = this.Vc()
         await vcAssert.assertRendersAlertThenRedirects({
@@ -103,7 +104,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async clickingBackGoesBackToRoot() {
+    protected async clickingBackGoesBackToRoot() {
         await vcAssert.assertActionRedirects({
             action: () => interactor.clickButton(this.controlsVc, 'back'),
             destination: {
@@ -114,14 +115,14 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static elementsAndMembersCardsRendersForms() {
+    protected elementsAndMembersCardsRendersForms() {
         formAssert.cardRendersForm(this.elementsVc)
         formAssert.cardRendersForm(this.membersVc)
         formAssert.cardRendersForm(this.currentChallengeVc)
     }
 
     @test()
-    protected static async formCardsDoNotRenderButtons() {
+    protected async formCardsDoNotRenderButtons() {
         assert.isFalse(this.elementsFormVc.getShouldRenderSubmitControls())
         assert.isFalse(this.membersFormVc.getShouldRenderSubmitControls())
         assert.isFalse(
@@ -130,12 +131,12 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async elementsFormRendersExpectedFields() {
+    protected async elementsFormRendersExpectedFields() {
         formAssert.formRendersFields(this.elementsFormVc, ['elements'])
     }
 
     @test()
-    protected static async elementsFormRendersExpectedChoices() {
+    protected async elementsFormRendersExpectedChoices() {
         const schema = this.elementsFormVc.getSchema()
         selectAssert.assertSelectChoicesMatch(
             schema.fields.elements.options.choices,
@@ -144,22 +145,22 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async rendersElementsAsTags() {
+    protected async rendersElementsAsTags() {
         formAssert.formFieldRendersAs(this.elementsFormVc, 'elements', 'tags')
     }
 
     @test()
-    protected static async membersFormRendersExpectedFields() {
+    protected async membersFormRendersExpectedFields() {
         formAssert.formRendersFields(this.membersFormVc, ['members'])
     }
 
     @test()
-    protected static async membersFormRendersAsTags() {
+    protected async membersFormRendersAsTags() {
         formAssert.formFieldRendersAs(this.membersFormVc, 'members', 'tags')
     }
 
     @test()
-    protected static async membersRendersExpectedChoices() {
+    protected async membersRendersExpectedChoices() {
         const members = await this.getAllMembers()
         const expected = members.map((member) => member.id)
 
@@ -171,7 +172,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async currentChallengeFormRendersAsExpected() {
+    protected async currentChallengeFormRendersAsExpected() {
         formAssert.formRendersField(
             this.currentChallengeFormVc,
             'currentChallenge'
@@ -184,7 +185,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async clickingGenerateSetsControlsToBusy() {
+    protected async clickingGenerateSetsControlsToBusy() {
         await this.eventFaker.fakeGenerateStory(() => {})
 
         await this.selectFirstMember()
@@ -197,7 +198,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async rendersAlertIfFailsToGenerateStory() {
+    protected async rendersAlertIfFailsToGenerateStory() {
         await eventFaker.makeEventThrow(
             'eightbitstories.generate-story::v2023_09_05'
         )
@@ -216,7 +217,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     @test('submits selected members and elements 1', [0], [0])
     @test('submits selected members and elements 2', [1], [2])
     @test('submits selected members and elements 3', [0, 1], [2, 3])
-    protected static async generatePassesSelectedMembersAndElements(
+    protected async generatePassesSelectedMembersAndElements(
         memberIdxs: number[],
         elementIdxs: number[]
     ) {
@@ -246,7 +247,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async generatingStoryRedirectsToStoryWithArgs() {
+    protected async generatingStoryRedirectsToStoryWithArgs() {
         await this.eventFaker.fakeGenerateStory()
 
         await this.selectFirstElement()
@@ -263,7 +264,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async callingDestroyRemovesDidGenerateListener() {
+    protected async callingDestroyRemovesDidGenerateListener() {
         await this.vc.destroy()
 
         await eventFaker.handleReactiveEvent(
@@ -274,12 +275,12 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async rendersNullNavigation() {
+    protected async rendersNullNavigation() {
         navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
     }
 
     @test()
-    protected static async checksForGeneratedStoryAfterSubmitting() {
+    protected async checksForGeneratedStoryAfterSubmitting() {
         let passedTarget: GetStoryStatusTargetAndPayload['target'] | undefined
         await this.eventFaker.fakeGetStoryGenerationStatus(({ target }) => {
             passedTarget = target
@@ -293,14 +294,14 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async passesExpectedIntervalToChecksAfterSubmit() {
+    protected async passesExpectedIntervalToChecksAfterSubmit() {
         await this.eventFaker.fakeGenerateStory()
         await this.selectElementFamilyMemberAndClickGenerate()
         assert.isEqual(this.checkStatusIntervalMs, 1000 * 10)
     }
 
     @test()
-    protected static async doesNotSetIntervalIfGenerateThrows() {
+    protected async doesNotSetIntervalIfGenerateThrows() {
         await eventFaker.makeEventThrow(
             'eightbitstories.generate-story::v2023_09_05'
         )
@@ -315,7 +316,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async redirectsIfResponseIsStoryGenerated() {
+    protected async redirectsIfResponseIsStoryGenerated() {
         const storyId = generateId()
         await this.eventFaker.fakeGetStoryGenerationStatus(() => {
             return {
@@ -338,7 +339,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async clearsTimeoutOnBlur() {
+    protected async clearsTimeoutOnBlur() {
         await this.fakeGenerateSelectEverythingAndClickGenerate()
         assert.isFalsy(this.passedIntervalIdToClear)
         await interactor.blur(this.vc)
@@ -349,23 +350,23 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
         )
     }
 
-    private static async fakeGenerateSelectEverythingClickGenerateAndInvokeIntervalCb() {
+    private async fakeGenerateSelectEverythingClickGenerateAndInvokeIntervalCb() {
         await this.fakeGenerateSelectEverythingAndClickGenerate()
         await this.checkStatusIntervalCb?.()
     }
 
-    private static async fakeGenerateSelectEverythingAndClickGenerate() {
+    private async fakeGenerateSelectEverythingAndClickGenerate() {
         await this.eventFaker.fakeGenerateStory()
         await this.selectElementFamilyMemberAndClickGenerate()
     }
 
-    private static async selectElementFamilyMemberAndClickGenerate() {
+    private async selectElementFamilyMemberAndClickGenerate() {
         await this.selectFirstElement()
         await this.selectFirstMember()
         await this.clickGenerate()
     }
 
-    private static async clickGenerateAndAssertRedirect(destination?: {
+    private async clickGenerateAndAssertRedirect(destination?: {
         id: SkillViewControllerId
         args: { story: string }
     }) {
@@ -379,7 +380,7 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
         })
     }
 
-    private static async emitDidGenerate(storyId?: string) {
+    private async emitDidGenerate(storyId?: string) {
         await this.fakedClient.emitAndFlattenResponses(
             'eightbitstories.did-generate-story::v2023_09_05',
             {
@@ -393,92 +394,92 @@ export default class GenerateSkillViewTest extends AbstractEightBitTest {
         )
     }
 
-    private static async selectFirstElement() {
+    private async selectFirstElement() {
         const selectedElement = await this.selectElement(0)
         return selectedElement
     }
 
-    private static async selectElement(idx: number) {
+    private async selectElement(idx: number) {
         const selectedElements = await this.selectElements([idx])
         return selectedElements[0]
     }
 
-    private static async selectElements(allIdxs: number[]) {
+    private async selectElements(allIdxs: number[]) {
         const selectedElements = allIdxs.map((idx) => storyElements[idx].id)
         await this.elementsFormVc.setValue('elements', selectedElements)
         return selectedElements
     }
 
-    private static async selectFirstMember() {
+    private async selectFirstMember() {
         const selectedMember = await this.selectMember(0)
         return selectedMember
     }
 
-    private static async selectMember(idx: number) {
+    private async selectMember(idx: number) {
         const selectedMembers = await this.selectMembers([idx])
         return selectedMembers[0]
     }
 
-    private static async selectMembers(allIdxs: number[]) {
+    private async selectMembers(allIdxs: number[]) {
         const members = await this.getAllMembers()
         const selectedMembers = allIdxs.map((idx) => members[idx].id)
         await this.membersFormVc.setValue('members', selectedMembers as any)
         return selectedMembers
     }
 
-    private static async getAllMembers() {
+    private async getAllMembers() {
         return await this.members.find({})
     }
 
-    private static assertFooterIsNotBusy() {
+    private assertFooterIsNotBusy() {
         assert.isFalse(this.getIsFooterBusy())
     }
 
-    private static assertFooterIsBusy() {
+    private assertFooterIsBusy() {
         assert.isTrue(this.getIsFooterBusy())
     }
 
-    private static getIsFooterBusy(): boolean | null | undefined {
+    private getIsFooterBusy(): boolean | null | undefined {
         return this.controlsVc.getFooter()?.isBusy
     }
 
-    private static async clickGenerate() {
+    private async clickGenerate() {
         await interactor.clickButton(this.controlsVc, 'generate')
     }
 
-    private static get membersFormVc() {
+    private get membersFormVc() {
         return this.vc.getMembersFormVc()
     }
 
-    private static get elementsFormVc() {
+    private get elementsFormVc() {
         return this.vc.getElementsFormVc()
     }
 
-    private static async loadVc() {
+    private async loadVc() {
         await this.views.load(this.vc)
     }
 
-    private static get membersVc() {
+    private get membersVc() {
         return this.vc.getMembersVc()
     }
 
-    private static get currentChallengeVc() {
+    private get currentChallengeVc() {
         return this.vc.getCurrentChallengeVc()
     }
 
-    private static get currentChallengeFormVc() {
+    private get currentChallengeFormVc() {
         return this.currentChallengeVc.getFormVc() as FormViewController<CurrentChallengeSchema>
     }
 
-    private static get elementsVc() {
+    private get elementsVc() {
         return this.vc.getElementsVc()
     }
 
-    private static get controlsVc() {
+    private get controlsVc() {
         return this.vc.getControlsCardVc()
     }
 
-    private static Vc(): SpyGenerateSkillView {
+    private Vc(): SpyGenerateSkillView {
         return this.views.Controller(
             'eightbitstories.generate',
             {}

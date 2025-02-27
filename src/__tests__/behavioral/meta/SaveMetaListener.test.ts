@@ -1,14 +1,15 @@
 import { MercuryClient } from '@sprucelabs/mercury-client'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, suite, assert, generateId } from '@sprucelabs/test-utils'
 import { SaveMeta } from '../../../eightbitstories.types'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
+@suite()
 export default class SaveMetaListenerTest extends AbstractEightBitTest {
-    private static meta: SaveMeta
+    private meta!: SaveMeta
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
         await this.bootSkill()
         this.meta = this.eventFaker.generateRandomMetaWithTarget(
@@ -17,20 +18,20 @@ export default class SaveMetaListenerTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async savesOneMeta() {
+    protected async savesOneMeta() {
         await this.emitSaveMeta()
         await this.assertFirstMetaIsExpected()
     }
 
     @test()
-    protected static async savesOnlyOnceForSamePerson() {
+    protected async savesOnlyOnceForSamePerson() {
         await this.emitSaveMeta()
         await this.emitSaveMeta()
         await this.assertTotalMetaRecords(1)
     }
 
     @test()
-    protected static async updatesForSamePerson() {
+    protected async updatesForSamePerson() {
         await this.emitSaveMeta()
         this.randomizeMetaNameAndValues()
         await this.emitSaveMeta()
@@ -38,14 +39,14 @@ export default class SaveMetaListenerTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async savesForDifferentPerson() {
+    protected async savesForDifferentPerson() {
         await this.emitSaveMeta()
         await this.emitAsDifferentPerson()
         await this.assertTotalMetaRecords(2)
     }
 
     @test()
-    protected static async savesForDifferentPersonAndUpdates() {
+    protected async savesForDifferentPersonAndUpdates() {
         await this.emitSaveMeta()
         const expected = { ...this.meta }
 
@@ -56,23 +57,23 @@ export default class SaveMetaListenerTest extends AbstractEightBitTest {
         await this.assertFirstMetaIsExpected(expected)
     }
 
-    private static async emitAsDifferentPerson() {
+    private async emitAsDifferentPerson() {
         const { client } = await this.people.loginAsDemoPerson('555-555-0000')
         await this.emitSaveMeta(client)
         return client
     }
 
-    private static async assertTotalMetaRecords(expected: number) {
+    private async assertTotalMetaRecords(expected: number) {
         const count = await this.metas.count()
         assert.isEqual(count, expected)
     }
 
-    private static randomizeMetaNameAndValues() {
+    private randomizeMetaNameAndValues() {
         this.meta.name = generateId()
         this.meta.values = generateId()
     }
 
-    private static async assertFirstMetaIsExpected(values?: SaveMeta) {
+    private async assertFirstMetaIsExpected(values?: SaveMeta) {
         const match = await this.metas.findOne(
             {},
             {
@@ -83,7 +84,7 @@ export default class SaveMetaListenerTest extends AbstractEightBitTest {
         assert.isEqualDeep(match, values ?? this.meta)
     }
 
-    private static async emitSaveMeta(client?: MercuryClient) {
+    private async emitSaveMeta(client?: MercuryClient) {
         const { ...values } = this.meta
         //@ts-ignore
         delete values.target

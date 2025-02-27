@@ -6,16 +6,17 @@ import {
 } from '@sprucelabs/heartwood-view-controllers'
 import { buildRouteToCreateInvite } from '@sprucelabs/spruce-invite-utils'
 import { TestRouter, eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, suite, assert, generateId } from '@sprucelabs/test-utils'
 import StorySkillViewController from '../../../story/Story.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import { GetStoryTargetAndPayload } from '../../support/EventFaker'
 
 @fake.login()
+@suite()
 export default class StorySkillViewTest extends AbstractEightBitTest {
-    private static vc: SpyStoryView
-    private static storyId: string
-    protected static async beforeEach() {
+    private vc!: SpyStoryView
+    private storyId!: string
+    protected async beforeEach() {
         await super.beforeEach()
         this.views.setController('eightbitstories.story', SpyStoryView)
         this.vc = this.views.Controller(
@@ -26,12 +27,12 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async rendersACard() {
+    protected async rendersACard() {
         vcAssert.assertSkillViewRendersCard(this.vc, 'story')
     }
 
     @test()
-    protected static async rendersAlertThenRedirectsIfFailsToLoadStory() {
+    protected async rendersAlertThenRedirectsIfFailsToLoadStory() {
         await eventFaker.makeEventThrow(
             'eightbitstories.get-story::v2023_09_05'
         )
@@ -48,7 +49,7 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async cardRendersTheLoadedStory() {
+    protected async cardRendersTheLoadedStory() {
         let passedTarget: GetStoryTargetAndPayload['target'] | undefined
         const expected = generateId()
 
@@ -66,13 +67,13 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async cardRendersExpectedButtons() {
+    protected async cardRendersExpectedButtons() {
         buttonAssert.cardRendersButtons(this.cardVc, ['done', 'again', 'share'])
     }
 
     @test('done redirects to root', 'done', 'eightbitstories.root')
     @test('again redirects to generate', 'again', 'eightbitstories.generate')
-    protected static async clickingButtonRedirectsAsExpected(
+    protected async clickingButtonRedirectsAsExpected(
         button: string,
         destination: SkillViewControllerId
     ) {
@@ -80,7 +81,7 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async clickingShareRedirectsToExpectedShare() {
+    protected async clickingShareRedirectsToExpectedShare() {
         TestRouter.setShouldThrowWhenRedirectingToBadSvc(false)
         const [id, args] = buildRouteToCreateInvite({
             destinationAfterAccept: {
@@ -101,7 +102,7 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
         await this.fakeStoryLoadClickButtonAssertRedirect('share', id, args)
     }
 
-    private static async fakeStoryLoadClickButtonAssertRedirect(
+    private async fakeStoryLoadClickButtonAssertRedirect(
         button: string,
         destination: SkillViewControllerId,
         args?: Record<string, any>
@@ -115,7 +116,7 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
         )
     }
 
-    private static async assertClickingButtonRedirectsToDestination(
+    private async assertClickingButtonRedirectsToDestination(
         button: string,
         destination: SkillViewControllerId,
         args?: Record<string, any>
@@ -130,11 +131,11 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
         })
     }
 
-    private static get cardVc() {
+    private get cardVc() {
         return this.vc.getCardVc()
     }
 
-    private static getCardBody() {
+    private getCardBody() {
         const model = this.views.render(this.cardVc)
         const { body } = model!
         const { sections } = body!
@@ -143,7 +144,7 @@ export default class StorySkillViewTest extends AbstractEightBitTest {
         return content
     }
 
-    private static async load() {
+    private async load() {
         await this.views.load(this.vc, { story: this.storyId })
     }
 }

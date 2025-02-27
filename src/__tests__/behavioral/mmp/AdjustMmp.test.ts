@@ -1,15 +1,16 @@
 import { vcPluginAssert } from '@sprucelabs/heartwood-view-controllers'
 import { AdjustMmpVcPlugin, mmpAssert } from '@sprucelabs/spruce-mmp-vc-plugin'
 import { eventFaker, fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, generateId } from '@sprucelabs/test-utils'
+import { test, suite, generateId } from '@sprucelabs/test-utils'
 import RootSkillViewController from '../../../skillViewControllers/Root.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
+@suite()
 export default class AdjustMmpTest extends AbstractEightBitTest {
-    private static vc: RootSkillViewController
+    private vc!: RootSkillViewController
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
 
         this.vc = this.views.Controller('eightbitstories.root', {})
@@ -17,12 +18,12 @@ export default class AdjustMmpTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async autoLogoutPluginInstalled() {
+    protected async autoLogoutPluginInstalled() {
         vcPluginAssert.pluginIsInstalled(this.vc, 'mmp', AdjustMmpVcPlugin)
     }
 
     @test()
-    protected static async adjustIsConfiguredOnLoad() {
+    protected async adjustIsConfiguredOnLoad() {
         const appToken = generateId()
         const environment = generateId()
 
@@ -44,14 +45,14 @@ export default class AdjustMmpTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async gettingMmpThrowingDoesNotThrowError() {
+    protected async gettingMmpThrowingDoesNotThrowError() {
         await eventFaker.makeEventThrow(
             'eightbitstories.get-mmp-setup::v2023_09_05'
         )
         await this.load()
     }
 
-    private static load(): void | Promise<void> {
+    private load(): void | Promise<void> {
         return this.views.load(this.vc)
     }
 }

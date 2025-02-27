@@ -5,24 +5,25 @@ import {
     vcAssert,
 } from '@sprucelabs/heartwood-view-controllers'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, suite, assert, generateId } from '@sprucelabs/test-utils'
 import Onboarding from '../../../onboarding/Onboarding'
 import AbstractOnboardingTest from './AbstractOnboardingTest'
 
 @fake.login()
+@suite()
 export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     @test()
-    protected static async rendersExpectedCard() {
+    protected async rendersExpectedCard() {
         vcAssert.assertSkillViewRendersSwipeCard(this.vc)
     }
 
     @test()
-    protected static async doesNotRenderNav() {
+    protected async doesNotRenderNav() {
         navigationAssert.skillViewDoesNotRenderNavigation(this.vc)
     }
 
     @test()
-    protected static async swipeRendersExpectedSlides() {
+    protected async swipeRendersExpectedSlides() {
         const section = ['intro', 'name', 'values', 'members']
         for (const slide of section) {
             vcAssert.assertCardRendersSection(this.swipeVc, slide)
@@ -30,7 +31,7 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async headerStartsAsExpected() {
+    protected async headerStartsAsExpected() {
         const title = 'Unlimited Personalized Bedtime Stories'
         this.assertExpectedHeader(title)
     }
@@ -58,7 +59,7 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
         'Family Members',
         'https://s3.amazonaws.com/storybook.sprucelabs.ai/theme-park.jpg'
     )
-    protected static async rendersExpectedHeaderTitleBasedOnSlide(
+    protected async rendersExpectedHeaderTitleBasedOnSlide(
         slide: string,
         expectedTitle: string,
         expectedImage: string | undefined
@@ -69,25 +70,25 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async introSlideRendersNextButton() {
+    protected async introSlideRendersNextButton() {
         this.assertRendersNextButton()
     }
 
     @test()
-    protected static async clickingNextOnIntroJumpsToNameSlide() {
+    protected async clickingNextOnIntroJumpsToNameSlide() {
         await this.clickNext()
         this.assertPresentSlide('name')
     }
 
     @test()
-    protected static async rendersNameForm() {
+    protected async rendersNameForm() {
         formAssert.cardRendersForm(this.swipeVc, 'name')
         formAssert.formRendersField(this.nameFormVc, 'name')
         assert.isFalse(this.nameFormVc.getShouldRenderSubmitControls())
     }
 
     @test()
-    protected static async enteringNameUpdatesHeader() {
+    protected async enteringNameUpdatesHeader() {
         const name = generateId()
 
         await this.jumpToNameSlide()
@@ -97,7 +98,7 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async clearingNameResetsHeader() {
+    protected async clearingNameResetsHeader() {
         await this.jumpToNameSlide()
         await this.setName(generateId())
         await this.setName('')
@@ -106,21 +107,21 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async nextButtonIsDisabledUntilNameIsEntered() {
+    protected async nextButtonIsDisabledUntilNameIsEntered() {
         this.assertNextButtonIsEnabled()
         await this.jumpToNameSlide()
         this.assertNextButtonIsDisabled()
     }
 
     @test()
-    protected static async fillingOutNameEnablesNextButton() {
+    protected async fillingOutNameEnablesNextButton() {
         await this.jumpToNameSlide()
         await this.setName()
         this.assertNextButtonIsEnabled()
     }
 
     @test()
-    protected static async clickingNextOnNameJumpsToValuesSlide() {
+    protected async clickingNextOnNameJumpsToValuesSlide() {
         await this.jumpToNameSlide()
         await this.setName()
         await this.clickNext()
@@ -128,13 +129,13 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async submittingTheNameFormJumpsToValuesSlide() {
+    protected async submittingTheNameFormJumpsToValuesSlide() {
         await this.fillOutNameAndSubmit()
         this.assertPresentSlide('values')
     }
 
     @test()
-    protected static async valuesSlideRendersValuesForm() {
+    protected async valuesSlideRendersValuesForm() {
         formAssert.cardRendersForm(this.swipeVc, 'values')
         formAssert.formRendersField(this.valuesFormVc, 'values')
         formAssert.formFieldRendersAs(this.valuesFormVc, 'values', 'textarea')
@@ -142,7 +143,7 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async startsWithExpectedValues() {
+    protected async startsWithExpectedValues() {
         await this.jumpToNameSlide()
 
         const name = generateId()
@@ -155,13 +156,13 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async valuesSlideHasClearButton() {
+    protected async valuesSlideHasClearButton() {
         await this.fillOutNameAndSubmit()
         this.assertRendersButton('clear')
     }
 
     @test()
-    protected static async clickingClearClearsValues() {
+    protected async clickingClearClearsValues() {
         await this.fillOutNameSubmitAndClearValues()
         const values = this.getValues()
         assert.isFalsy(values)
@@ -169,38 +170,38 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async clearedValuesDisablesNextButton() {
+    protected async clearedValuesDisablesNextButton() {
         await this.fillOutNameSubmitAndClearValues()
         this.assertNextButtonIsDisabled()
     }
 
     @test()
-    protected static async fillingOutValuesEnablesNextButton() {
+    protected async fillingOutValuesEnablesNextButton() {
         await this.fillOutNameAndValues()
         this.assertNextButtonIsEnabled()
     }
 
     @test()
-    protected static async submittingMembersRedirectsToMembersSvc() {
+    protected async submittingMembersRedirectsToMembersSvc() {
         await this.fillEverythingOutClickNextAndAssertRedirect()
     }
 
     @test()
-    protected static async allSlidesButFirstRenderTheBackButton() {
+    protected async allSlidesButFirstRenderTheBackButton() {
         this.assertDoesNotRenderButton('back')
         await this.clickNext()
         this.assertRendersButton('back')
     }
 
     @test()
-    protected static async goingBackFromNameJumpsToIntro() {
+    protected async goingBackFromNameJumpsToIntro() {
         await this.clickNext()
         await this.clickBack()
         this.assertPresentSlide('intro')
     }
 
     @test()
-    protected static async goingBackFromValuesThenToValuesDoesNotClobberValues() {
+    protected async goingBackFromValuesThenToValuesDoesNotClobberValues() {
         await this.fillOutNameAndValues()
         const values = this.getValues()
         await this.clickBack()
@@ -209,7 +210,7 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async nameAndValuesSavedInOnboardingSingleton() {
+    protected async nameAndValuesSavedInOnboardingSingleton() {
         await this.fillEverythingOutClickNextAndAssertRedirect()
         const values = this.getValues()
 
@@ -221,7 +222,7 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async redirectsToRootIfLoggedIn() {
+    protected async redirectsToRootIfLoggedIn() {
         this.vc = this.Vc()
         this.auth.setSessionToken(this.fakedPerson.id, this.fakedPerson)
         await vcAssert.assertActionRedirects({
@@ -234,14 +235,14 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
     }
 
     @test()
-    protected static async firstSlideRendersSkipButton() {
+    protected async firstSlideRendersSkipButton() {
         this.assertRendersButton('skip')
         await this.clickNext()
         this.assertDoesNotRenderButton('skip')
     }
 
     @test()
-    protected static async clickingSkipRedirectsToRoot() {
+    protected async clickingSkipRedirectsToRoot() {
         const onboarding = Onboarding.getInstance()
 
         assert.isFalse(onboarding.didSkipOnboarding)
@@ -257,41 +258,41 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
         assert.isTrue(onboarding.didSkipOnboarding)
     }
 
-    private static async fillEverythingOutClickNextAndAssertRedirect() {
+    private async fillEverythingOutClickNextAndAssertRedirect() {
         await this.fillOutNameAndValues()
         await this.clickNext()
         await this.clickNextAndAssertRedirect()
     }
 
-    private static async clickBack() {
+    private async clickBack() {
         await this.clickButton('back')
     }
 
-    private static assertDoesNotRenderButton(name: string) {
+    private assertDoesNotRenderButton(name: string) {
         buttonAssert.cardDoesNotRenderButton(this.swipeVc, name)
     }
 
-    private static getValues() {
+    private getValues() {
         return this.valuesFormVc.getValue('values')
     }
 
-    private static assertRendersButton(name: string) {
+    private assertRendersButton(name: string) {
         buttonAssert.cardRendersButton(this.swipeVc, name)
     }
 
-    private static assertPresentSlide(slide: string) {
+    private assertPresentSlide(slide: string) {
         assert.isEqual(this.swipeVc.getPresentSlideId(), slide)
     }
 
-    private static assertNextButtonIsDisabled() {
+    private assertNextButtonIsDisabled() {
         buttonAssert.buttonIsDisabled(this.swipeVc, 'next')
     }
 
-    private static assertNextButtonIsEnabled() {
+    private assertNextButtonIsEnabled() {
         buttonAssert.buttonIsEnabled(this.swipeVc, 'next')
     }
 
-    private static assertExpectedHeader(
+    private assertExpectedHeader(
         expectedTitle: string,
         expectedImage?: string
     ) {
@@ -304,12 +305,12 @@ export default class OnboardingSkillViewTest extends AbstractOnboardingTest {
         }
     }
 
-    private static assertValuesEqual(expected: string) {
+    private assertValuesEqual(expected: string) {
         const values = this.getValues()
         assert.isEqual(values, expected)
     }
 
-    private static assertRendersNextButton() {
+    private assertRendersNextButton() {
         this.assertRendersButton('next')
     }
 }

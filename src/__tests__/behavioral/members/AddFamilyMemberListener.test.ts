@@ -1,13 +1,14 @@
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, generateId, assert } from '@sprucelabs/test-utils'
+import { test, suite, generateId, assert } from '@sprucelabs/test-utils'
 import { AddFamilyMember } from '../../../eightbitstories.types'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
+@suite()
 export default class AddFamilyMemberListenerTest extends AbstractEightBitTest {
-    private static member: AddFamilyMember
+    private member!: AddFamilyMember
 
-    protected static async beforeEach(): Promise<void> {
+    protected async beforeEach(): Promise<void> {
         await super.beforeEach()
 
         this.member = {
@@ -18,19 +19,19 @@ export default class AddFamilyMemberListenerTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async skillIsListening() {
+    protected async skillIsListening() {
         await this.emitAddFamilyMember()
     }
 
     @test()
-    protected static async emittingAddFamilyMemberCreatesMemberRecord() {
+    protected async emittingAddFamilyMemberCreatesMemberRecord() {
         await this.emitAddFamilyMember()
         const count = await this.members.count()
         assert.isEqual(count, 1)
     }
 
     @test()
-    protected static async savesFamilyMemberValues() {
+    protected async savesFamilyMemberValues() {
         await this.emitAddFamilyMember()
         const match = await this.getFirstFamilyMember({
             shouldIncludePrivateFields: true,
@@ -43,13 +44,13 @@ export default class AddFamilyMemberListenerTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async returnsFirstFamilyMember() {
+    protected async returnsFirstFamilyMember() {
         const familyMember = await this.emitAddFamilyMember()
         const match = await this.getFirstFamilyMember()
         assert.doesInclude(match, familyMember)
     }
 
-    private static async emitAddFamilyMember() {
+    private async emitAddFamilyMember() {
         const [{ familyMember }] =
             await this.fakedClient.emitAndFlattenResponses(
                 'eightbitstories.add-family-member::v2023_09_05',

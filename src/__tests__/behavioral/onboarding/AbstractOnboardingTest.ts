@@ -6,9 +6,9 @@ import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 import SpyOnboardingSkillView from './SpyOnboardingSkillView'
 
 export default abstract class AbstractOnboardingTest extends AbstractEightBitTest {
-    protected static vc: SpyOnboardingSkillView
+    protected vc!: SpyOnboardingSkillView
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
 
         Onboarding.clear()
@@ -27,78 +27,78 @@ export default abstract class AbstractOnboardingTest extends AbstractEightBitTes
         await this.load()
     }
 
-    protected static Vc(): SpyOnboardingSkillView {
+    protected Vc(): SpyOnboardingSkillView {
         return this.views.Controller(
             'eightbitstories.onboarding',
             {}
         ) as SpyOnboardingSkillView
     }
 
-    protected static get auth() {
+    protected get auth() {
         return this.permissions.getAuthenticator()
     }
 
-    protected static async load() {
+    protected async load() {
         await this.views.load(this.vc)
     }
 
-    protected static get swipeVc() {
+    protected get swipeVc() {
         return this.vc.getSwipeVc()
     }
 
-    protected static async clickNext() {
+    protected async clickNext() {
         await this.clickButton('next')
     }
 
-    protected static async clickButton(name: string) {
+    protected async clickButton(name: string) {
         await interactor.clickButton(this.swipeVc, name)
     }
 
-    protected static async jumpToNameSlide() {
+    protected async jumpToNameSlide() {
         await this.jumpToSlide('name')
     }
 
-    protected static async jumpToSlide(slide: string) {
+    protected async jumpToSlide(slide: string) {
         await this.swipeVc.jumpToSlide(slide)
     }
 
-    protected static async setName(name?: string) {
+    protected async setName(name?: string) {
         await this.nameFormVc.setValue('name', name ?? generateId())
     }
 
-    protected static async fillOutNameAndSubmit() {
+    protected async fillOutNameAndSubmit() {
         await this.jumpToNameSlide()
         await this.setName()
         await interactor.submitForm(this.nameFormVc)
     }
 
-    protected static get nameFormVc() {
+    protected get nameFormVc() {
         return this.vc.getNameFormVc()
     }
 
-    protected static async clickClearValuesButton() {
+    protected async clickClearValuesButton() {
         await this.clickButton('clear')
     }
 
-    protected static async fillOutValues() {
+    protected async fillOutValues() {
         await this.valuesFormVc.setValue('values', generateId())
     }
 
-    protected static get valuesFormVc() {
+    protected get valuesFormVc() {
         return this.vc.getValuesFormVc()
     }
 
-    protected static async fillOutNameAndValues() {
+    protected async fillOutNameAndValues() {
         await this.fillOutNameSubmitAndClearValues()
         await this.fillOutValues()
     }
 
-    protected static async fillOutNameSubmitAndClearValues() {
+    protected async fillOutNameSubmitAndClearValues() {
         await this.fillOutNameAndSubmit()
         await this.clickClearValuesButton()
     }
 
-    protected static async clickNextAndAssertRedirect() {
+    protected async clickNextAndAssertRedirect() {
         await vcAssert.assertActionRedirects({
             action: () => this.clickNext(),
             destination: {

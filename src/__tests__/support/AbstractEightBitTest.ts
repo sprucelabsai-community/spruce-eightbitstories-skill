@@ -9,12 +9,12 @@ import EventFaker from './EventFaker'
 process.env.OPENAI_API_KEY = generateId()
 
 export default abstract class AbstractEightBitTest extends AbstractSpruceFixtureTest {
-    protected static eventFaker: EventFaker
-    protected static metas: MetaStore
-    protected static members: FamilyMembersStore
-    protected static stories: StoriesStore
+    protected eventFaker!: EventFaker
+    protected metas!: MetaStore
+    protected members!: FamilyMembersStore
+    protected stories!: StoriesStore
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
         this.eventFaker = new EventFaker()
         this.metas = await this.stores.getStore('meta')
@@ -22,12 +22,12 @@ export default abstract class AbstractEightBitTest extends AbstractSpruceFixture
         this.stories = await this.stores.getStore('stories')
     }
 
-    public static async getSecondFamilyMember() {
+    public async getSecondFamilyMember() {
         const all = await this.members.find({})
         return all[1]
     }
 
-    protected static async getFirstFamilyMember(
+    protected async getFirstFamilyMember(
         options: { shouldIncludePrivateFields?: boolean } = {}
     ) {
         const { shouldIncludePrivateFields } = options
@@ -43,7 +43,7 @@ export default abstract class AbstractEightBitTest extends AbstractSpruceFixture
         return match as FamilyMember
     }
 
-    protected static async getFirstGeneratedStory() {
+    protected async getFirstGeneratedStory() {
         const story = await this.stories.findOne(
             {},
             { shouldIncludePrivateFields: true }

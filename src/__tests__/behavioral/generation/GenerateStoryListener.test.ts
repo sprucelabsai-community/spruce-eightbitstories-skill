@@ -1,6 +1,6 @@
 import { Skill } from '@sprucelabs/spruce-skill-utils'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, suite, assert, generateId } from '@sprucelabs/test-utils'
 import StoryGenerator, {
     GenerateOptions,
     StoryGeneratorImpl,
@@ -8,16 +8,17 @@ import StoryGenerator, {
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
+@suite()
 export default class GenerateStoryListenerTest extends AbstractEightBitTest {
-    private static skill: Skill
+    private skill!: Skill
 
-    private static familyMembers: string[]
-    private static storyElements: string[]
-    private static originalGenerator: StoryGenerator
-    private static currentChallenge: string
-    private static storyHash: string
+    private familyMembers!: string[]
+    private storyElements!: string[]
+    private originalGenerator!: StoryGenerator
+    private currentChallenge!: string
+    private storyHash!: string
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
         const { skill } = await this.bootSkill()
         this.skill = skill
@@ -29,24 +30,24 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async canCreateGenerateStoryListener() {
+    protected async canCreateGenerateStoryListener() {
         await this.emitGenerate()
     }
 
     @test()
-    protected static async setsStoryGeneratorToContext() {
+    protected async setsStoryGeneratorToContext() {
         //@ts-ignore
         assert.isInstanceOf(this.originalGenerator, StoryGeneratorImpl)
     }
 
     @test()
-    protected static async callsGenerateOnTheStoryGenerator() {
+    protected async callsGenerateOnTheStoryGenerator() {
         await this.emitGenerate()
         assert.isTrue(StubGenerator.wasGenerateCalled)
     }
 
     @test()
-    protected static async passesMembersAndElementsToGenerator() {
+    protected async passesMembersAndElementsToGenerator() {
         await this.emitAndAssertExpectedGenerateOptions()
 
         this.familyMembers.push(generateId())
@@ -55,12 +56,12 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
         await this.emitAndAssertExpectedGenerateOptions()
     }
 
-    private static async emitAndAssertExpectedGenerateOptions() {
+    private async emitAndAssertExpectedGenerateOptions() {
         await this.emitGenerate()
         this.assertLastGenerateOptionsEqualExpected()
     }
 
-    private static assertLastGenerateOptionsEqualExpected() {
+    private assertLastGenerateOptionsEqualExpected() {
         assert.isEqualDeep(StubGenerator.lastGenerateOptions, {
             familyMemberIds: this.familyMembers,
             storyElementIds: this.storyElements,
@@ -70,12 +71,12 @@ export default class GenerateStoryListenerTest extends AbstractEightBitTest {
         })
     }
 
-    private static dropInStubGenerator() {
+    private dropInStubGenerator() {
         this.originalGenerator = this.skill.getContext().generator
         this.skill.updateContext('generator', new StubGenerator())
     }
 
-    private static async emitGenerate() {
+    private async emitGenerate() {
         await this.fakedClient.emitAndFlattenResponses(
             'eightbitstories.generate-story::v2023_09_05',
             {

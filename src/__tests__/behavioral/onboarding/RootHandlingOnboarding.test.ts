@@ -1,6 +1,6 @@
 import { vcAssert } from '@sprucelabs/heartwood-view-controllers'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { test, assert, generateId } from '@sprucelabs/test-utils'
+import { test, suite, assert, generateId } from '@sprucelabs/test-utils'
 import Onboarding from '../../../onboarding/Onboarding'
 import RemoteStoreImpl, {
     RemoteStore,
@@ -10,12 +10,13 @@ import RootSkillViewController from '../../../skillViewControllers/Root.svc'
 import AbstractEightBitTest from '../../support/AbstractEightBitTest'
 
 @fake.login()
+@suite()
 export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
-    private static vc: RootSkillViewController
-    private static onboardingName: string
-    private static onboardingValues: string
+    private vc!: RootSkillViewController
+    private onboardingName!: string
+    private onboardingValues!: string
 
-    protected static async beforeEach() {
+    protected async beforeEach() {
         await super.beforeEach()
 
         Onboarding.clear()
@@ -32,18 +33,18 @@ export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async loginIsNotRequiredByDefault() {
+    protected async loginIsNotRequiredByDefault() {
         this.clearOnboarding()
         await this.assertLoginIsNotRequired()
     }
 
     @test()
-    protected static async requiresLoginIfOnboardingIsSetup() {
+    protected async requiresLoginIfOnboardingIsSetup() {
         await this.assertLoginRequired()
     }
 
     @test()
-    protected static async savesMetaDataIfInOnboardingOnLoad() {
+    protected async savesMetaDataIfInOnboardingOnLoad() {
         const expected = {
             name: this.onboarding.name,
             values: this.onboarding.values,
@@ -54,18 +55,18 @@ export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async redirectToMembersIfOnboarding() {
+    protected async redirectToMembersIfOnboarding() {
         await this.loadAndAssertRedirect()
     }
 
     @test()
-    protected static async onboardingIsClearedAfterRedirect() {
+    protected async onboardingIsClearedAfterRedirect() {
         await this.loadAndAssertRedirect()
         assert.isFalse(this.onboarding.isOnboarding)
     }
 
     @test()
-    protected static async loadingNotLoggedInAndNotOnboardingRedirectsToOnboarding() {
+    protected async loadingNotLoggedInAndNotOnboardingRedirectsToOnboarding() {
         await this.permissions.getAuthenticator().clearSession()
         this.clearOnboarding()
 
@@ -79,26 +80,26 @@ export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
     }
 
     @test()
-    protected static async doesNotRedirectIfOnboardingSkipped() {
+    protected async doesNotRedirectIfOnboardingSkipped() {
         this.clearOnboarding()
         this.onboarding.skip()
         await this.load()
         await this.assertLoginIsNotRequired()
     }
 
-    private static async assertLoginIsNotRequired() {
+    private async assertLoginIsNotRequired() {
         await vcAssert.assertLoginIsNotRequired(this.vc)
     }
 
-    private static async assertLoginRequired() {
+    private async assertLoginRequired() {
         await vcAssert.assertLoginIsRequired(this.vc)
     }
 
-    private static clearOnboarding() {
+    private clearOnboarding() {
         Onboarding.clear()
     }
 
-    private static async loadAndAssertRedirect() {
+    private async loadAndAssertRedirect() {
         await vcAssert.assertActionRedirects({
             action: () => this.load(),
             destination: {
@@ -108,7 +109,7 @@ export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
         })
     }
 
-    private static setupOnboarding() {
+    private setupOnboarding() {
         const onboarding = Onboarding.getInstance()
 
         onboarding.set({
@@ -117,11 +118,11 @@ export default class RootHandlingOnboardingTest extends AbstractEightBitTest {
         })
     }
 
-    private static get onboarding() {
+    private get onboarding() {
         return Onboarding.getInstance()
     }
 
-    private static async load() {
+    private async load() {
         await this.views.load(this.vc)
     }
 }

@@ -1,44 +1,45 @@
 import { mmpAssert } from '@sprucelabs/spruce-mmp-vc-plugin'
 import { fake } from '@sprucelabs/spruce-test-fixtures'
-import { test } from '@sprucelabs/test-utils'
+import { test, suite } from '@sprucelabs/test-utils'
 import AbstractOnboardingTest from './AbstractOnboardingTest'
 
 @fake.login()
+@suite()
 export default class TrackingEventsThroughOnboardingTest extends AbstractOnboardingTest {
     @test()
-    protected static async firesOnLoad() {
+    protected async firesOnLoad() {
         await this.assertDidTrack(() => this.load(), 'lsljiq')
     }
 
     @test()
-    protected static async firesClickNextPastIntro() {
+    protected async firesClickNextPastIntro() {
         await this.assertDidTrack(() => this.clickNext(), 'ylvvtu')
     }
 
     @test()
-    protected static async firesIfSwipingPastIntro() {
+    protected async firesIfSwipingPastIntro() {
         await this.assertDidTrack(() => this.jumpToNameSlide(), 'ylvvtu')
     }
 
     @test()
-    protected static async firesAfterSubmittingFamilyName() {
+    protected async firesAfterSubmittingFamilyName() {
         await this.assertDidTrack(() => this.fillOutNameAndSubmit(), '2spok6')
     }
 
     @test()
-    protected static async firesAfterClearingFamilyValues() {
+    protected async firesAfterClearingFamilyValues() {
         await this.fillOutNameAndSubmit()
         await this.assertDidTrack(() => this.clickClearValuesButton(), 'pi1iuf')
     }
 
     @test()
-    protected static async firesAfterFillingOutFamilyValues() {
+    protected async firesAfterFillingOutFamilyValues() {
         await this.fillOutNameAndValues()
         await this.assertDidTrack(() => this.clickNext(), 'r5s2ts')
     }
 
     @test()
-    protected static async firesAtEndOfOnboarding() {
+    protected async firesAtEndOfOnboarding() {
         await this.fillOutNameAndValues()
         await this.clickNext()
         await this.assertDidTrack(
@@ -47,7 +48,7 @@ export default class TrackingEventsThroughOnboardingTest extends AbstractOnboard
         )
     }
 
-    private static async assertDidTrack(
+    private async assertDidTrack(
         action: () => Promise<void>,
         eventName: string
     ) {
