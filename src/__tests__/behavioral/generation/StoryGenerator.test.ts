@@ -182,8 +182,11 @@ export default class StoryGeneratorTest extends AbstractEightBitTest {
 
         const dateCreatedCeiling = new Date().getTime()
 
-        assert.isAbove(story.dateGenerated, dateCreatedFloor)
-        assert.isBelow(story.dateGenerated, dateCreatedCeiling)
+        assert.isBetweenInclusive(
+            story.dateGenerated,
+            dateCreatedFloor,
+            dateCreatedCeiling
+        )
 
         assert.isEqual(story.body, this.responseBody)
     }
