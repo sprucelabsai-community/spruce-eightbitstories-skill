@@ -39,7 +39,7 @@
     "heroku-postbuild": "yarn build.dev",
     "release": "semantic-release",
     "build.dist": "yarn build.tsc && yarn build.resolve-paths",
-    "build": "yarn run build.tsc --sourceMap ; yarn run resolve-paths"
+    "build": "yarn run build.tsc --sourceMap ; yarn run resolve-path-aliases"
   },
   "dependencies": {
     "@sprucelabs/data-stores": "^29.0.21",
@@ -54,8 +54,8 @@
     "@sprucelabs/spruce-core-schemas": "^41.0.19",
     "@sprucelabs/spruce-event-plugin": "^68.0.21",
     "@sprucelabs/spruce-event-utils": "^41.0.22",
-    "@sprucelabs/spruce-form-utils": "^21.0.108",
-    "@sprucelabs/spruce-invite-utils": "^12.0.105",
+    "@sprucelabs/spruce-form-utils": "^21.0.109",
+    "@sprucelabs/spruce-invite-utils": "^12.0.106",
     "@sprucelabs/spruce-mmp-vc-plugin": "^4.0.22",
     "@sprucelabs/spruce-permission-plugin": "^38.0.21",
     "@sprucelabs/spruce-skill-booter": "^68.0.21",
