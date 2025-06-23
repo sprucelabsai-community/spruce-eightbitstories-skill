@@ -39,7 +39,7 @@
     "heroku-postbuild": "yarn build.dev",
     "release": "semantic-release",
     "build.dist": "yarn build.tsc && yarn build.resolve-paths",
-    "build": "yarn run build.tsc --sourceMap ; yarn run resolve-path-aliases"
+    "build": "yarn clean && yarn run build.copy-files && tsc -p tsconfig.prod.json && yarn build.resolve-paths && rm -rf build/__tests__"
   },
   "dependencies": {
     "@sprucelabs/data-stores": "^29.0.21",
