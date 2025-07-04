@@ -274,7 +274,7 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
     }
 
     public render(): SkillView {
-        const skillView = buildSkillViewLayout('big-left', {
+        const layout = buildSkillViewLayout('big-left', {
             leftCards: [this.elementsVc.render(), this.membersVc.render()],
             rightCards: [
                 this.currentChallengeVc.render(),
@@ -282,7 +282,7 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
             ],
         })
         return {
-            ...skillView,
+            layouts: [layout],
         }
     }
 }

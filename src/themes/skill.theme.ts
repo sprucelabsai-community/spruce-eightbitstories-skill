@@ -20,8 +20,10 @@ const theme: SpruceSchemas.HeartwoodViewControllers.v2021_02_11.ThemeProps = {
     color4ComplimentTransparent: 'rgba(0,0,0,0.1)',
     color4Inverse: '#364268',
     color4InverseCompliment: '#5f6c9a',
-    controlBarColor1: 'white',
-    controlBarColor2: 'linear-gradient(to top, #1e2743, #364268)',
+    controlBar: {
+        backgroundColor: 'linear-gradient(to top, #1e2743, #364268)',
+        foregroundColor: '#ffffff',
+    },
     toolBeltColor2: '#2a2829',
     errorColor1: '#fff',
     errorColor1Inverse: '#ec0758',
