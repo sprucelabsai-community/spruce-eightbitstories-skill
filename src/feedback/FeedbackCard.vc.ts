@@ -62,7 +62,7 @@ export default class FeedbackCardViewController extends AbstractViewController<C
             'form',
             buildForm({
                 schema: feedbackSchema,
-                shouldShowCancelButton: false,
+                shouldRenderCancelButton: false,
                 submitButtonLabel: 'Send Now!',
                 onSubmit: this.handleSubmit.bind(this),
                 sections: [

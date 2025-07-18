@@ -73,7 +73,7 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
                         hint: 'Example: "We\'re on a trip to meet our friends for a picnic! Lisa is scared of being away from home, so lets focus on being brave and adventurous!"',
                     },
                 ],
-                shouldShowSubmitControls: false,
+                shouldRenderSubmitControls: false,
             })
         ) as FormGettingVc<CurrentChallengeSchema>
     }
@@ -87,7 +87,7 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
                 },
                 id: 'members',
                 schema: generateStoreSchema,
-                shouldShowSubmitControls: false,
+                shouldRenderSubmitControls: false,
                 fields: [
                     {
                         name: 'members',
@@ -107,7 +107,7 @@ export default class GenerateSkillViewController extends AbstractLoggedInEightBi
                 },
                 id: 'elements',
                 schema: generateStoreSchema,
-                shouldShowSubmitControls: false,
+                shouldRenderSubmitControls: false,
                 fields: [
                     {
                         name: 'elements',

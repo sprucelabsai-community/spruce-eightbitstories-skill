@@ -54,7 +54,7 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
             buildForm({
                 id: 'values',
                 schema: valuesFormSchema,
-                shouldShowSubmitControls: false,
+                shouldRenderSubmitControls: false,
                 onChange: this.updateFooter.bind(this),
                 sections: [
                     {
@@ -76,7 +76,7 @@ export default class OnboardingSkillViewController extends AbstractEightBitSkill
             buildForm({
                 id: 'name',
                 schema: nameFormSchema,
-                shouldShowSubmitControls: false,
+                shouldRenderSubmitControls: false,
                 onChange: this.handleNameChange.bind(this),
                 onSubmit: this.handleClickNext.bind(this),
                 sections: [
