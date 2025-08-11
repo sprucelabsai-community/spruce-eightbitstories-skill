@@ -1,4 +1,3 @@
-import fs from 'fs'
 import pathUtil from 'path'
 import globby from '@sprucelabs/globby'
 import { SchemaError } from '@sprucelabs/schema'
@@ -54,7 +53,7 @@ class SchemaFeature implements SkillFeature {
             '@sprucelabs/schema'
         )
 
-        const isSchemaInstalled = fs.existsSync(schemaPath)
+        const isSchemaInstalled = diskUtil.doesFileExist(schemaPath)
 
         return isSchemaInstalled
     }
