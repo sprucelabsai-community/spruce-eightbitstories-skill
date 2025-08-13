@@ -1,3 +1,10 @@
+# [6.0.0](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v5.0.9...v6.0.0) (2025-08-13)
+
+
+### Breaking Changes
+
+* version updates ([b3db940](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/b3db940))
+
 ## [5.0.9](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v5.0.8...v5.0.9) (2025-08-11)
 
 ## [5.0.8](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v5.0.7...v5.0.8) (2025-08-04)
