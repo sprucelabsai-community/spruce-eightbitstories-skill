@@ -1,3 +1,5 @@
+## [7.0.18](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v7.0.17...v7.0.18) (2025-10-06)
+
 ## [7.0.17](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v7.0.16...v7.0.17) (2025-10-05)
 
 ## [7.0.16](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v7.0.15...v7.0.16) (2025-09-30)
