@@ -4,21 +4,21 @@ import MetaSkillViewController from '../../meta/Meta.svc'
 import OnboardingSkillViewController from '../../onboarding/Onboarding.svc'
 import RootSkillViewController from '../../skillViewControllers/Root.svc'
 import StorySkillViewController from '../../story/Story.svc'
-import FeedbackCardViewController from '../../feedback/FeedbackCard.vc'
 import FamilyMemberFormCardViewController from '../../members/FamilyMemberFormCard.vc'
+import FeedbackCardViewController from '../../feedback/FeedbackCard.vc'
 import AdjustMmpVcPlugin from '../../viewPlugins/mmp.view.plugin'
 
 import '@sprucelabs/heartwood-view-controllers'
 
 const vcs = {
+    FamilyMemberFormCardViewController,
+    FeedbackCardViewController,
     GenerateSkillViewController,
     MembersSkillViewController,
     MetaSkillViewController,
     OnboardingSkillViewController,
     RootSkillViewController,
     StorySkillViewController,
-    FeedbackCardViewController,
-    FamilyMemberFormCardViewController,
 }
 
 export const pluginsByName = {
@@ -49,8 +49,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 	}
 
 	interface ViewControllerMap {
-		'eightbitstories.feedback-card': FeedbackCardViewController
 		'eightbitstories.family-member-form-card': FamilyMemberFormCardViewController
+		'eightbitstories.feedback-card': FeedbackCardViewController
 		'eightbitstories.generate': GenerateSkillViewController
 		'eightbitstories.members': MembersSkillViewController
 		'eightbitstories.meta': MetaSkillViewController
@@ -60,8 +60,8 @@ declare module '@sprucelabs/heartwood-view-controllers/build/types/heartwood.typ
 	}
 
     interface ViewControllerOptionsMap {
-		'eightbitstories.feedback-card': ConstructorParameters<typeof FeedbackCardViewController>[0]
 		'eightbitstories.family-member-form-card': ConstructorParameters<typeof FamilyMemberFormCardViewController>[0]
+		'eightbitstories.feedback-card': ConstructorParameters<typeof FeedbackCardViewController>[0]
 	}
 
 	interface ViewControllerPlugins {
