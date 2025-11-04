@@ -10,6 +10,7 @@ const didGenerateStoryEventContract = buildEventContract({
             
             
             
+            
             listenPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-generate-story"]},
             emitPayloadSchema: didGenerateStoryEmitTargetAndPayloadSchema,
             

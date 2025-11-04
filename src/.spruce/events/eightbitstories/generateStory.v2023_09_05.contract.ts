@@ -9,6 +9,7 @@ const generateStoryEventContract = buildEventContract({
             isGlobal: true,
             
             
+            
             emitPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-generate-story"]},
             
             emitPayloadSchema: generateStoryEmitTargetAndPayloadSchema,

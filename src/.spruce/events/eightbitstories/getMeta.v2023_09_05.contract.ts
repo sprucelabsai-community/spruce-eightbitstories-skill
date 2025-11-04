@@ -9,6 +9,7 @@ const getMetaEventContract = buildEventContract({
             isGlobal: true,
             
             
+            
             emitPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-load-family-meta"]},
             
             

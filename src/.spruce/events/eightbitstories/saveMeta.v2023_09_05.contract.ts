@@ -10,6 +10,7 @@ const saveMetaEventContract = buildEventContract({
             isGlobal: true,
             
             
+            
             emitPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-save-family-meta"]},
             
             emitPayloadSchema: saveMetaEmitTargetAndPayloadSchema,

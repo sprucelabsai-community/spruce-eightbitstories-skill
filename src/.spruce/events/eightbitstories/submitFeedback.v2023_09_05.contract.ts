@@ -10,6 +10,7 @@ const submitFeedbackEventContract = buildEventContract({
             isGlobal: true,
             
             
+            
             emitPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-submit-feedback"]},
             
             emitPayloadSchema: submitFeedbackEmitTargetAndPayloadSchema,

@@ -10,6 +10,7 @@ const updateFamilyMemberEventContract = buildEventContract({
             isGlobal: true,
             
             
+            
             emitPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-manage-family-members"]},
             
             emitPayloadSchema: updateFamilyMemberEmitTargetAndPayloadSchema,

@@ -10,6 +10,7 @@ const deleteFamilyMemberEventContract = buildEventContract({
             isGlobal: true,
             
             
+            
             emitPermissions: {"contractId":"eightbitstories.eight-bit-stories","permissionIdsAny":["can-manage-family-members"]},
             
             emitPayloadSchema: deleteFamilyMemberEmitTargetAndPayloadSchema,
