@@ -1,3 +1,7 @@
+## <small>7.0.24 (2025-11-09)</small>
+
+* patch: version updates ([960bfe9](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/960bfe9))
+
 ## <small>7.0.23 (2025-11-09)</small>
 
 * patch: no console.log ([386dedb](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/386dedb))
