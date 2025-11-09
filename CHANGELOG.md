@@ -1,3 +1,11 @@
+## <small>7.0.23 (2025-11-09)</small>
+
+* patch: no console.log ([386dedb](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/386dedb))
+* patch: upgrade ([979350f](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/979350f))
+* patch: upgrade ([2d15aac](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/2d15aac))
+* patch: version updates ([26188a3](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/26188a3))
+* patch: version updates ([783a497](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/783a497))
+
 ## [7.0.22](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v7.0.21...v7.0.22) (2025-11-04)
 
 ## [7.0.21](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/compare/v7.0.20...v7.0.21) (2025-11-01)
