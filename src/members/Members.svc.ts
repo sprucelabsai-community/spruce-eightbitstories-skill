@@ -128,7 +128,6 @@ export default class MembersSkillViewController extends AbstractLoggedInEightBit
                     },
                 }
             )
-            console.log('deleting row')
             this.activeRecordCardVc.deleteRow(member.id)
         } catch (err: any) {
             await this.alert({
