@@ -885,6 +885,194 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
 
 		
+		interface SubmitFeedbackEmitPayload {
+			
+				
+				'feedback': string
+		}
+
+		interface SubmitFeedbackEmitPayloadSchema extends SpruceSchema.Schema {
+			id: 'submitFeedbackEmitPayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'feedback': {
+			                type: 'text',
+			                isRequired: true,
+			                options: undefined
+			            },
+			    }
+		}
+
+		interface SubmitFeedbackEmitPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitPayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface SubmitFeedbackEmitTargetAndPayload {
+			
+				/** Source. */
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
+				
+				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitPayload
+		}
+
+		interface SubmitFeedbackEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
+			id: 'submitFeedbackEmitTargetAndPayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** Source. */
+			            'source': {
+			                label: 'Source',
+			                type: 'schema',
+			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
+			            },
+			            /** . */
+			            'payload': {
+			                type: 'schema',
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitPayloadSchema,}
+			            },
+			    }
+		}
+
+		interface SubmitFeedbackEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitTargetAndPayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface SubmitFeedbackResponsePayload {
+			
+				
+				'success': boolean
+		}
+
+		interface SubmitFeedbackResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'submitFeedbackResponsePayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'success': {
+			                type: 'boolean',
+			                isRequired: true,
+			                options: undefined
+			            },
+			    }
+		}
+
+		interface SubmitFeedbackResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackResponsePayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface GenerateStoryEmitPayload {
+			
+				
+				'storyElements': string[]
+				
+				'familyMembers': string[]
+				
+				'currentChallenge'?: string | undefined | null
+				
+				'storyHash': string
+		}
+
+		interface GenerateStoryEmitPayloadSchema extends SpruceSchema.Schema {
+			id: 'generateStoryEmitPayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'storyElements': {
+			                type: 'id',
+			                isRequired: true,
+			                isArray: true,
+			                minArrayLength: 1,
+			                options: undefined
+			            },
+			            /** . */
+			            'familyMembers': {
+			                type: 'id',
+			                isRequired: true,
+			                isArray: true,
+			                minArrayLength: 1,
+			                options: undefined
+			            },
+			            /** . */
+			            'currentChallenge': {
+			                type: 'text',
+			                options: undefined
+			            },
+			            /** . */
+			            'storyHash': {
+			                type: 'id',
+			                isRequired: true,
+			                options: undefined
+			            },
+			    }
+		}
+
+		interface GenerateStoryEmitPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryEmitPayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface GenerateStoryEmitTargetAndPayload {
+			
+				/** Source. */
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
+				
+				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryEmitPayload
+		}
+
+		interface GenerateStoryEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
+			id: 'generateStoryEmitTargetAndPayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** Source. */
+			            'source': {
+			                label: 'Source',
+			                type: 'schema',
+			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
+			            },
+			            /** . */
+			            'payload': {
+			                type: 'schema',
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryEmitPayloadSchema,}
+			            },
+			    }
+		}
+
+		interface GenerateStoryEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryEmitTargetAndPayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
 		interface DidGenerateStoryEmitTarget {
 			
 				
@@ -981,99 +1169,6 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		}
 
 		interface DidGenerateStoryEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.DidGenerateStoryEmitTargetAndPayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface GenerateStoryEmitPayload {
-			
-				
-				'storyElements': string[]
-				
-				'familyMembers': string[]
-				
-				'currentChallenge'?: string | undefined | null
-				
-				'storyHash': string
-		}
-
-		interface GenerateStoryEmitPayloadSchema extends SpruceSchema.Schema {
-			id: 'generateStoryEmitPayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'storyElements': {
-			                type: 'id',
-			                isRequired: true,
-			                isArray: true,
-			                minArrayLength: 1,
-			                options: undefined
-			            },
-			            /** . */
-			            'familyMembers': {
-			                type: 'id',
-			                isRequired: true,
-			                isArray: true,
-			                minArrayLength: 1,
-			                options: undefined
-			            },
-			            /** . */
-			            'currentChallenge': {
-			                type: 'text',
-			                options: undefined
-			            },
-			            /** . */
-			            'storyHash': {
-			                type: 'id',
-			                isRequired: true,
-			                options: undefined
-			            },
-			    }
-		}
-
-		interface GenerateStoryEmitPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryEmitPayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface GenerateStoryEmitTargetAndPayload {
-			
-				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
-				
-				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryEmitPayload
-		}
-
-		interface GenerateStoryEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
-			id: 'generateStoryEmitTargetAndPayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** Source. */
-			            'source': {
-			                label: 'Source',
-			                type: 'schema',
-			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
-			            },
-			            /** . */
-			            'payload': {
-			                type: 'schema',
-			                isRequired: true,
-			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryEmitPayloadSchema,}
-			            },
-			    }
-		}
-
-		interface GenerateStoryEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GenerateStoryEmitTargetAndPayloadSchema> {}
 
 	}
 
@@ -1183,161 +1278,6 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
 
 		
-		interface SubmitFeedbackEmitPayload {
-			
-				
-				'feedback': string
-		}
-
-		interface SubmitFeedbackEmitPayloadSchema extends SpruceSchema.Schema {
-			id: 'submitFeedbackEmitPayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'feedback': {
-			                type: 'text',
-			                isRequired: true,
-			                options: undefined
-			            },
-			    }
-		}
-
-		interface SubmitFeedbackEmitPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitPayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface SubmitFeedbackEmitTargetAndPayload {
-			
-				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
-				
-				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitPayload
-		}
-
-		interface SubmitFeedbackEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
-			id: 'submitFeedbackEmitTargetAndPayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** Source. */
-			            'source': {
-			                label: 'Source',
-			                type: 'schema',
-			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
-			            },
-			            /** . */
-			            'payload': {
-			                type: 'schema',
-			                isRequired: true,
-			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitPayloadSchema,}
-			            },
-			    }
-		}
-
-		interface SubmitFeedbackEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackEmitTargetAndPayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface SubmitFeedbackResponsePayload {
-			
-				
-				'success': boolean
-		}
-
-		interface SubmitFeedbackResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'submitFeedbackResponsePayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'success': {
-			                type: 'boolean',
-			                isRequired: true,
-			                options: undefined
-			            },
-			    }
-		}
-
-		interface SubmitFeedbackResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SubmitFeedbackResponsePayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface ListFamilyMembersResponsePayload {
-			
-				
-				'familyMembers': SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember[]
-		}
-
-		interface ListFamilyMembersResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'listFamilyMembersResponsePayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'familyMembers': {
-			                type: 'schema',
-			                isRequired: true,
-			                isArray: true,
-			                minArrayLength: 0,
-			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMemberSchema,}
-			            },
-			    }
-		}
-
-		interface ListFamilyMembersResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.ListFamilyMembersResponsePayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface AddFamilyMemberResponsePayload {
-			
-				
-				'familyMember': SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
-		}
-
-		interface AddFamilyMemberResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'addFamilyMemberResponsePayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'familyMember': {
-			                type: 'schema',
-			                isRequired: true,
-			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMemberSchema,}
-			            },
-			    }
-		}
-
-		interface AddFamilyMemberResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.AddFamilyMemberResponsePayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
 		interface AddFamilyMember {
 			
 				/** Name. */
@@ -1436,6 +1376,95 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		}
 
 		interface AddFamilyMemberEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.AddFamilyMemberEmitTargetAndPayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface AddFamilyMemberResponsePayload {
+			
+				
+				'familyMember': SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
+		}
+
+		interface AddFamilyMemberResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'addFamilyMemberResponsePayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'familyMember': {
+			                type: 'schema',
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMemberSchema,}
+			            },
+			    }
+		}
+
+		interface AddFamilyMemberResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.AddFamilyMemberResponsePayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface ListFamilyMembersResponsePayload {
+			
+				
+				'familyMembers': SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember[]
+		}
+
+		interface ListFamilyMembersResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'listFamilyMembersResponsePayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'familyMembers': {
+			                type: 'schema',
+			                isRequired: true,
+			                isArray: true,
+			                minArrayLength: 0,
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMemberSchema,}
+			            },
+			    }
+		}
+
+		interface ListFamilyMembersResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.ListFamilyMembersResponsePayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface UpdateFamilyMemberResponsePayload {
+			
+				
+				'familyMember': SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
+		}
+
+		interface UpdateFamilyMemberResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'updateFamilyMemberResponsePayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'familyMember': {
+			                type: 'schema',
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMemberSchema,}
+			            },
+			    }
+		}
+
+		interface UpdateFamilyMemberResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMemberResponsePayloadSchema> {}
 
 	}
 
@@ -1583,28 +1612,170 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
 
 		
-		interface UpdateFamilyMemberResponsePayload {
+		interface SaveMeta {
 			
-				
-				'familyMember': SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMember
+				/** Family Name. */
+				'name': string
+				/** Your Values. */
+				'values': string
 		}
 
-		interface UpdateFamilyMemberResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'updateFamilyMemberResponsePayload',
+		interface SaveMetaSchema extends SpruceSchema.Schema {
+			id: 'saveMeta',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** Family Name. */
+			            'name': {
+			                label: 'Family Name',
+			                type: 'text',
+			                isRequired: true,
+			                options: undefined
+			            },
+			            /** Your Values. */
+			            'values': {
+			                label: 'Your Values',
+			                type: 'text',
+			                isRequired: true,
+			                options: undefined
+			            },
+			    }
+		}
+
+		interface SaveMetaEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface SaveMetaEmitPayload {
+			
+				
+				'meta': SpruceSchemas.Eightbitstories.v2023_09_05.SaveMeta
+		}
+
+		interface SaveMetaEmitPayloadSchema extends SpruceSchema.Schema {
+			id: 'saveMetaEmitPayload',
 			version: 'v2023_09_05',
 			namespace: 'Eightbitstories',
 			name: '',
 			    fields: {
 			            /** . */
-			            'familyMember': {
+			            'meta': {
 			                type: 'schema',
 			                isRequired: true,
-			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.PublicFamilyMemberSchema,}
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaSchema,}
 			            },
 			    }
 		}
 
-		interface UpdateFamilyMemberResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.UpdateFamilyMemberResponsePayloadSchema> {}
+		interface SaveMetaEmitPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitPayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface SaveMetaEmitTargetAndPayload {
+			
+				/** Source. */
+				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
+				
+				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitPayload
+		}
+
+		interface SaveMetaEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
+			id: 'saveMetaEmitTargetAndPayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** Source. */
+			            'source': {
+			                label: 'Source',
+			                type: 'schema',
+			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
+			            },
+			            /** . */
+			            'payload': {
+			                type: 'schema',
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitPayloadSchema,}
+			            },
+			    }
+		}
+
+		interface SaveMetaEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitTargetAndPayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface SaveMetaResponsePayload {
+			
+				
+				'meta': SpruceSchemas.Eightbitstories.v2023_09_05.SaveMeta
+		}
+
+		interface SaveMetaResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'saveMetaResponsePayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'meta': {
+			                type: 'schema',
+			                isRequired: true,
+			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaSchema,}
+			            },
+			    }
+		}
+
+		interface SaveMetaResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaResponsePayloadSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface GetMmpSetupResponsePayload {
+			
+				
+				'appToken': string
+				
+				'environment': string
+		}
+
+		interface GetMmpSetupResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'getMmpSetupResponsePayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'appToken': {
+			                type: 'id',
+			                isRequired: true,
+			                options: undefined
+			            },
+			            /** . */
+			            'environment': {
+			                type: 'text',
+			                isRequired: true,
+			                options: undefined
+			            },
+			    }
+		}
+
+		interface GetMmpSetupResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GetMmpSetupResponsePayloadSchema> {}
 
 	}
 
@@ -1679,103 +1850,6 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
 
 		
-		interface SaveMeta {
-			
-				/** Family Name. */
-				'name': string
-				/** Your Values. */
-				'values': string
-		}
-
-		interface SaveMetaSchema extends SpruceSchema.Schema {
-			id: 'saveMeta',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** Family Name. */
-			            'name': {
-			                label: 'Family Name',
-			                type: 'text',
-			                isRequired: true,
-			                options: undefined
-			            },
-			            /** Your Values. */
-			            'values': {
-			                label: 'Your Values',
-			                type: 'text',
-			                isRequired: true,
-			                options: undefined
-			            },
-			    }
-		}
-
-		interface SaveMetaEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface SaveMetaEmitPayload {
-			
-				
-				'meta': SpruceSchemas.Eightbitstories.v2023_09_05.SaveMeta
-		}
-
-		interface SaveMetaEmitPayloadSchema extends SpruceSchema.Schema {
-			id: 'saveMetaEmitPayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'meta': {
-			                type: 'schema',
-			                isRequired: true,
-			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaSchema,}
-			            },
-			    }
-		}
-
-		interface SaveMetaEmitPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitPayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface SaveMetaResponsePayload {
-			
-				
-				'meta': SpruceSchemas.Eightbitstories.v2023_09_05.SaveMeta
-		}
-
-		interface SaveMetaResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'saveMetaResponsePayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'meta': {
-			                type: 'schema',
-			                isRequired: true,
-			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaSchema,}
-			            },
-			    }
-		}
-
-		interface SaveMetaResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaResponsePayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
 		interface DeleteFamilyMemberEmitTarget {
 			
 				
@@ -1798,6 +1872,35 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		}
 
 		interface DeleteFamilyMemberEmitTargetEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberEmitTargetSchema> {}
+
+	}
+
+
+	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
+
+		
+		interface DeleteFamilyMemberResponsePayload {
+			
+				
+				'success': boolean
+		}
+
+		interface DeleteFamilyMemberResponsePayloadSchema extends SpruceSchema.Schema {
+			id: 'deleteFamilyMemberResponsePayload',
+			version: 'v2023_09_05',
+			namespace: 'Eightbitstories',
+			name: '',
+			    fields: {
+			            /** . */
+			            'success': {
+			                type: 'boolean',
+			                isRequired: true,
+			                options: undefined
+			            },
+			    }
+		}
+
+		interface DeleteFamilyMemberResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberResponsePayloadSchema> {}
 
 	}
 
@@ -1835,109 +1938,6 @@ declare module '@sprucelabs/spruce-core-schemas/build/.spruce/schemas/core.schem
 		}
 
 		interface DeleteFamilyMemberEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberEmitTargetAndPayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface DeleteFamilyMemberResponsePayload {
-			
-				
-				'success': boolean
-		}
-
-		interface DeleteFamilyMemberResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'deleteFamilyMemberResponsePayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'success': {
-			                type: 'boolean',
-			                isRequired: true,
-			                options: undefined
-			            },
-			    }
-		}
-
-		interface DeleteFamilyMemberResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.DeleteFamilyMemberResponsePayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface GetMmpSetupResponsePayload {
-			
-				
-				'appToken': string
-				
-				'environment': string
-		}
-
-		interface GetMmpSetupResponsePayloadSchema extends SpruceSchema.Schema {
-			id: 'getMmpSetupResponsePayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** . */
-			            'appToken': {
-			                type: 'id',
-			                isRequired: true,
-			                options: undefined
-			            },
-			            /** . */
-			            'environment': {
-			                type: 'text',
-			                isRequired: true,
-			                options: undefined
-			            },
-			    }
-		}
-
-		interface GetMmpSetupResponsePayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.GetMmpSetupResponsePayloadSchema> {}
-
-	}
-
-
-	namespace SpruceSchemas.Eightbitstories.v2023_09_05 {
-
-		
-		interface SaveMetaEmitTargetAndPayload {
-			
-				/** Source. */
-				'source'?: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSource | undefined | null
-				
-				'payload': SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitPayload
-		}
-
-		interface SaveMetaEmitTargetAndPayloadSchema extends SpruceSchema.Schema {
-			id: 'saveMetaEmitTargetAndPayload',
-			version: 'v2023_09_05',
-			namespace: 'Eightbitstories',
-			name: '',
-			    fields: {
-			            /** Source. */
-			            'source': {
-			                label: 'Source',
-			                type: 'schema',
-			                options: {schema: SpruceSchemas.SpruceEventUtils.v2021_09_13.EventSourceSchema,}
-			            },
-			            /** . */
-			            'payload': {
-			                type: 'schema',
-			                isRequired: true,
-			                options: {schema: SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitPayloadSchema,}
-			            },
-			    }
-		}
-
-		interface SaveMetaEmitTargetAndPayloadEntity extends SchemaEntity<SpruceSchemas.Eightbitstories.v2023_09_05.SaveMetaEmitTargetAndPayloadSchema> {}
 
 	}
 
