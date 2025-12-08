@@ -1,3 +1,7 @@
+## <small>7.4.1 (2025-12-08)</small>
+
+* patch: version updates ([080b375](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/080b375))
+
 ## 7.4.0 (2025-12-05)
 
 * minor: version updates ([ff455ac](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/ff455ac))
