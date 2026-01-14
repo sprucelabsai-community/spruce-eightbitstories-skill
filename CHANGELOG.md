@@ -1,3 +1,7 @@
+## <small>7.4.6 (2026-01-14)</small>
+
+* patch: version updates ([44857cd](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/44857cd))
+
 ## <small>7.4.5 (2026-01-08)</small>
 
 * patch: version updates ([856801a](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/856801a))
