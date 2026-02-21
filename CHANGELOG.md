@@ -1,3 +1,7 @@
+## <small>7.4.10 (2026-02-21)</small>
+
+* patch: version updates ([ad306f2](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/ad306f2))
+
 ## <small>7.4.9 (2026-02-18)</small>
 
 * chore: run fix.lint and resolve lint issues ([2b3e43d](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/2b3e43d))
