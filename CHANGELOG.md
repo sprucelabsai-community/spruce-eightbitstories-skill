@@ -1,3 +1,8 @@
+## <small>7.4.14 (2026-04-17)</small>
+
+* Upgrade dependencies for TypeScript 6 compatibility ([135ef08](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/135ef08))
+* patch: version updates ([c2a1983](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/c2a1983))
+
 ## <small>7.4.13 (2026-04-17)</small>
 
 * patch: version updates ([2e1c1f2](https://github.com/sprucelabsai-community/spruce-eightbitstories-skill/commit/2e1c1f2))
